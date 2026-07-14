@@ -128,16 +128,18 @@ Posted by any steward who directly observed or replicated another node's work. R
 
 ### Node Type Enum — Commons
 
-| Type          | Provision                                                                |
-| ------------- | ------------------------------------------------------------------------ |
-| food          | Free food, meals, produce                                                |
-| water         | Free water access, filtration, distribution                              |
-| shelter       | Free accommodation, workspace                                            |
-| health        | Free health services, consultations, medicine                            |
-| energy        | Free energy access, charging, off-grid provision                         |
-| connectivity  | Free connectivity, wifi, mesh, satellite                                 |
-| informational | Free knowledge, consultation, legal aid, translation, technical guidance |
+| Type          | Provision                                                                 |
+| ------------- | -------------------------------------------------------------------------- |
+| food          | Free food — meals, agricultural surplus, preserved goods                 |
+| water         | Free water — access, filtration, distribution, desalination              |
+| shelter       | Free space — accommodation, workspace, storage                           |
+| health        | Free medical provision — consultations, medicine, cold-chain             |
+| energy        | Free energy — access, charging, microgrids, stranded or idle capacity    |
+| connectivity  | Free connectivity — wifi, mesh, backhaul, satellite                      |
+| informational | Free knowledge — consultation, legal aid, translation, technical guidance |
 | other         | Any fundamental surplus provision not covered above.                     |
+
+ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and a geothermal plant in El Salvador freely routing idle megawatts to a community's compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded.
 
 ---
 
@@ -156,9 +158,9 @@ Posted by any steward who directly observed or replicated another node's work. R
 | operational | Provision being fulfilled as described. | *Breakfast running. Five people served. Supplies stable.*                  |
 | failure     | Provision cannot be met.                | *No supplies. Suspended this week. Back Monday.*                           |
 | learning    | Something discovered worth sharing.     | *Batch cooking confirmed. Waste down 40%. Method documented and attached.* |
+| retired     | Provision permanently ended.            | *Breakfast ended permanently. Final day March 31st.*                       |
 
 A commons learning signal documents a method for sustaining or improving the provision itself — not the surplus being given. It teaches another steward how to keep a similar commitment running, the same way an operational learning signal teaches someone to build a similar filter. Nothing here describes what is available to take.
-| retired     | Provision permanently ended.            | *Breakfast ended permanently. Final day March 31st.*                       |
 
 ---
 
