@@ -139,7 +139,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | informational | Free knowledge — consultation, legal aid, translation, technical guidance |
 | other         | Any fundamental surplus provision not covered above.                     |
 
-ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and a geothermal plant in El Salvador freely routing idle megawatts to a community's compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded.
+ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and an off-grid microgrid operator in El Salvador freely routing idle megawatts to a nearby compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded, by an actor no institutional framework was already tracking.
 
 ---
 
