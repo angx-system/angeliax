@@ -277,6 +277,7 @@ Appended to the base feed. Signed by the base keypair. Permanent.
 | Node ID     | Automatic   | The node being added or removed.                                |
 | Action      | Automatic   | added / removed                                                 |
 | Steward Sig | Conditional | Required only if the node's Curation field is consent-required. |
+| Witness Signal ID | Mandatory | The ID of the Witness Signal attesting to physical observation. Must reference either the base steward's own witness signal on the node, or a witness signal from another verified steward. |
 
 | Action  | Meaning                                                                                     |
 | ------- | ------------------------------------------------------------------------------------------- |
