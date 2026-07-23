@@ -51,6 +51,7 @@ Recommended hardware for running a base: Raspberry Pi + UPS. Individual stewards
 | Location    | Mandatory | Free text. Max 64 characters.                                                         |
 | Contact     | Optional  | Free text. Max 64 characters.                                                         |
 | Curation    | Mandatory | open / consent-required. Default: open. Mutable.                                      |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. |
 
 Contact visibility matches the entry's own visibility. For consent-required nodes, Contact is protected the same as the rest of the entry.
 
@@ -70,6 +71,8 @@ Operational nodes cover practical and theoretical work within the enum. Learning
 
 The enum is intentionally minimal and stable. Evaluate nodes by primary function, not surface label — sanitation maps to health, transportation to connectivity, educational infrastructure to the relevant domain. Use `other` only when the work genuinely cannot be mapped to an existing category.
 
+ANGX is for actors operating outside established institutional frameworks — independent builders, small farms, open hardware and appropriate-tech fabricators, community network operators, citizen-science instrument builders, patient-led medical device communities, disaster-response teams improvising fixes under real conditions. If a school, hospital, company, or agency already tracks and reports this work through official channels, ANGX is not the right place for it.
+
 ---
 
 ## Operational Log — Steward Signal
@@ -84,7 +87,7 @@ The enum is intentionally minimal and stable. Evaluate nodes by primary function
 
 | Signal      | Meaning                                                                     | Example                                                                     |
 | ----------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| operational | Work progressing as intended.                                               | *Filtration prototype stable. Flow rate consistent across 48hr test.*       |
+| operational | Work progressing as intended.                                               | *Open-design solar dehydrator assembled from shared plans. Running third week, output steady.*       |
 | failure     | Work cannot progress or method has failed.                                  | *Membrane clogged at 72hrs. Prototype three failed.*                        |
 | learning    | Something confirmed through direct experience or replication worth sharing. | *Ceramic blend confirmed. 8hrs continuous. Method documented and attached.* |
 | retired     | Work permanently done.                                                      | *Project closed. Logs remain public.*                                       |
@@ -125,6 +128,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | Location    | Mandatory | Region or locality, not an exact address. Max 64 characters. Immutable. |
 | Contact     | Optional  | Free text. Max 64 characters.                                           |
 | Curation    | Mandatory | open / consent-required. Default: open. Mutable.                        |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. |
 
 ### Node Type Enum — Commons
 
@@ -139,7 +143,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | informational | Free knowledge — consultation, legal aid, translation, technical guidance |
 | other         | Any fundamental surplus provision not covered above.                     |
 
-ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and an off-grid microgrid operator in El Salvador freely routing idle megawatts to a nearby compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded, by an actor no institutional framework was already tracking.
+ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and an off-grid microgrid operator in El Salvador freely routing idle megawatts to a nearby compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded, by an actor no institutional framework was already tracking. A patient-led group documenting a working insulin-dosing setup, and a seed-saving network logging a drought-resistant variety passed hand to hand for three generations, are the same kind of entry too — standing, freely given or freely maintained, permanently recorded, by people no institution was already tracking.
 
 ---
 
@@ -208,9 +212,9 @@ A library is distinct from a base. A base belongs to a physical space and stays 
 
 Querying operates within a connected base or library. No global search. Discovery is base to base through the partner chain, or directly through a steward's library address.
 
-Operational nodes queryable by: node type, location, signal type, timestamp, witness activity, referenced signal.
+Operational nodes queryable by: node type, location, signal type, timestamp, witness activity, referenced signal, built from.
 
-Commons nodes queryable by: node type, location, signal type, timestamp, witness activity.
+Commons nodes queryable by: node type, location, signal type, timestamp, witness activity, referenced signal, built from.
 
 ---
 
