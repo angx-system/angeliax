@@ -26,6 +26,8 @@ Two append-only logs. Structurally separate.
 
 Every node has two independent streams: what the steward logs about their own work, and what witnesses log after directly observing or replicating it. Where they align, the work gains credibility. Where they contradict, the contradiction sits permanently visible.
 
+ANGX does not move resources. It records that work is happening and that surplus stands — not what is needed, not what is available to take. What crosses the network is trust and method: proof that something is real, and a fix for a problem someone else has already solved. Exchange of goods, where it happens, happens the way it always has — locally, between people who are already there.
+
 Nothing can be edited or deleted. Every entry is cryptographically signed by its author. Authorship is always traceable. Knowledge that enters this network stops dissolving.
 
 Trust is what this architecture actually builds. Witnessing, curation, and partnering are the three acts that establish it — each one a steward or a base staking their own name on what they've seen.
