@@ -164,7 +164,7 @@ ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil 
 | learning    | Something discovered worth sharing.     | *Batch cooking confirmed. Waste down 40%. Method documented and attached.* |
 | retired     | Provision permanently ended.            | *Breakfast ended permanently. Final day March 31st.*                       |
 
-A commons learning signal documents a method for sustaining or improving the provision itself — not the surplus being given. It teaches another steward how to keep a similar commitment running, the same way an operational learning signal teaches someone to build a similar filter. Nothing here describes what is available to take.
+A commons learning signal documents a method for sustaining or improving the provision itself — not the surplus being given. It teaches another steward how to keep a similar commitment running, the same way an operational learning signal teaches someone to build a similar filter. Nothing here describes what is available to take. No signal type in either log records need, request, or availability for the taking. Matching tools such as angx-reader operate strictly method-to-method — a failure paired only with a learning signal, never with another node's surplus. ANGX makes standing provisions durably visible. It does not move, broker, reserve, or route them.
 
 ---
 
