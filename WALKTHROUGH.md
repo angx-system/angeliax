@@ -265,6 +265,61 @@ to, that the other's log was worth checking first.
 
 ---
 
+## Part 5 — A design with no steward
+
+Somewhere, months earlier, someone posts a schematic to a public repo: a
+gravity-fed chlorine doser, built from a valve and a length of pipe, no
+electricity required. No name attached beyond a username. No further
+commits after the first. Whoever posted it never runs one, never logs
+anything, may never know what happens next.
+
+A clinic steward outside Blantyre finds the repo while searching for a
+way to treat a contaminated tank.
+
+### Registering
+
+**Operational tab → Register Node**
+
+- **Node Type:** `water`
+- **Description:** `Gravity-fed chlorine doser for community tank, built from public design.`
+- **Location:** Blantyre region, Malawi
+- **Built From:** `[link to the repo]`
+
+### Logging
+
+**Signal — operational:** `Doser installed. Tank serving forty households. Dosing steady first two weeks.`
+
+**Signal — failure:** `Valve corroding at eight weeks. Dosing rate dropping. Investigating replacement material.`
+
+**Signal — learning:** `Brass fitting resolves corrosion. Stable at fourteen weeks. Method documented and attached.`
+
+The repo is credited once, at registration, and never again. Everything
+after that is the steward's own signal, own keypair, and own record of what
+actually happened when the design met a real tank.
+
+---
+
+A base steward in the southern Philippines, querying water nodes across
+the partner chain for anything on chlorine dosing, finds the node — the
+learning signal, the corrosion fix, the fourteen weeks holding steady.
+
+He builds one.
+
+### Registering
+
+**Operational tab → Register Node**
+
+- **Node Type:** `water`
+- **Description:** `Gravity-fed chlorine doser, adapted for barangay water system.`
+- **Location:** Zamboanga del Sur, Philippines
+- **Built From:** `[Node ID of the Blantyre doser]`
+
+He has never seen the original repo. He doesn't know the username behind
+it, and doesn't need to. What he found, and what he cited, was a
+steward's own witnessed record — a real tank, a real failure, a real fix.
+
+---
+
 ## What remained
 
 David arrived in Nairobi carrying four months of logged work, on business
@@ -281,7 +336,10 @@ a problem the other hadn't solved yet.
 
 The network grew by exactly one mechanism, over and over: someone who was
 there long enough to know put their name behind what they saw, and left it
-where the next person could find it.
+where the next person could find it. Sometimes that person built what they
+saw themselves, from nothing. Sometimes they picked up a design that had
+no steward at all, and became its first real witness — building only for
+those who came after, one honest hop back.
 
 ---
 
