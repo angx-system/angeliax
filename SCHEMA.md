@@ -137,7 +137,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | food          | Free food — meals, agricultural surplus, preserved goods                 |
 | water         | Free water — access, filtration, distribution, desalination              |
 | shelter       | Free space — accommodation, workspace, storage                           |
-| health        | Free medical provision — consultations, medicine, cold-chain             |
+| health        | Free medical provision — medicine, vaccines, cold-chain storage             |
 | energy        | Free energy — access, charging, microgrids, stranded or idle capacity    |
 | connectivity  | Free connectivity — wifi, mesh, backhaul, satellite                      |
 | informational | Free knowledge — consultation, legal aid, translation, technical guidance |
