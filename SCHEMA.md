@@ -71,7 +71,7 @@ Operational nodes cover practical and theoretical work within the enum. Learning
 
 The enum is intentionally minimal and stable. Evaluate nodes by primary function, not surface label — sanitation maps to health, transportation to connectivity, educational infrastructure to the relevant domain. Use `other` only when the work genuinely cannot be mapped to an existing category.
 
-ANGX is for actors operating outside established institutional frameworks — independent builders, small farms, open hardware and appropriate-tech fabricators, community network operators, citizen-science instrument builders, patient-led medical device communities, disaster-response teams improvising fixes under real conditions. If a school, hospital, company, or agency already tracks and reports this work through official channels, ANGX is not the right place for it.
+ANGX is for actors with no institution already vouching for the operational reality of their work — independent builders, small farms, open hardware and appropriate-tech fabricators, community network operators, citizen-science instrument builders, patient-led medical device communities, disaster-response teams improvising fixes under real conditions. If a school, hospital, company, or agency already tracks and reports this work through official channels, ANGX is not the right place for it.
 
 ---
 
@@ -143,7 +143,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | informational | Free knowledge — consultation, legal aid, translation, technical guidance |
 | other         | Any fundamental surplus provision not covered above.                     |
 
-ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and an off-grid microgrid operator in El Salvador freely routing idle megawatts to a nearby compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded, by an actor no institutional framework was already tracking. A patient-led group documenting a working insulin-dosing setup, and a seed-saving network logging a drought-resistant variety passed hand to hand for three generations, are the same kind of entry too — standing, freely given or freely maintained, permanently recorded, by people no institution was already tracking.
+ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and an off-grid microgrid operator in El Salvador freely routing idle megawatts to a nearby compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded, by an actor no institution was already vouching for. A patient-led group documenting a working insulin-dosing setup, and a seed-saving network logging a drought-resistant variety passed hand to hand for three generations, are the same kind of entry too — standing, freely given or freely maintained, permanently recorded, by people no institution was already tracking.
 
 ---
 
