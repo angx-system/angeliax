@@ -12,7 +12,7 @@ The same happens with surplus. A hostel feeds five people every morning. A lawye
 
 ANGX is trust infrastructure for actors with no institution already vouching for them — no network, registry, or parent organization a stranger could check instead that vouches for the operational reality of the work or provision itself. Independent builders, unaffiliated community kitchens, free clinics, individual practitioners, households with surplus to give — real and sustained, but verifiable only by going there and asking someone who already knows. ANGX makes that work and surplus permanently visible and reachable by other stewards through a partner chain — not as something to claim, but as a record that it is real, ongoing, and witnessed by people who were there.
 
-At sufficient density, ANGX becomes the first permanent and decentralized record of the operational reality of fundamental infrastructure work and surplus provision that no institution was already vouching for. Witnessed by those present, owned by no one, resilient by design.
+At sufficient density, ANGX becomes the first permanent and decentralized record of the operational reality of work and surplus that no institution was already vouching for. Witnessed by those present, owned by no one, resilient by design.
 
 ---
 
