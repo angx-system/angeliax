@@ -122,6 +122,8 @@ The mathare-kitchen base steward has followed Amara's work for months —
 visited her lab, watched the filter run, read the failure-to-learning arc
 in full.
 
+A local steward she knows, already holding a verified operational node, has visited Amara's lab and posted a witness signal on the filter's record. The mathare-kitchen steward reads it alongside the eight months of signals before curating.
+
 **Client → Add to Base** — Amara's water node.
 
 Amara's node enters mathare-kitchen's collection. Logged, signed,
@@ -190,8 +192,14 @@ David has logged his own water node for four months — operational
 signals, failures, no commons node yet.
 
 Amara has worked beside him for three weeks, watched how he operates,
-read his record in full. She tells the kitchen steward what she has seen.
-The steward reviews the log herself before deciding.
+read his record in full.
+
+**Operational tab → David's water node → Post Witness Signal**
+
+**Witness signal — operational:** `Watched him build and test for three weeks. Setup sound, method consistent with what's logged.`
+
+She tells the kitchen steward what she has seen. The steward reviews the
+log — including Amara's signal — herself before deciding.
 
 **Client → Add to Base** — David's operational water node.
 
