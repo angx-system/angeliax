@@ -124,11 +124,19 @@ Youssef runs an olive press two kilometres away, September to December,
 for anyone who brings olives. No charge. She has seen it operating
 directly.
 
+**Commons tab → Youssef's olive press node → Post Witness Signal**
+
+**Witness signal — operational:** `Press running as described. Season active. No charge, confirmed directly.`
+
 **Client → Add to Base** — Youssef's olive press commons node.
 
 A woman from the next village runs a free health consultation from her
 home on Wednesday mornings, three years running. Fatima has attended
 twice, enough to know it is real.
+
+**Commons tab → her informational node → Post Witness Signal**
+
+**Witness signal — operational:** `Consultation held as described. Attended twice. Steward present.`
 
 **Client → Add to Base** — her informational commons node.
 
