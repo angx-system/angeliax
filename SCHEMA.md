@@ -212,9 +212,7 @@ A library is distinct from a base. A base belongs to a physical space and stays 
 
 Querying operates within a connected base or library. No global search. Discovery is base to base through the partner chain, or directly through a steward's library address.
 
-Operational nodes queryable by: node type, location, signal type, timestamp, witness activity, referenced signal, built from.
-
-Commons nodes queryable by: node type, location, signal type, timestamp, witness activity, referenced signal, built from.
+Both operational and commons nodes are queryable by: node type, location, signal type, timestamp, witness activity, referenced signal, built from, and signal text.
 
 ---
 
