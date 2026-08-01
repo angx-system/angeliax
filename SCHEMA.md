@@ -362,7 +362,7 @@ The threshold applies to whatever verified bases exist at the time. The first ba
 ### Base — Open Questions
 
 - **Multiple base stewards.** Not yet resolved whether a base can support multiple stewards, each writing to and managing the same base. Autobase may handle this technically. For now, a base is a single keypair. To be resolved with developers.
-- **Custody Log.** Not yet defined. Proposed: a log recording when ultimate accountability for a keypair changes hands (ownership transfer, not routine staffing) — outgoing party, incoming party, timestamp, signed by whoever currently holds the keypair. To be resolved in a future schema pass.
+- **Custody Log.** Not yet defined. Proposed: a log recording when ultimate accountability for a keypair changes hands (ownership transfer, not routine staffing) — outgoing party, incoming party, timestamp, signed by whoever currently holds the keypair. Distinct from Base Retirement's Successor Base ID: Custody Log preserves the same base identity and history under new control; retirement ends the base entirely and only optionally points to a different one. To be resolved in a future schema pass.
 - **Query scope.** Local query returns results from the base's own collection. Federated query extends through the partner chain. Manual traversal moves base by base. To be resolved with developers.
 - **Partner replication strategy.** Full replication, sparse on demand, or per-partner choice. To be resolved with developers.
 - **Base keypair derivation.** Generated independently of the steward keypair on the persistent device at the location. Exact derivation mechanic to be resolved with developers.
