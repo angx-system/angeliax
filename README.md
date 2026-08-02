@@ -49,6 +49,13 @@ A relay-based prototype demonstrating the core signal loop — two-log model, Ed
 - SCHEMA.md — complete technical specification
 - CONSTRAINTS.md — ten system constraints
 
+Two optional companion tools extend ANGX without being required to run
+it: [angx-reader](https://github.com/angx-system/angx-reader) surfaces
+failure↔learning matches across replicated feeds; [angx-bridge](https://github.com/angx-system/angx-bridge)
+carries feed updates over Reticulum when the internet is absent. Neither
+is a dependency — a steward or base can register, log, and witness with
+only this client.
+
 ---
 
 *ANGX*
