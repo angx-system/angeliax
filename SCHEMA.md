@@ -261,26 +261,6 @@ Three components: **identity**, **collection**, **partners**.
 
 Viewing the collection is open to anyone with the public key. Entry is curated.
 
-### Base Retirement
-
-Appended to the base feed. Signed by the base keypair. Permanent.
-
-| Field             | Status    | Description                                                                                                    |
-| ------------------ | --------- | ---------------------------------------------------------------------------------------------------------------- |
-| Entry ID           | Automatic | Unique identifier.                                                                                                |
-| Base ID            | Automatic | The base being retired.                                                                                           |
-| Timestamp          | Automatic | Immutable.                                                                                                        |
-| Status             | Automatic | Set to `retired`. Irreversible.                                                                                   |
-| Successor Base ID  | Optional  | The Base ID of a base the retiring steward points to as continuing their role. Immutable once set.                |
-
-Retirement is signed once by the base keypair and cannot be reversed. No further curation is possible after retirement — Collection Log entries stop. All of the base's Partner Log entries are automatically treated as inactive from the retirement timestamp forward; no separate dissolution entry is required for each one.
-
-Retirement does not delete anything. The base's Collection Log and Partner Log history remain permanently visible to anyone holding the base's address or a replicated copy, per Constraints 6 and 8. What stops is propagation going forward: no new curation, no active partnerships, nothing further reachable through this base as a live link in the partner chain.
-
-`Successor Base ID` is a pointer only, set at the retiring steward's discretion — never automatic, never inherited. It carries no protocol effect. It does not transfer the retiring base's Collection Log, does not restore its former partners' handshakes, and does not confer verified status on the successor. Each former partner independently decides whether to form a new Partner Log handshake with the successor, the same way any two bases decide to partner — direct meeting or independent assessment of collection record, per Constraint 10. The successor base is a distinct base with its own keypair, built from zero, whether or not a predecessor pointed to it.
-
-Verified status is computed live from current curation, not stored. A base's own verified status depends on whether it currently holds at least one active Partner Log entry — retirement removes this, so a retired base is no longer verified. A node's verified status depends on whether it is currently curated by a base that is currently verified — if a node's only curating base retires, the node loses verified status the moment that base's partnerships go inactive, regardless of whether a successor is later named. Regaining verified status, for either a base or a node, requires a new active partnership or new curation by a currently-verified base — never inherited from a predecessor. Past witness signals on the node remain permanently valid regardless, per Constraint 8.
-
 ---
 
 ### Collection Log
@@ -332,6 +312,28 @@ Dissolution requires only one: either base may end a partnership unilaterally, s
 **Add to base** — node enters the public collection. Logged, signed, permanent.
 
 **Remove** — node leaves the public collection. Previously replicated copies persist elsewhere.
+
+---
+
+### Base Retirement
+
+Appended to the base feed. Signed by the base keypair. Permanent.
+
+| Field             | Status    | Description                                                                                                    |
+| ------------------ | --------- | ---------------------------------------------------------------------------------------------------------------- |
+| Entry ID           | Automatic | Unique identifier.                                                                                                |
+| Base ID            | Automatic | The base being retired.                                                                                           |
+| Timestamp          | Automatic | Immutable.                                                                                                        |
+| Status             | Automatic | Set to `retired`. Irreversible.                                                                                   |
+| Successor Base ID  | Optional  | The Base ID of a base the retiring steward points to as continuing their role. Immutable once set.                |
+
+Retirement is signed once by the base keypair and cannot be reversed. No further curation is possible after retirement — Collection Log entries stop. All of the base's Partner Log entries are automatically treated as inactive from the retirement timestamp forward; no separate dissolution entry is required for each one.
+
+Retirement does not delete anything. The base's Collection Log and Partner Log history remain permanently visible to anyone holding the base's address or a replicated copy, per Constraints 6 and 8. What stops is propagation going forward: no new curation, no active partnerships, nothing further reachable through this base as a live link in the partner chain.
+
+`Successor Base ID` is a pointer only, set at the retiring steward's discretion — never automatic, never inherited. It carries no protocol effect. It does not transfer the retiring base's Collection Log, does not restore its former partners' handshakes, and does not confer verified status on the successor. Each former partner independently decides whether to form a new Partner Log handshake with the successor, the same way any two bases decide to partner — direct meeting or independent assessment of collection record, per Constraint 10. The successor base is a distinct base with its own keypair, built from zero, whether or not a predecessor pointed to it.
+
+Verified status is computed live from current curation, not stored. A base's own verified status depends on whether it currently holds at least one active Partner Log entry — retirement removes this, so a retired base is no longer verified. A node's verified status depends on whether it is currently curated by a base that is currently verified — if a node's only curating base retires, the node loses verified status the moment that base's partnerships go inactive, regardless of whether a successor is later named. Regaining verified status, for either a base or a node, requires a new active partnership or new curation by a currently-verified base — never inherited from a predecessor. Past witness signals on the node remain permanently valid regardless, per Constraint 8.
 
 ---
 
