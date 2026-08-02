@@ -34,7 +34,7 @@ Same client. Same keypair. Structurally separate.
 | ---------- | ----------------------------------------------------------------------------------------------------- |
 | Hypercore  | Append-only, cryptographically signed feed. One feed per node. Immutable.                             |
 | Hyperbee   | B-tree index over Hypercore. Queries by node type, location, signal type, timestamp, and signal text. |
-| Hyperswarm | Peer discovery via DHT. No central servers.                                                           |
+| Hyperswarm | Peer discovery via DHT. No central servers. When internet is absent, [angx-bridge](https://github.com/angx-system/angx-bridge) (optional) carries feed updates over Reticulum until Hyperswarm resumes. |
 | Hyperdrive | File storage attached to a node. Attachments fetched on demand. Max 10MB per attachment.              |
 
 Recommended hardware for running a base: Raspberry Pi + UPS. Individual stewards may run the client on any laptop.
