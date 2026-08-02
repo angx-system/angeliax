@@ -1,6 +1,6 @@
 # angeliaX (ANGX) — Schema & Specification
 
-*July 2026*
+*August 2026*
 
 ---
 
@@ -369,7 +369,13 @@ The threshold applies to whatever verified bases exist at the time. The first ba
 - **Partner replication strategy.** Full replication, sparse on demand, or per-partner choice. To be resolved with developers.
 - **Base keypair derivation.** Generated independently of the steward keypair on the persistent device at the location. Exact derivation mechanic to be resolved with developers.
 - **Initialize Base trigger synchronization.** Client detects two added entries from two distinct verified bases pointing to nodes owned by this keypair. How this count synchronizes across devices when confirmations arrive independently — to be resolved with developers.
+- **Node curation discovery.** Unresolved whether a steward can see which
+  bases currently curate their own node. A curating base already stays
+  connected to the Hyperswarm topic derived from the node's own public
+  key to replicate it — the steward could query that same topic to see
+  which bases are currently connected, no new feed entry required. To be
+  resolved with developers.
 
 ---
 
-*ANGX — Schema & Specification — July 2026*
+*ANGX — Schema & Specification — August 2026*
