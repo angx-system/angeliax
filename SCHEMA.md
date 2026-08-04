@@ -33,7 +33,7 @@ Same client. Same keypair. Structurally separate.
 | Component  | Role                                                                                                  |
 | ---------- | ----------------------------------------------------------------------------------------------------- |
 | Hypercore  | Append-only, cryptographically signed feed. One feed per node. Immutable.                             |
-| Hyperbee   | B-tree index over Hypercore. Queries by node type, location, signal type, timestamp, and signal text. |
+| Hyperbee   | B-tree index over Hypercore. Queries by any indexed field, see Querying section. |
 | Hyperswarm | Peer discovery via DHT. No central servers. When internet is absent, [angx-bridge](https://github.com/angx-system/angx-bridge) (optional) carries feed updates over Reticulum until Hyperswarm resumes. |
 | Hyperdrive | File storage attached to a node. Attachments fetched on demand. Max 10MB per attachment.              |
 
@@ -53,7 +53,6 @@ Recommended hardware for running a base: Raspberry Pi + UPS. Individual stewards
 | Curation    | Mandatory | open / consent-required. Default: open. Mutable.                                      |
 | Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. |
 
-Contact visibility matches the entry's own visibility. For consent-required nodes, Contact is protected the same as the rest of the entry.
 
 ### Node Type Enum — Operational
 
@@ -284,6 +283,19 @@ Appended to the base feed. Signed by the base keypair. Permanent.
 
 Curation is node-level. Base stewards add or remove specific nodes, not entire keypairs. If the node's Curation field is open, adding requires no consent from its steward. If consent-required, the addition is invalid without the node steward's own signature alongside the base keypair - same mutual-signature pattern as a Partner Log handshake.
 
+Curation is mutable at the node's own discretion — a steward may switch
+between open and consent-required at any time. The change applies only
+going forward: it governs future curation decisions, not entries already
+written. An existing Collection Log `added` entry remains permanently
+valid regardless of a later Curation change, consistent with Constraint 8 —
+switching to consent-required does not retroactively invalidate or require
+re-consent for curation that already happened under `open`.
+
+Contact visibility follows the same rule as the entry itself. For
+consent-required nodes, Contact is protected the same as the rest of the
+entry — visible only to whoever the steward has already granted access to
+through the same consent mechanism.
+
 ---
 
 ### Partner Log
@@ -359,13 +371,21 @@ Verified status is computed live from current curation, not stored. A base's own
 
 On first run, before any nodes are created, the client asks one question:
 
-*Are you logging work and surplus for a fixed location or for your own work?*
+*Does this work or provision stay in one place, or does it move with you?*
 
-**[ A fixed location ]** — somewhere that stays. A hostel, clinic, farm, lab, workshop, seedbank, household. Initialize Base is present in this client.
+**[ It stays in one place ]** — a hostel, clinic, farm, lab, workshop,
+seedbank, household, or any other fixed location. Initialize Base may
+later activate for this keypair, if other bases independently choose to
+curate its nodes. No action is required to make this happen.
 
-**[ My own work ]** — a practice, research, or project that moves with the steward. Initialize Base is never present in this client.
+**[ It moves with me ]** — a practice, research, or project that moves
+with the steward. Initialize Base can never activate for this keypair,
+regardless of how the work is later curated.
 
-The answer is signed into the keypair's first record. Shapes one UI branch only. The protocol sees only keypairs and nodes after this point. Space clients should run on a persistent device from first run — the keypair generated at initialization is permanent and belongs to the space.
+The answer is signed into the keypair's first record. Shapes one UI
+branch only. The protocol sees only keypairs and nodes after this point.
+Space clients should run on a persistent device from first run — the
+keypair generated at initialization is permanent and belongs to the space.
 
 ---
 
