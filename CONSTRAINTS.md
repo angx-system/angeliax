@@ -4,7 +4,7 @@ These ten constraints apply to every layer of the system simultaneously. Every d
 
 ---
 
-**1. Alignment** — No signal or connection serves any purpose other than honest recording of real work and real surplus. No growth incentive, no attention mechanism, no ranking layer.
+**1. Alignment** — No signal or connection serves any purpose other than honest recording of real work and real surplus. No growth incentive, no attention mechanism, no layer ranking stewards or bases.
 
 **2. Autonomy** — No central authority controls who participates, what is recorded, or how bases connect. Every base steward runs their base independently and decides which feeds enter their collection.
 
