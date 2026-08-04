@@ -375,8 +375,10 @@ On first run, before any nodes are created, the client asks one question:
 
 **[ It stays in one place ]** — a hostel, clinic, farm, lab, workshop,
 seedbank, household, or any other fixed location. Initialize Base may
-later activate for this keypair, if other bases independently choose to
-curate its nodes. No action is required to make this happen.
+later activate for this keypair if other bases independently choose to
+curate its nodes. Initialize Base creates a second, separate keypair for
+the space — one that can curate other nodes and form partnerships, which
+the original steward keypair never could.
 
 **[ It moves with me ]** — a practice, research, or project that moves
 with the steward. Initialize Base can never activate for this keypair,
