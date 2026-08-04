@@ -290,18 +290,36 @@ Curation is node-level. Base stewards add or remove specific nodes, not entire k
 
 Appended to the base feed. Signed by both base keypairs. Permanent.
 
-| Field              | Status    | Description                            |
-| ------------------ | --------- | -------------------------------------- |
-| Handshake ID       | Automatic | Unique identifier.                     |
-| Action             | Automatic | formed / dissolved                     |
-| Initiating Base ID | Automatic | The base that proposed the connection. |
-| Receiving Base ID  | Automatic | The base that accepted.                |
-| Timestamp          | Automatic | Timestamp of the action. Immutable.    |
-| Partner Public Key | Automatic | Public key of the partner base.        |
+| Field               | Status    | Description                                                                                                      |
+| ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
+| Handshake ID        | Automatic | Unique identifier.                                                                                                  |
+| Action              | Automatic | formed / dissolved                                                                                                  |
+| Initiating Base ID  | Automatic | The base that proposed the connection.                                                                              |
+| Receiving Base ID   | Automatic | The base that accepted.                                                                                             |
+| Timestamp           | Automatic | Timestamp of the action. Immutable.                                                                                 |
+| Partner Public Key  | Automatic | Public key of the partner base.                                                                                     |
+| Reviewed Entries    | Mandatory | Two or more Collection Log Entry IDs from the partner base's history, examined as the basis for this handshake.     |
 
-Formation requires both bases: one proposes, the other accepts, both sides log the event independently — both keypairs signing. Collections become traversable through the partner chain. Both base stewards stake their collection's credibility on the decision.
+Formation requires both bases: one proposes, the other accepts, both sides log the event
+independently — both keypairs signing. Collections become traversable through the partner
+chain. Both base stewards stake their collection's credibility on the decision.
 
-Dissolution requires only one: either base may end a partnership unilaterally, signed by its own keypair alone, without the other's agreement. Forming a trust relationship needs mutual consent; leaving one does not.
+Reviewed Entries makes the assessment requirement of Constraint 10 structural. Each side cites
+specific Collection Log entries from the other's history — real curated nodes, each already
+carrying its own Witness Signal ID — as the actual basis for the handshake, not mutual
+acceptance alone. Because Collection Log entries are signed, ordered feed entries, any client
+can independently verify a cited Entry ID exists in the referenced base's feed and carries a
+valid Witness Signal ID of its own. A citation that fails this check is not a matter of trust —
+it's verifiably false, and invalidates the handshake.
+
+Reviewed Entries verifies that a citation is real, not that it was examined carefully. As with
+Constraint 10 itself, the claim is verifiable; the diligence behind it is not — enforcement
+remains reputational, carried by what later partners find when they assess the collection this
+handshake helped build.
+
+Dissolution requires only one: either base may end a partnership unilaterally, signed by its own
+keypair alone, without the other's agreement. Forming a trust relationship needs mutual
+consent; leaving one does not.
 
 ---
 
@@ -375,6 +393,10 @@ The threshold applies to whatever verified bases exist at the time. The first ba
   key to replicate it — the steward could query that same topic to see
   which bases are currently connected, no new feed entry required. To be
   resolved with developers.
+- **Reviewed Entries — minimum count.** "Two or more" is proposed as the
+  floor, ruling out single-citation handshakes without over-burdening
+  small or newly initialized bases. The exact minimum is a tuning
+  decision, not fixed here — to be resolved with developers.
 
 ---
 
