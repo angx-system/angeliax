@@ -243,7 +243,18 @@ Both operational and commons nodes are queryable by: node type, location, signal
 
 - **Library tab UX.** Whether the library is surfaced as a separate tab or through Settings. To be resolved with developers against the running client.
 - **Library address resolution.** Whether the library announces itself on Hyperswarm under a key derivable from the steward keypair or via another mechanism. To be resolved with developers.
-- **Node/base summary view.** Not yet defined. Proposed: a client-side feature that tallies existing signal counts, time span, and logging gaps, and flags raw statistical irregularities (e.g., no failures ever logged, unnaturally uniform intervals) for the steward's own review. Counts and flags only — no inference, no derived score, no output usable to compare or rank nodes against each other. To be resolved with developers.
+- **Node/base summary view.** Not yet defined. Proposed: a client-side
+feature that tallies existing signal counts, time span, and logging
+gaps, and flags raw statistical irregularities (e.g., no failures ever
+logged, unnaturally uniform intervals, a witness node with no
+operational history of its own) for the reviewing steward's own
+judgment. This is the practical countermeasure to the sybil/self-
+witnessing limit named in Constraint 10 — cryptography cannot prove
+two keypairs are controlled by different people, but statistically
+unusual activity is often visible, and this feature exists to surface
+it before curation, not after. Counts and flags only — no inference,
+no derived score, no output usable to compare or rank nodes against
+each other. To be resolved with developers.
 
 ---
 
