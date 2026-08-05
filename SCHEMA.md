@@ -57,7 +57,7 @@ Recommended hardware for running a base: Raspberry Pi + UPS. Individual stewards
 | Location    | Mandatory | Free text. Max 64 characters.                                                         |
 | Contact     | Optional  | Free text. Max 64 characters.                                                         |
 | Curation    | Mandatory | open / consent-required. Default: open. Mutable.                                      |
-| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
 
 
 ### Node Type Enum — Operational
@@ -70,7 +70,7 @@ Recommended hardware for running a base: Raspberry Pi + UPS. Individual stewards
 | health       | Healthcare delivery, medical devices, public health systems       |
 | energy       | Energy generation, storage, distribution, off-grid systems        |
 | connectivity | Communications hardware, protocols, mesh/satellite infrastructure |
-| other        | Fundamental infrastructure work not covered above.                |
+| other        | Work not covered above.                |
 
 Operational nodes cover practical and theoretical work within the enum. Learning signals with attached documentation are the primary mechanism for theoretical work.
 
@@ -133,7 +133,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | Location    | Mandatory | Region or locality, not an exact address. Max 64 characters. Immutable. |
 | Contact     | Optional  | Free text. Max 64 characters.                                           |
 | Curation    | Mandatory | open / consent-required. Default: open. Mutable.                        |
-| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
 
 ### Node Type Enum — Commons
 
@@ -199,7 +199,7 @@ The retired signal on a commons node accepts one optional field: `successor_node
 
 ## Content Persistence
 
-Learning signal attachments are stored in the node's Hyperdrive. Textual signals replicate automatically. Attachments are fetched on demand — retrieved explicitly when a steward or base requests them.
+Learning signal attachments are stored in the node's Hyperdrive. Textual signals replicate automatically. Attachments are fetched on demand by default, pending resolution of the broader replication strategy (see Open Questions).
 
 ---
 
@@ -309,7 +309,14 @@ Appended to the base feed. Signed by the base keypair. Permanent.
 | added   | Node is now part of the public collection. Reachable through the base address.              |
 | removed | Node is no longer in the public collection. Previously replicated copies persist elsewhere. |
 
-Curation is node-level. Base stewards add or remove specific nodes, not entire keypairs. If the node's Curation field is open, adding requires no consent from its steward. If consent-required, the addition is invalid without the node steward's own signature alongside the base keypair - same mutual-signature pattern as a Partner Log handshake.
+Every Collection Log entry is signed by the base keypair. Steward Sig is
+a second, separate signature — from the node's own steward keypair —
+required in addition to the base's own, only when the node's Curation
+field is consent-required. In that case, the entry is invalid until both
+signatures are present: the base proposes the addition, the node
+steward reviews and co-signs.
+
+Curation is node-level. Base stewards add or remove specific nodes, not entire keypairs.
 
 Curation is mutable at the node's own discretion — a steward may switch
 between open and consent-required at any time. The change applies only
@@ -431,7 +438,9 @@ keypair generated at initialization is permanent and belongs to the space.
 
 ### Initialization Threshold
 
-A space client may initialize a base when two distinct verified bases have each added at least one node owned by this keypair to their public collections. A verified base has at least one active partner handshake in its Partner Log.
+A space client may initialize a base when two distinct verified bases have each added at least one node owned by this keypair to their public collections. A verified base has at least one active partner handshake in its Partner Log. One base adding multiple nodes from the same keypair
+counts as a single verifying base — the threshold requires two distinct
+bases, not two additions.
 
 The client detects this condition by scanning Collection Logs from bases it has contact with. When the threshold is met, Initialize Base activates. No message is sent. No approval is requested.
 
