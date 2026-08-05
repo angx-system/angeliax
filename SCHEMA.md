@@ -365,8 +365,6 @@ consent; leaving one does not.
 
 ### Base Actions
 
-### Base Actions
-
 **Replicate** — the base keypair holds a copy of a feed in its own
 library. Not yet in the public Collection Log. This is where
 observation happens: the base steward watches signal activity, witness
