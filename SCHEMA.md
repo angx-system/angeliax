@@ -260,7 +260,14 @@ each other. To be resolved with developers.
 
 ## Base
 
-A base is a persistent curated collection belonging to a physical space. Independent keypair. Stays when stewards rotate. Distinct from a library — a library belongs to a steward, a base belongs to a place.
+A base is a persistent curated collection belonging to a physical space.
+Independent keypair. Stays when stewards rotate. Distinct from a library
+— a library belongs to a steward, a base belongs to a place.
+
+Like any keypair, a base keypair automatically holds its own library —
+replicated candidate nodes it has not yet curated. This library is the
+base's private working set: where replication and observation happen,
+before any decision to add a node to the public Collection Log.
 
 Three components: **identity**, **collection**, **partners**.
 
@@ -358,11 +365,23 @@ consent; leaving one does not.
 
 ### Base Actions
 
-**Replicate** — base steward holds a copy of the feed locally. Not yet in the public collection. Steward observes signal activity, witness corroborations, learning signals before deciding.
+### Base Actions
 
-**Add to base** — node enters the public collection. Logged, signed, permanent.
+**Replicate** — the base keypair holds a copy of a feed in its own
+library. Not yet in the public Collection Log. This is where
+observation happens: the base steward watches signal activity, witness
+corroborations, and learning signals accumulate before deciding whether
+the node belongs in the public collection.
 
-**Remove** — node leaves the public collection. Previously replicated copies persist elsewhere.
+**Add to base** — a node already held in the base's library is promoted
+into the Collection Log. Logged, signed, permanent. This is the only
+path into the Collection Log — a node cannot be added without first
+being replicated into the library.
+
+**Remove** — a node is removed from the Collection Log only. It
+remains in the base's library if the base steward chooses to keep
+holding a copy, and previously replicated copies elsewhere in the
+network persist regardless, per Constraint 6.
 
 ---
 
