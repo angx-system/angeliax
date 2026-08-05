@@ -14,7 +14,13 @@
 
 **witness** — a steward who directly observed or replicated another node's work and recorded what they found.
 
-**library** — a publicly addressable collection of a keypair's own nodes and replicated feeds. Anyone with the address can read it. Both steward keypairs and space keypairs publish libraries.
+**library** — a publicly addressable collection of a keypair's own nodes
+and replicated feeds, held automatically by any keypair — steward,
+space, or base. Anyone with the address can read it.
+
+**space keypair** — a steward keypair whose work or provision stays in
+one place. May later trigger Initialize Base. Distinct from a base
+keypair, which is created separately once that happens.
 
 ---
 
@@ -199,11 +205,15 @@ Learning signal attachments are stored in the node's Hyperdrive. Textual signals
 
 ## Library
 
-Any keypair publishes a library to make its work visible and evaluable before entering the network. The library has two sections: own nodes — all nodes signed by this keypair — and replicated nodes — feeds the keypair holds from others. Both sections are publicly addressable under a single p2p address derived from the keypair.
+Any keypair automatically has a library the moment it logs its first
+node or replicates a feed — own nodes and replicated feeds together,
+addressable under a single p2p address derived from the keypair. There
+is no publish action and no setup step. No permission required, no
+name, no description, no separate identity — the keypair is the
+library's identity.
 
-Publishing a library is a unilateral act. No permission required. The library updates automatically as the keypair logs and replicates. No name, no description, no separate identity. The keypair is the library's identity.
-
-A library is distinct from a base. A base belongs to a physical space and stays when stewards rotate. A library belongs to a keypair.
+A library is distinct from a base. A base belongs to a physical space
+and stays when stewards rotate. A library belongs to a keypair.
 
 ---
 
@@ -407,7 +417,6 @@ The threshold applies to whatever verified bases exist at the time. The first ba
 - **Custody Log.** Not yet defined. Proposed: a log recording when ultimate accountability for a keypair changes hands (ownership transfer, not routine staffing) — outgoing party, incoming party, timestamp, signed by whoever currently holds the keypair. Distinct from Base Retirement's Successor Base ID: Custody Log preserves the same base identity and history under new control; retirement ends the base entirely and only optionally points to a different one. To be resolved in a future schema pass.
 - **Query scope.** Local query returns results from the base's own collection. Federated query extends through the partner chain. Manual traversal moves base by base. To be resolved with developers.
 - **Partner replication strategy.** Full replication, sparse on demand, or per-partner choice. To be resolved with developers.
-- **Base keypair derivation.** Generated independently of the steward keypair on the persistent device at the location. Exact derivation mechanic to be resolved with developers.
 - **Initialize Base trigger synchronization.** Client detects two added entries from two distinct verified bases pointing to nodes owned by this keypair. How this count synchronizes across devices when confirmations arrive independently — to be resolved with developers.
 - **Node curation discovery.** Unresolved whether a steward can see which
   bases currently curate their own node. A curating base already stays
@@ -419,6 +428,13 @@ The threshold applies to whatever verified bases exist at the time. The first ba
   floor, ruling out single-citation handshakes without over-burdening
   small or newly initialized bases. The exact minimum is a tuning
   decision, not fixed here — to be resolved with developers.
+- **Base keypair derivation.** Proposed: the base keypair is derived as a
+  child key from the same seed as the space keypair that triggered
+  Initialize Base — the same sibling-derivation technique angx-bridge
+  uses for its Reticulum key. This would make the relationship
+  cryptographically verifiable by any client, closing the self-curation
+  gap at the protocol level rather than relying on a recorded field.
+  Exact derivation mechanic to be resolved with developers.
 
 ---
 
