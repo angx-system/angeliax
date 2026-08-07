@@ -204,9 +204,8 @@ log — including Amara's signal — herself before deciding.
 **Client → Add to Base** — David's operational water node.
 
 His node — already held by a base in Kampala — now enters
-mathare-kitchen's collection as well. Two verified bases, on two
-continents, hold the same record. Neither needed the other's permission
-to add it, because David's node was set to `open` at registration and
+mathare-kitchen's collection as well. Two verified bases held the same record independently. 
+Neither needed the other's permission to add it, because David's node was set to `open` at registration and
 required no consent for being added to a particular base.
 
 ---
@@ -214,15 +213,13 @@ required no consent for being added to a particular base.
 ## Part 4 — Two bases, apart
 
 Elsewhere, a small settlement runs its own base from a single device,
-solar-powered, connectivity thin and intermittent. The first settlement's
-steward has spent a year logging the settlement's own work — water
-storage, energy systems — and, in time, partnered with a base two regions
-over. The second settlement's base is verified. The first settlement's
-own energy node, curated into the second settlement's base, is verified
-too.
+solar-powered, connectivity thin and intermittent. **Lina**, the first
+settlement's steward, has spent a year logging the settlement's own work
+— water storage, energy systems — and, in time, partnered with a base
+two regions over. The second settlement's base is verified. Lina's own
+energy node, curated into the second settlement's base, is verified too.
 
-One evening, with a connection window open, the first settlement's
-steward queries energy nodes across the partner chain.
+One evening, with a connection window open, Lina queries energy nodes across the partner chain.
 
 **Operational tab → query: energy nodes → learning signals → "wiring fault"**
 
