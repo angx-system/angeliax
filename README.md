@@ -32,11 +32,18 @@ Nothing can be edited or deleted. Every entry is cryptographically signed by its
 
 Trust is what this architecture actually builds. Witnessing, curation, and partnering are the three acts that establish it — each one a steward or a base staking their own name on what they've seen.
 
+ANGX sits in the lineage of an old idea, extended in a new direction. Git gave code a permanent, distributed history — every change, every branch, traceable without a central server. Dat, and later Hypercore, extended that same idea to datasets and general files. ANGX extends it once more: not to the artifact's history, but to what happens after the artifact leaves the repository — where it got deployed, what failed, what was learned, who replicated it and where. Git shows how code changed. ANGX shows what the code, the design, or the practice actually did once they met the world.
+
 ---
 
 ## Status
 
 Schema documented. Target implementation: Hypercore stack.
+
+The schema itself — two logs, signals, witnessing — doesn't depend on 
+any one transport. Hypercore is the current, concrete choice: an 
+existing, working, append-only signed feed protocol with exactly the 
+properties ANGX needs.
 
 A relay-based prototype demonstrating the core signal loop — two-log model, Ed25519 signing, steward/witness separation — is available at [codeberg.org/angx-protocol/angx-prototype](https://codeberg.org/angx-protocol/angx-prototype). It predates the current specification and does not implement bases, libraries, or the partner chain. Useful only as a reference for the intended UI and client design.
 
