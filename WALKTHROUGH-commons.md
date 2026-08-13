@@ -26,9 +26,9 @@ for him.
 
 First run. One question:
 
-*Are you logging work and surplus for a fixed location or for your own work?*
+*Does this work or provision stay in one place, or does it move with you?*
 
-Fatima selects **[ A fixed location ]**. Her keypair is generated. The
+Fatima selects **[ It stays in one place ]**. Her keypair is generated. The
 answer is signed into the first record.
 
 ### Registering a commons node
