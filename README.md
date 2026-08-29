@@ -12,7 +12,7 @@ The same happens with surplus. A hostel feeds five people every morning. A lawye
 
 ANGX is trust infrastructure for actors with no institution already vouching for them — no network, registry, or parent organization a stranger could check instead that vouches for the operational reality of the work or provision itself. Independent builders, unaffiliated community kitchens, free clinics, individual practitioners, households with surplus to give — real and sustained, but verifiable only by going there and asking someone who already knows. ANGX makes that work and surplus permanently visible and reachable by other stewards through a partner chain — not as something to claim, but as a record that it is real, ongoing, and witnessed by people who were there.
 
-At sufficient density, ANGX becomes the first permanent and decentralized record of the operational reality of work and surplus that no institution was already vouching for. Witnessed by those present, owned by no one, resilient by design.
+At sufficient density, ANGX becomes a permanent, decentralized record of the operational reality of work and surplus that no institution was already vouching for. Witnessed by those present, owned by no one, resilient by design.
 
 ---
 
@@ -32,7 +32,7 @@ Nothing can be edited or deleted. Every entry is cryptographically signed by its
 
 Trust is what this architecture actually builds. Witnessing, curation, and partnering are the three acts that establish it — each one a steward or a base staking their own name on what they've seen.
 
-ANGX sits in the lineage of an old idea, extended in a new direction. Git gave code a permanent, distributed history — every change, every branch, traceable without a central server. Dat, and later Hypercore, extended that same idea to datasets and general files. ANGX extends it once more: not to the artifact's history, but to what happens after the artifact leaves the repository — where it got deployed, what failed, what was learned, who replicated it and where. Git shows how code changed. ANGX shows what the code, the design, or the practice actually did once they met the world.
+Git gave code a permanent, distributed history — every change, every branch, traceable without a central server. Dat, and later Hypercore, extended that same idea to datasets and general files. ANGX applies it to what happens after the artifact leaves the repository: where it got deployed, what failed, what was learned, who replicated it and where. Git shows how code changed. ANGX shows what the code, the design, or the practice actually did once it met the world.
 
 ---
 
