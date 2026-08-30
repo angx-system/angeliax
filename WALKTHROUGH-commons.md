@@ -108,10 +108,9 @@ farm's device, independent of her own. The base is announced.
 ### Partnering with Sfax
 
 The Sfax base steward has read twelve months of Fatima's record and judged
-it sound. Both stewards exchange base addresses.
-
-One base proposes. The other accepts. Both sides log the event
-independently. Both keypairs sign the handshake.
+it sound; farm-mornag's steward does the same with Sfax's own collection.
+Both cite specific entries from each other's history, sign, and log the
+handshake independently.
 
 farm-mornag is now a verified base, its collection reachable through the
 partner chain.
