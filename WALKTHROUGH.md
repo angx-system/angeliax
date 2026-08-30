@@ -61,6 +61,8 @@ that will become the base.
 
 **Signal — failure:** `No cooking this week. Repairs needed on the stove.`
 
+**Signal — learning:** `Batch cooking three days ahead instead of daily prep cuts spoiled leftovers to near zero. Portions and quality unaffected. Method documented and attached.`
+
 The entry states what is true and how long it has been true. The record
 carries no schedule and no instruction — only the fact of an ongoing
 commitment, confirmed over time by the people positioned to know.
@@ -109,8 +111,14 @@ observed mathare-kitchen's collection over time and judged it sound —
 additions that hold up, contradictions left visible, nothing inflated. The
 two stewards exchange base addresses.
 
-One proposes. The other accepts. Both keypairs sign the handshake,
-recorded independently on each side.
+Java's base proposes, citing two of mathare-kitchen's Collection Log
+entries — Amara's water node and one other — as the basis for trust.
+mathare-kitchen's base reviews Java's own collection in turn, citing two
+entries from it. Each side verifies the other's citations are real before
+accepting.
+
+Both keypairs sign the handshake. Each base logs the event independently,
+in its own Partner Log.
 
 mathare-kitchen is now a verified base — its collection reachable
 through Java's partner chain, and through every base partnered with Java
@@ -130,6 +138,28 @@ Amara's node enters mathare-kitchen's collection. Logged, signed,
 permanent. Because mathare-kitchen is now a verified base, her client
 detects the addition and her keypair gains verified status. She can now
 witness other operational and commons nodes.
+
+### The method travels
+
+Months later, a community kitchen steward outside Kisumu — one of the
+local witnesses who has visited mathare-kitchen and knows its record — is
+losing a fifth of what she cooks to spoilage from daily small-batch prep
+in unreliable heat.
+
+**Commons tab → query: food nodes → learning signals → "spoilage"**
+
+She finds mathare-kitchen's signal, reads the method, and switches her own
+kitchen to the same three-day batch rhythm.
+
+It works. Spoilage drops to near nothing — the same margin
+mathare-kitchen found.
+
+**Commons tab → mathare-kitchen's learning signal → Post Witness Signal**
+
+**Witness signal — learning:** `Replicated three-day batch cooking. Spoilage down to near zero, same as reported.`
+
+She logs her own adaptation as a new signal on her own node, crediting the
+method rather than claiming it as her own.
 
 ---
 
