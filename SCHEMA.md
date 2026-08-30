@@ -36,41 +36,40 @@ Same client. Same keypair. Structurally separate.
 
 ## Technical Stack
 
-| Component  | Role                                                                                                  |
-| ---------- | ----------------------------------------------------------------------------------------------------- |
-| Hypercore  | Append-only, cryptographically signed feed. One feed per node. Immutable.                             |
-| Hyperbee   | B-tree index over Hypercore. Queries by any indexed field, see Querying section. |
+| Component | Role |
+| --- | --- |
+| Hypercore | Append-only, cryptographically signed feed. One feed per node. Immutable. |
+| Hyperbee | B-tree index over Hypercore. Queries by any indexed field, see Querying section. |
 | Hyperswarm | Peer discovery via DHT. No central servers. When internet is absent, [angx-bridge](https://github.com/angx-system/angx-bridge) (optional) carries feed updates over Reticulum until Hyperswarm resumes. |
-| Hyperdrive | File storage attached to a node. Attachments fetched on demand. Max 10MB per attachment.              |
+| Hyperdrive | File storage attached to a node. Attachments fetched on demand. Max 10MB per attachment. |
 
-Recommended hardware for running a base: Raspberry Pi + UPS. Individual stewards may run the client on any laptop.
+Recommended hardware for running a base: Raspberry Pi 4 or 5 (64-bit OS, 4GB+ RAM) with a USB SSD or high-endurance storage, plus a UPS. Individual stewards may run the client on any laptop.
 
 ---
 
 ## Operational Log — Registration
 
-| Field       | Status    | Description                                                                           |
-| ----------- | --------- | ------------------------------------------------------------------------------------- |
-| Node ID     | Automatic | 256-bit value derived from keypair. 64-character hex string. Never changes.           |
-| Node Type   | Mandatory | Single selection. Immutable.                                                          |
+| Field | Status | Description |
+| --- | --- | --- |
+| Node ID | Automatic | 256-bit value derived from keypair. 64-character hex string. Never changes. |
+| Node Type | Mandatory | Single selection. Immutable. |
 | Description | Mandatory | One sentence. What is currently being built or tested. Max 120 characters. Immutable. |
-| Location    | Mandatory | Free text. Max 64 characters. Immutable.                                              |
-| Contact     | Optional  | Free text. Max 64 characters.                                                         |
-| Curation    | Mandatory | open / consent-required. Default: open. Mutable.                                      |
-| Built From  | Optional  | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
-
+| Location | Mandatory | Free text. Max 64 characters. |
+| Contact | Optional | Free text. Max 64 characters. |
+| Curation | Mandatory | open / consent-required. Default: open. Mutable. |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
 
 ### Node Type Enum — Operational
 
-| Type         | Field                                                             |
-| ------------ | ----------------------------------------------------------------- |
-| food         | Food production, preservation, distribution infrastructure        |
-| water        | Water access, purification, storage, distribution systems         |
-| shelter      | Housing construction, materials, spatial infrastructure methods   |
-| health       | Healthcare delivery, medical devices, community health practice   |
-| energy       | Energy generation, storage, distribution, off-grid systems        |
+| Type | Field |
+| --- | --- |
+| food | Food production, preservation, distribution infrastructure |
+| water | Water access, purification, storage, distribution systems |
+| shelter | Housing construction, materials, spatial infrastructure methods |
+| health | Healthcare delivery, medical devices, public health systems |
+| energy | Energy generation, storage, distribution, off-grid systems |
 | connectivity | Communications hardware, protocols, mesh/satellite infrastructure |
-| other        | Work not covered above.                |
+| other | Work not covered above. |
 
 Operational nodes cover practical and theoretical work within the enum. Learning signals with attached documentation are the primary mechanism for theoretical work.
 
@@ -82,20 +81,20 @@ ANGX is for actors with no institution already vouching for the operational real
 
 ## Operational Log — Steward Signal
 
-| Field       | Status    | Description                                                                                                     |
-| ----------- | --------- | --------------------------------------------------------------------------------------------------------------- |
-| Signal ID   | Automatic | Unique identifier. Used by witnesses to reference a specific claim.                                             |
-| Node ID     | Automatic | The posting node's identifier.                                                                                  |
-| Timestamp   | Automatic | Immutable.                                                                                                      |
-| Signal Type | Mandatory | operational / failure / learning / retired                                                                      |
-| Message     | Mandatory | Max 120 characters. Factual. Present tense. Learning signals may include attached documentation via Hyperdrive. |
+| Field | Status | Description |
+| --- | --- | --- |
+| Signal ID | Automatic | Unique identifier. Used by witnesses to reference a specific claim. |
+| Node ID | Automatic | The posting node's identifier. |
+| Timestamp | Automatic | Immutable. |
+| Signal Type | Mandatory | operational / failure / learning / retired |
+| Message | Mandatory | Max 120 characters. Factual. Present tense. Learning signals may include attached documentation via Hyperdrive. |
 
-| Signal      | Meaning                                                                     | Example                                                                     |
-| ----------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| operational | Work progressing as intended.                                               | *Open-design solar dehydrator assembled from shared plans. Running third week, output steady.*       |
-| failure     | Work cannot progress or method has failed.                                  | *Membrane clogged at 72hrs. Prototype three failed.*                        |
-| learning    | Something confirmed through direct experience or replication worth sharing. | *Ceramic blend confirmed. 8hrs continuous. Method documented and attached.* |
-| retired     | Work permanently done.                                                      | *Project closed. Logs remain public.*                                       |
+| Signal | Meaning | Example |
+| --- | --- | --- |
+| operational | Work progressing as intended. | *Open-design solar dehydrator assembled from shared plans. Running third week, output steady.* |
+| failure | Work cannot progress or method has failed. | *Membrane clogged at 72hrs. Prototype three failed.* |
+| learning | Something confirmed through direct experience or replication worth sharing. | *Ceramic blend confirmed. 8hrs continuous. Method documented and attached.* |
+| retired | Work permanently done. | *Project closed. Logs remain public.* |
 
 The retired signal accepts one optional field: `successor_node_id` — pointing to the node this work has evolved into. The link is one-way and part of the permanent record.
 
@@ -105,48 +104,48 @@ The retired signal accepts one optional field: `successor_node_id` — pointing 
 
 Posted by any steward who directly observed or replicated another node's work. Requires a verified operational node — at least one own operational node accepted into a verified base's collection. A base is verified if it has at least one active partner handshake. Commons-only stewards cannot post operational witness signals. Witnessing is competence-gated: the witness has done comparable work and can assess what they observed.
 
-| Field             | Status    | Description                                               |
-| ----------------- | --------- | --------------------------------------------------------- |
-| Witness Node ID   | Automatic | The witnessing node's identifier.                         |
-| Timestamp         | Automatic | Immutable.                                                |
-| Observed Node ID  | Automatic | The node being witnessed.                                 |
-| Referenced Signal | Optional  | The specific steward signal being engaged with.           |
-| Signal Type       | Mandatory | Chosen independently by the witness.                      |
-| Message           | Mandatory | Max 120 characters. What was directly observed or tested. |
+| Field | Status | Description |
+| --- | --- | --- |
+| Witness Node ID | Automatic | The witnessing node's identifier. |
+| Timestamp | Automatic | Immutable. |
+| Observed Node ID | Automatic | The node being witnessed. |
+| Referenced Signal | Optional | The specific steward signal being engaged with. |
+| Signal Type | Mandatory | Chosen independently by the witness. |
+| Message | Mandatory | Max 120 characters. What was directly observed or tested. |
 
-| Signal      | Meaning                                                         | Example                                                    |
-| ----------- | --------------------------------------------------------------- | ---------------------------------------------------------- |
-| operational | Observed the work functioning as described.                     | *Filter running. Flow rate confirmed. Steward present.*    |
-| failure     | Observed the work failing or not as described.                  | *Lab empty. No steward contact in five days.*              |
-| learning    | Directly replicated a method. Result confirmed or contradicted. | *Replicated in Kampala. Flow within 5% of Nairobi result.* |
-| retired     | Directly observed permanent closure.                            | *Lab cleared. Equipment donated. Confirmed by steward.*    |
+| Signal | Meaning | Example |
+| --- | --- | --- |
+| operational | Observed the work functioning as described. | *Filter running. Flow rate confirmed. Steward present.* |
+| failure | Observed the work failing or not as described. | *Lab empty. No steward contact in five days.* |
+| learning | Directly replicated a method. Result confirmed or contradicted. | *Replicated in Kampala. Flow within 5% of Nairobi result.* |
+| retired | Directly observed permanent closure. | *Lab cleared. Equipment donated. Confirmed by steward.* |
 
 ---
 
 ## Commons Log — Registration
 
-| Field       | Status    | Description                                                                                        |
-| ----------- | --------- | --------------------------------------------------------------------------------------------------- |
-| Node ID     | Automatic | 256-bit value derived from keypair. 64-character hex string.                                        |
-| Node Type   | Mandatory | Single selection. Immutable.                                                                         |
-| Description | Mandatory | One sentence. What is provided, as a standing commitment. Max 120 characters. Immutable.             |
-| Location    | Mandatory | Region or locality, not an exact address. Max 64 characters. Immutable.                              |
-| Contact     | Optional  | Free text. Max 64 characters.                                                                        |
-| Curation    | Mandatory | open / consent-required. Default: open. Mutable.                                                     |
-| Built From  | Optional  | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
+| Field | Status | Description |
+| --- | --- | --- |
+| Node ID | Automatic | 256-bit value derived from keypair. 64-character hex string. |
+| Node Type | Mandatory | Single selection. Immutable. |
+| Description | Mandatory | One sentence. What is provided, as a standing commitment. |
+| Location | Mandatory | Region or locality, not an exact address. Max 64 characters. Immutable. |
+| Contact | Optional | Free text. Max 64 characters. |
+| Curation | Mandatory | open / consent-required. Default: open. Mutable. |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
 
 ### Node Type Enum — Commons
 
-| Type          | Provision                                                                 |
-| ------------- | -------------------------------------------------------------------------- |
-| food          | Free food — meals, agricultural surplus, preserved goods                 |
-| water         | Free water — access, filtration, distribution, desalination              |
-| shelter       | Free space — accommodation, workspace, storage                           |
-| health        | Free medical provision — medicine, vaccines, cold-chain storage             |
-| energy        | Free energy — access, charging, microgrids, stranded or idle capacity    |
-| connectivity  | Free connectivity — wifi, mesh, backhaul, satellite                      |
+| Type | Provision |
+| --- | --- |
+| food | Free food — meals, agricultural surplus, preserved goods |
+| water | Free water — access, filtration, distribution, desalination |
+| shelter | Free space — accommodation, workspace, storage |
+| health | Free medical provision — medicine, vaccines, cold-chain storage |
+| energy | Free energy — access, charging, microgrids, stranded or idle capacity |
+| connectivity | Free connectivity — wifi, mesh, backhaul, satellite |
 | informational | Free knowledge — consultation, legal aid, translation, technical guidance |
-| other         | Any surplus not covered above.                     |
+| other | Any fundamental surplus provision not covered above. |
 
 ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and an off-grid microgrid operator in El Salvador freely routing idle megawatts to a nearby compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded, by an actor no institution was already vouching for. A patient-led group documenting a working insulin-dosing setup, and a seed-saving network logging a drought-resistant variety passed hand to hand for three generations, are the same kind of entry too — standing, freely given or freely maintained, permanently recorded, by people no institution was already tracking.
 
@@ -154,22 +153,22 @@ ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil 
 
 ## Commons Log — Steward Signal
 
-| Field       | Status    | Description                                 |
-| ----------- | --------- | ------------------------------------------- |
-| Signal ID   | Automatic | Unique identifier.                          |
-| Node ID     | Automatic | The posting node's identifier.              |
-| Timestamp   | Automatic | Immutable.                                  |
-| Signal Type | Mandatory | operational / failure / learning / retired  |
-| Message     | Mandatory | Max 120 characters. Factual. Present tense. |
+| Field | Status | Description |
+| --- | --- | --- |
+| Signal ID | Automatic | Unique identifier. |
+| Node ID | Automatic | The posting node's identifier. |
+| Timestamp | Automatic | Immutable. |
+| Signal Type | Mandatory | operational / failure / learning / retired |
+| Message | Mandatory | Max 120 characters. Factual. Present tense. |
 
-| Signal      | Meaning                                 | Example                                                                    |
-| ----------- | --------------------------------------- | -------------------------------------------------------------------------- |
-| operational | Provision being fulfilled as described. | *Breakfast running. Five people served. Supplies stable.*                  |
-| failure     | Provision cannot be met.                | *No supplies. Suspended this week. Back Monday.*                           |
-| learning    | Something discovered worth sharing.     | *Batch cooking confirmed. Waste down 40%. Method documented and attached.* |
-| retired     | Provision permanently ended.            | *Breakfast ended permanently. Final day March 31st.*                       |
+| Signal | Meaning | Example |
+| --- | --- | --- |
+| operational | Provision being fulfilled as described. | *Breakfast running. Five people served. Supplies stable.* |
+| failure | Provision cannot be met. | *No supplies. Suspended this week. Back Monday.* |
+| learning | Something discovered worth sharing. | *Batch cooking confirmed. Waste down 40%. Method documented and attached.* |
+| retired | Provision permanently ended. | *Breakfast ended permanently. Final day March 31st.* |
 
-A commons learning signal documents a method for sustaining or improving the provision itself — not the surplus being given. It teaches another steward how to keep a similar commitment running, the same way an operational learning signal teaches someone to build a similar filter. Nothing here describes what is available to take. No signal type in either log records need, request, or availability for the taking. Matching tools such as angx-reader operate strictly method-to-method — a failure paired only with a learning signal, never with another node's surplus. ANGX makes standing provisions durably visible. It does not move, broker, reserve, or route them.
+A commons learning signal documents a method for sustaining or improving the provision itself — not the surplus being given. It teaches another steward how to keep a similar commitment running — the same function an operational learning signal serves for a technical build. Nothing here describes what is available to take. No signal type in either log records need, request, or availability for the taking. Matching tools such as angx-reader operate strictly method-to-method — a failure paired only with a learning signal, never with another node's surplus. ANGX makes standing provisions durably visible. It does not move, broker, reserve, or route them.
 
 ---
 
@@ -177,21 +176,21 @@ A commons learning signal documents a method for sustaining or improving the pro
 
 Requires any verified node — at least one own node of any type accepted into a verified base's collection. Commons witnessing is presence-gated: any accountable steward who directly received or observed the provision may witness it. No commons node of the same type required.
 
-| Field             | Status    | Description                                                 |
-| ----------------- | --------- | ----------------------------------------------------------- |
-| Witness Node ID   | Automatic | The witnessing node's identifier.                           |
-| Timestamp         | Automatic | Immutable.                                                  |
-| Observed Node ID  | Automatic | The commons node being witnessed.                           |
-| Referenced Signal | Optional  | The specific steward signal being responded to.             |
-| Signal Type       | Mandatory | operational / failure / learning / retired                  |
-| Message           | Mandatory | Max 120 characters. What was directly observed or received. |
+| Field | Status | Description |
+| --- | --- | --- |
+| Witness Node ID | Automatic | The witnessing node's identifier. |
+| Timestamp | Automatic | Immutable. |
+| Observed Node ID | Automatic | The commons node being witnessed. |
+| Referenced Signal | Optional | The specific steward signal being responded to. |
+| Signal Type | Mandatory | operational / failure / learning / retired |
+| Message | Mandatory | Max 120 characters. What was directly observed or received. |
 
-| Signal      | Meaning                                       | Example                                                          |
-| ----------- | --------------------------------------------- | ---------------------------------------------------------------- |
-| operational | Directly received the provision as described. | *Breakfast was there. Exactly as logged. Seven people.*          |
-| failure     | Provision not available as described.         | *No breakfast. Kitchen locked.*                                  |
-| learning    | Observed a method worth the network knowing.  | *Batch cooking confirmed. Applied in our space. Waste down 35%.* |
-| retired     | Directly observed permanent end of provision. | *Space closed. Provision ended.*                                 |
+| Signal | Meaning | Example |
+| --- | --- | --- |
+| operational | Directly received the provision as described. | *Breakfast was there. Exactly as logged. Seven people.* |
+| failure | Provision not available as described. | *No breakfast. Kitchen locked.* |
+| learning | Observed a method worth the network knowing. | *Batch cooking confirmed. Applied in our space. Waste down 35%.* |
+| retired | Directly observed permanent end of provision. | *Space closed. Provision ended.* |
 
 The retired signal on a commons node accepts one optional field: `successor_node_id` — the node ID of the provision that continues what this node provided.
 
@@ -212,8 +211,40 @@ is no publish action and no setup step. No permission required, no
 name, no description, no separate identity — the keypair is the
 library's identity.
 
+A library is a Hyperbee derived from the keypair, listing the keypair's own node keys and its replicated feed keys, announced on Hyperswarm under its own discovery key. Any client holding the address can read it directly.
+
 A library is distinct from a base. A base belongs to a physical space
 and stays when stewards rotate. A library belongs to a keypair.
+
+---
+
+## Verification
+
+Verified status is never stored as a field. It is computed live, by every client independently, from whatever feeds that client currently holds — a pure function: the same inputs (the subject being checked, and the feeds held) always produce the same output, on any device.
+
+A base is verified if it holds an active Partner Log entry — a `formed` entry with no later `dissolved` entry, confirmed independently in both bases' own feeds, with neither side retired.
+
+A node is verified if it is currently held in the Collection Log (an `added` entry with no later `removed` entry) of a base that is itself currently verified.
+
+The result of this check is one of three states:
+
+- **verified** — checked, and it holds.
+- **unverified** — checked, and it does not hold.
+- **unknown** — the client does not yet hold the feeds needed to check (the curating base's own feed, its Partner Log, or the partner's feed). Unknown is not a failure state; it resolves to verified or unverified as the missing feeds replicate.
+
+Witness gating cannot be enforced at write time — nothing stops a keypair from appending a witness-shaped entry to its own feed, regardless of whether it holds a verified node. It is enforced at read time instead: every client and base independently evaluates the author's status and excludes unverified or unknown authors from witness-gated views and from Witness Signal ID eligibility. Excluded signals are marked, not deleted, per Constraint 8 — an author's later verification applies retroactively to signals already written.
+
+For a witness signal to actually reach a curating base or steward: a witness's client announces, on the observed node's own Hyperswarm topic, that it holds witness signals for that node and where its library can be found. A base already stands on that same topic to replicate the node it curates, so it receives the announcement as a matter of course — no separate notification path or feed entry is required. The same mechanism answers whether a steward can see which bases currently curate their own node: the steward's client can query the same topic to see which other clients are currently connected to it.
+
+Verified status is never inherited. If a curating base's last active partnership goes inactive, every node whose only path to verification ran through it loses verified status immediately, regardless of any Successor Base ID named later. Past witness signals on the node remain permanently valid entries regardless, per Constraint 8 — only their current admissibility is re-evaluated.
+
+---
+
+## Ordering
+
+A Timestamp field, wherever it appears in this schema, is self-reported by the writing device's own clock. It is not provably true — nothing prevents a steward from appending an entry today carrying a date from months ago. No rule in this specification depends on a timestamp being accurate; timestamps are display information only.
+
+Order between entries in the same feed is proven by sequence position, not by timestamp. Order between entries in different feeds is proven only by citation: a witness signal referencing a Referenced Signal, or a Partner Log entry citing a Collection Log Entry ID, provably came after the entry it cites. Anywhere this schema would otherwise require knowing which of two things happened first across separate feeds, that citing relationship establishes it — not the recorded time.
 
 ---
 
@@ -221,40 +252,41 @@ and stays when stewards rotate. A library belongs to a keypair.
 
 Querying operates within a connected base or library. No global search. Discovery is base to base through the partner chain, or directly through a steward's library address.
 
+A query that reaches across the partner chain works by enumeration: the querying base walks its own Partner Log to find every base it is connected to, directly or transitively, then queries each reachable base's own published index and combines the results locally. This happens as one action from the querying steward's side, without a separate step per base. A live, recursive search protocol across the whole chain — rather than this enumerate-then-query approach — is a larger feature and is not part of this specification.
+
 Both operational and commons nodes are queryable by: node type, location, signal type, timestamp, witness activity, referenced signal, built from, and signal text.
 
 ---
 
 ## Integrity
 
-| Mechanism                | How It Works                                                                                                                                                                                                                                                                |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 120-character constraint | Forces factual, present-tense reporting.                                                                                                                                                                                                                                    |
-| Signal type enum         | No category for opinion, suggestion, or commentary.                                                                                                                                                                                                                         |
-| Two independent streams  | Steward and witness feeds are separate. Contradictions permanently visible.                                                                                                                                                                                                 |
-| Append-only log          | Nothing deleted or edited. All entries cryptographically signed.                                                                                                                                                                                                            |
-| Witness verification     | Operational witnessing requires a verified operational node. Commons witnessing requires any verified node. Operational witnessing is competence-gated. Commons witnessing is presence-gated. Base steward judgment at the curation decision is the primary integrity gate. |
-| Visible silence          | Empty nodes and witness-only nodes are visible anomalies.                                                                                                                                                                                                                   |
-| Referenced signals       | All witnesses to a specific claim queryable together.                                                                                                                                                                                                                       |
+| Mechanism | How It Works |
+| --- | --- |
+| 120-character constraint | Forces factual, present-tense reporting. |
+| Signal type enum | No category for opinion, suggestion, or commentary. |
+| Two independent streams | Steward and witness feeds are separate. Contradictions permanently visible. |
+| Append-only log | Nothing deleted or edited. All entries cryptographically signed. |
+| Witness verification | Operational witnessing requires a verified operational node. Commons witnessing requires any verified node. Operational witnessing is competence-gated. Commons witnessing is presence-gated. Base steward judgment at the curation decision is the primary integrity gate. |
+| Visible silence | Empty nodes and witness-only nodes are visible anomalies. |
+| Referenced signals | All witnesses to a specific claim queryable together. |
 
 ---
 
 ## Open Questions
 
 - **Library tab UX.** Whether the library is surfaced as a separate tab or through Settings. To be resolved with developers against the running client.
-- **Library address resolution.** Whether the library announces itself on Hyperswarm under a key derivable from the steward keypair or via another mechanism. To be resolved with developers.
 - **Node/base summary view.** Not yet defined. Proposed: a client-side
-feature that tallies existing signal counts, time span, and logging
-gaps, and flags raw statistical irregularities (e.g., no failures ever
-logged, unnaturally uniform intervals, a witness node with no
-operational history of its own) for the reviewing steward's own
-judgment. This is the practical countermeasure to the sybil/self-
-witnessing limit named in Constraint 10 — cryptography cannot prove
-two keypairs are controlled by different people, but statistically
-unusual activity is often visible, and this feature exists to surface
-it before curation, not after. Counts and flags only — no inference,
-no derived score, no output usable to compare or rank nodes against
-each other. To be resolved with developers.
+  feature that tallies existing signal counts, time span, and logging
+  gaps, and flags raw statistical irregularities (e.g., no failures ever
+  logged, unnaturally uniform intervals, a witness node with no
+  operational history of its own) for the reviewing steward's own
+  judgment. This is the practical countermeasure to the sybil/self-
+  witnessing limit named in Constraint 10 — cryptography cannot prove
+  two keypairs are controlled by different people, but statistically
+  unusual activity is often visible, and this feature exists to surface
+  it before curation, not after. Counts and flags only — no inference,
+  no derived score, no output usable to compare or rank nodes against
+  each other. To be resolved with developers.
 
 ---
 
@@ -275,16 +307,16 @@ Three components: **identity**, **collection**, **partners**.
 
 ### Base Identity
 
-| Field       | Status    | Description                                                       |
-| ----------- | --------- | ----------------------------------------------------------------- |
-| Base ID     | Automatic | 256-bit value derived from base keypair. 64-character hex string. |
-| Public Key  | Automatic | Discovery key. Shared to enable connection via Hyperswarm.        |
-| Name        | Optional  | Free text. Max 64 characters.                                     |
-| Description | Optional  | One sentence. Max 120 characters.                                 |
-| Location    | Mandatory | Free text. Max 64 characters.                                     |
-| Contact     | Optional  | Free text. Max 64 characters.                                     |
-| Initialised | Automatic | Timestamp. Immutable.                                             |
-| Status      | Automatic | active / retired. Set once by the base keypair. Irreversible.     |
+| Field | Status | Description |
+| --- | --- | --- |
+| Base ID | Automatic | 256-bit value derived from base keypair. 64-character hex string. |
+| Public Key | Automatic | Discovery key. Shared to enable connection via Hyperswarm. |
+| Name | Optional | Free text. Max 64 characters. |
+| Description | Optional | One sentence. Max 120 characters. |
+| Location | Mandatory | Free text. Max 64 characters. |
+| Contact | Optional | Free text. Max 64 characters. |
+| Initialised | Automatic | Timestamp. Immutable. |
+| Status | Automatic | active / retired. Set once by the base keypair. Irreversible. |
 
 Viewing the collection is open to anyone with the public key. Entry is curated.
 
@@ -294,19 +326,19 @@ Viewing the collection is open to anyone with the public key. Entry is curated.
 
 Appended to the base feed. Signed by the base keypair. Permanent.
 
-| Field       | Status      | Description                                                     |
-| ----------- | ----------- | --------------------------------------------------------------- |
-| Entry ID    | Automatic   | Unique identifier.                                              |
-| Base ID     | Automatic   | The base recording the decision.                                |
-| Timestamp   | Automatic   | Immutable.                                                      |
-| Node ID     | Automatic   | The node being added or removed.                                |
-| Action      | Automatic   | added / removed                                                 |
+| Field | Status | Description |
+| --- | --- | --- |
+| Entry ID | Automatic | Unique identifier. |
+| Base ID | Automatic | The base recording the decision. |
+| Timestamp | Automatic | Immutable. |
+| Node ID | Automatic | The node being added or removed. |
+| Action | Automatic | added / removed |
 | Steward Sig | Conditional | Required only if the node's Curation field is consent-required. |
 | Witness Signal ID | Mandatory | The ID of the Witness Signal attesting to physical observation. Must reference either the base steward's own witness signal on the node, or a witness signal from another verified steward. |
 
-| Action  | Meaning                                                                                     |
-| ------- | ------------------------------------------------------------------------------------------- |
-| added   | Node is now part of the public collection. Reachable through the base address.              |
+| Action | Meaning |
+| --- | --- |
+| added | Node is now part of the public collection. Reachable through the base address. |
 | removed | Node is no longer in the public collection. Previously replicated copies persist elsewhere. |
 
 Every Collection Log entry is signed by the base keypair. Steward Sig is
@@ -337,36 +369,23 @@ through the same consent mechanism.
 
 Appended to the base feed. Signed by both base keypairs. Permanent.
 
-| Field               | Status    | Description                                                                                                      |
-| ------------------- | --------- | ------------------------------------------------------------------------------------------------------------------ |
-| Handshake ID        | Automatic | Unique identifier.                                                                                                  |
-| Action              | Automatic | formed / dissolved                                                                                                  |
-| Initiating Base ID  | Automatic | The base that proposed the connection.                                                                              |
-| Receiving Base ID   | Automatic | The base that accepted.                                                                                             |
-| Timestamp           | Automatic | Timestamp of the action. Immutable.                                                                                 |
-| Partner Public Key  | Automatic | Public key of the partner base.                                                                                     |
-| Reviewed Entries    | Mandatory | Two or more Collection Log Entry IDs from the partner base's history, examined as the basis for this handshake.     |
+| Field | Status | Description |
+| --- | --- | --- |
+| Handshake ID | Automatic | Unique identifier. |
+| Action | Automatic | formed / dissolved |
+| Initiating Base ID | Automatic | The base that proposed the connection. |
+| Receiving Base ID | Automatic | The base that accepted. |
+| Timestamp | Automatic | Timestamp of the action. Immutable. |
+| Partner Public Key | Automatic | Public key of the partner base. |
+| Reviewed Entries | Mandatory | Two or more Collection Log Entry IDs from the partner base's history, examined as the basis for this handshake. |
 
-Formation requires both bases: one proposes, the other accepts, both sides log the event
-independently — both keypairs signing. Collections become traversable through the partner
-chain. Both base stewards stake their collection's credibility on the decision.
+Formation requires both bases: one proposes, the other accepts, both sides log the event independently — both keypairs signing. Collections become traversable through the partner chain. Both base stewards stake their collection's credibility on the decision.
 
-Reviewed Entries makes the assessment requirement of Constraint 10 structural. Each side cites
-specific Collection Log entries from the other's history — real curated nodes, each already
-carrying its own Witness Signal ID — as the actual basis for the handshake, not mutual
-acceptance alone. Because Collection Log entries are signed, ordered feed entries, any client
-can independently verify a cited Entry ID exists in the referenced base's feed and carries a
-valid Witness Signal ID of its own. A citation that fails this check is not a matter of trust —
-it's verifiably false, and invalidates the handshake.
+Reviewed Entries makes the assessment requirement of Constraint 10 structural. Each side cites specific Collection Log entries from the other's history — real curated nodes, each already carrying its own Witness Signal ID — as the actual basis for the handshake, not mutual acceptance alone. Because Collection Log entries are signed, ordered feed entries, any client can independently verify a cited Entry ID exists in the referenced base's feed and carries a valid Witness Signal ID of its own. A citation that fails this check is not a matter of trust — it's verifiably false, and invalidates the handshake.
 
-Reviewed Entries verifies that a citation is real, not that it was examined carefully. As with
-Constraint 10 itself, the claim is verifiable; the diligence behind it is not — enforcement
-remains reputational, carried by what later partners find when they assess the collection this
-handshake helped build.
+Reviewed Entries verifies that a citation is real, not that it was examined carefully. As with Constraint 10 itself, the claim is verifiable; the diligence behind it is not — enforcement remains reputational, carried by what later partners find when they assess the collection this handshake helped build.
 
-Dissolution requires only one: either base may end a partnership unilaterally, signed by its own
-keypair alone, without the other's agreement. Forming a trust relationship needs mutual
-consent; leaving one does not.
+Dissolution requires only one: either base may end a partnership unilaterally, signed by its own keypair alone, without the other's agreement. Forming a trust relationship needs mutual consent; leaving one does not.
 
 ---
 
@@ -394,13 +413,13 @@ network persist regardless, per Constraint 6.
 
 Appended to the base feed. Signed by the base keypair. Permanent.
 
-| Field             | Status    | Description                                                                                                    |
-| ------------------ | --------- | ---------------------------------------------------------------------------------------------------------------- |
-| Entry ID           | Automatic | Unique identifier.                                                                                                |
-| Base ID            | Automatic | The base being retired.                                                                                           |
-| Timestamp          | Automatic | Immutable.                                                                                                        |
-| Status             | Automatic | Set to `retired`. Irreversible.                                                                                   |
-| Successor Base ID  | Optional  | The Base ID of a base the retiring steward points to as continuing their role. Immutable once set.                |
+| Field | Status | Description |
+| --- | --- | --- |
+| Entry ID | Automatic | Unique identifier. |
+| Base ID | Automatic | The base being retired. |
+| Timestamp | Automatic | Immutable. |
+| Status | Automatic | Set to `retired`. Irreversible. |
+| Successor Base ID | Optional | The Base ID of a base the retiring steward points to as continuing their role. Immutable once set. |
 
 Retirement is signed once by the base keypair and cannot be reversed. No further curation is possible after retirement — Collection Log entries stop. All of the base's Partner Log entries are automatically treated as inactive from the retirement timestamp forward; no separate dissolution entry is required for each one.
 
@@ -438,9 +457,7 @@ keypair generated at initialization is permanent and belongs to the space.
 
 ### Initialization Threshold
 
-A space client may initialize a base when two distinct verified bases have each added at least one node owned by this keypair to their public collections. A verified base has at least one active partner handshake in its Partner Log. One base adding multiple nodes from the same keypair
-counts as a single verifying base — the threshold requires two distinct
-bases, not two additions.
+A space client may initialize a base when two distinct verified bases have each added at least one node owned by this keypair to their public collections. A verified base has at least one active partner handshake in its Partner Log. One base adding multiple nodes from the same keypair counts as a single verifying base — the threshold requires two distinct bases, not two additions.
 
 The client detects this condition by scanning Collection Logs from bases it has contact with. When the threshold is met, Initialize Base activates. No message is sent. No approval is requested.
 
@@ -448,38 +465,28 @@ The threshold applies to whatever verified bases exist at the time. The first ba
 
 ---
 
+### Base Keypair Linkage
+
+The base keypair created at Initialize Base is not derived as a child key of the space keypair that triggered it. Ed25519 provides no publicly verifiable child-key derivation without exposing the parent's private key material, so a derived relationship could not be checked by another client without compromising the space keypair.
+
+The link is established by attestation instead: the space keypair signs a statement naming the base keypair as the one it initialized. Any client holding the statement and the space's public key can verify the link independently, without needing derivation. This closes the self-curation gap named in Constraint 10 — a base cannot count toward its own initialization threshold for nodes belonging to a space it is already attested to, and any client can check this directly rather than relying on a self-reported field.
+
+This follows the same pattern as other second signatures in this schema — Steward Sig, partner co-signatures — carried inside the record it authorizes rather than tracked as a separate object.
+
+---
+
 ### Base — Open Questions
 
 - **Multiple base stewards.** Not yet resolved whether a base can support multiple stewards, each writing to and managing the same base. Autobase may handle this technically. For now, a base is a single keypair. To be resolved with developers.
 - **Custody Log.** Not yet defined. Proposed: a log recording when ultimate accountability for a keypair changes hands (ownership transfer, not routine staffing) — outgoing party, incoming party, timestamp, signed by whoever currently holds the keypair. Distinct from Base Retirement's Successor Base ID: Custody Log preserves the same base identity and history under new control; retirement ends the base entirely and only optionally points to a different one. To be resolved in a future schema pass.
-- **Query scope.** Proposed default: queries are federated across the
-  partner chain automatically — a query at any base reaches every base
-  it's connected to, directly and transitively, in one action. Local-only
-  (restricted to a single base's own collection) is a narrowing option,
-  not the default. This matches existing practice already shown in the
-  walkthroughs (Fatima's "pythium" query reaches across the partner
-  chain without a separate step per base). Exact mechanics — how deep
-  the traversal goes, how results are aggregated — to be resolved with
-  developers.
+- **Partner-chain query mechanics.** The query model itself (enumerate reachable bases via the Partner Log, then query each one's index and combine locally) is settled — see Querying. What is not yet fixed: how deep the traversal goes, how loops are prevented, how results from many bases are merged, and how an unreachable or offline base mid-chain is handled. To be resolved with developers.
 - **Partner replication strategy.** Full replication, sparse on demand, or per-partner choice. To be resolved with developers.
 - **Initialize Base trigger synchronization.** Client detects two added entries from two distinct verified bases pointing to nodes owned by this keypair. How this count synchronizes across devices when confirmations arrive independently — to be resolved with developers.
-- **Node curation discovery.** Unresolved whether a steward can see which
-  bases currently curate their own node. A curating base already stays
-  connected to the Hyperswarm topic derived from the node's own public
-  key to replicate it — the steward could query that same topic to see
-  which bases are currently connected, no new feed entry required. To be
-  resolved with developers.
 - **Reviewed Entries — minimum count.** "Two or more" is proposed as the
   floor, ruling out single-citation handshakes without over-burdening
   small or newly initialized bases. The exact minimum is a tuning
   decision, not fixed here — to be resolved with developers.
-- **Base keypair derivation.** Proposed: the base keypair is derived as a
-  child key from the same seed as the space keypair that triggered
-  Initialize Base — the same sibling-derivation technique angx-bridge
-  uses for its Reticulum key. This would make the relationship
-  cryptographically verifiable by any client, closing the self-curation
-  gap at the protocol level rather than relying on a recorded field.
-  Exact derivation mechanic to be resolved with developers.
+- **First-base and second-base bootstrap rules.** Initialization Threshold states that the first base initializes without any prior verified base existing, and the second requires confirmation from just the first — but nothing defines how a client, or the process standing up that base, actually establishes this exempt status. To be resolved with developers.
 
 ---
 
