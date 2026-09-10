@@ -155,7 +155,7 @@ Nothing she has tried has worked. She could search the open internet, but
 the results would be generic — chemical treatments unavailable locally,
 advice from different climates, unverified claims.
 
-**Operational tab → query: food nodes → learning signals → "pythium"**
+**Commons tab → query: food nodes → learning signals → "pythium"**
 
 She reads through learning signals logged by food nodes across the
 partner chain. A farm base in Santa Fe, Argentina logged one eight months
