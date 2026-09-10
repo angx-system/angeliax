@@ -180,8 +180,8 @@ left.
 **Operational tab → query: water nodes**
 
 Several water nodes are reachable through mathare-kitchen's collection and
-its partner chain. Amara's stands out — four operational signals, two
-failures, one learning signal with the full method attached.
+its partner chain. Amara's stands out — a failure and a learning signal
+with the full method attached.
 
 He reads the arc before meeting her: what she built, what failed, what she
 confirmed.
