@@ -168,6 +168,8 @@ ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil 
 | learning | Something discovered worth sharing. | *Batch cooking confirmed. Waste down 40%. Method documented and attached.* |
 | retired | Provision permanently ended. | *Breakfast ended permanently. Final day March 31st.* |
 
+The retired signal accepts one optional field: `successor_node_id` — the node ID of the provision that continues what this node provided. The link is one-way and part of the permanent record.
+
 A commons learning signal documents a method for sustaining or improving the provision itself — not the surplus being given. It teaches another steward how to keep a similar commitment running — the same function an operational learning signal serves for a technical build. Nothing here describes what is available to take. No signal type in either log records need, request, or availability for the taking. Matching tools such as angx-reader operate strictly method-to-method — a failure paired only with a learning signal, never with another node's surplus. ANGX makes standing provisions durably visible. It does not move, broker, reserve, or route them.
 
 ---
@@ -191,8 +193,6 @@ Requires any verified node — at least one own node of any type accepted into a
 | failure | Provision not available as described. | *No breakfast. Kitchen locked.* |
 | learning | Observed a method worth the network knowing. | *Batch cooking confirmed. Applied in our space. Waste down 35%.* |
 | retired | Directly observed permanent end of provision. | *Space closed. Provision ended.* |
-
-The retired signal on a commons node accepts one optional field: `successor_node_id` — the node ID of the provision that continues what this node provided.
 
 ---
 
