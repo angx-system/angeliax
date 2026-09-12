@@ -45,7 +45,7 @@ any one transport. Hypercore is the current, concrete choice: an
 existing, working, append-only signed feed protocol with exactly the 
 properties ANGX needs.
 
-A relay-based prototype demonstrating the core signal loop — two-log model, Ed25519 signing, steward/witness separation — is available at [codeberg.org/angx-protocol/angx-prototype](https://codeberg.org/angx-protocol/angx-prototype). It predates the current specification and does not implement bases, libraries, or the partner chain. Useful only as a reference for the intended UI and client design.
+Interactive demos of the core mechanics — node registration and signal posting, the full walkthroughs, and angx-reader's matching — are in demos/. Standalone HTML, open directly in a browser.
 
 ---
 
@@ -55,6 +55,7 @@ A relay-based prototype demonstrating the core signal loop — two-log model, Ed
 - WALKTHROUGH-commons.md — how an ordinary space enters angeliaX
 - SCHEMA.md — complete technical specification
 - CONSTRAINTS.md — ten system constraints
+- demos/ — click-through versions of the two walkthroughs, plus a sandbox and angx-reader's matching mechanism
 
 Two optional companion tools extend ANGX without being required to run
 it: [angx-reader](https://github.com/angx-system/angx-reader) surfaces
