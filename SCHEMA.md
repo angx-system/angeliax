@@ -170,7 +170,7 @@ ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil 
 
 The retired signal accepts one optional field: `successor_node_id` — the node ID of the provision that continues what this node provided. The link is one-way and part of the permanent record.
 
-A commons learning signal documents a method for sustaining or improving the provision itself — not the surplus being given. It teaches another steward how to keep a similar commitment running — the same function an operational learning signal serves for a technical build. Nothing here describes what is available to take. No signal type in either log records need, request, or availability for the taking. Matching tools such as angx-reader operate strictly method-to-method — a failure paired only with a learning signal, never with another node's surplus. ANGX makes standing provisions durably visible. It does not move, broker, reserve, or route them.
+A commons learning signal documents a method for sustaining the provision itself — not the surplus being given. Matching operates method-to-method only; a failure pairs with a learning signal, never with another node's surplus.
 
 ---
 
@@ -232,7 +232,7 @@ The result of this check is one of three states:
 - **unverified** — checked, and it does not hold.
 - **unknown** — the client does not yet hold the feeds needed to check (the curating base's own feed, its Partner Log, or the partner's feed). Unknown is not a failure state; it resolves to verified or unverified as the missing feeds replicate.
 
-Witness gating cannot be enforced at write time — nothing stops a keypair from appending a witness-shaped entry to its own feed, regardless of whether it holds a verified node. It is enforced at read time instead: every client and base independently evaluates the author's status and excludes unverified or unknown authors from witness-gated views and from Witness Signal ID eligibility. Excluded signals are marked, not deleted, per Constraint 8 — an author's later verification applies retroactively to signals already written.
+Witness gating is enforced at read time: every client and base independently evaluates the author's status and excludes unverified or unknown authors from witness-gated views and from Witness Signal ID eligibility. Excluded signals are marked, not deleted, per Constraint 8.
 
 For a witness signal to actually reach a curating base or steward: a witness's client announces, on the observed node's own Hyperswarm topic, that it holds witness signals for that node and where its library can be found. A base already stands on that same topic to replicate the node it curates, so it receives the announcement as a matter of course — no separate notification path or feed entry is required. The same mechanism answers whether a steward can see which bases currently curate their own node: the steward's client can query the same topic to see which other clients are currently connected to it.
 
@@ -242,9 +242,7 @@ Verified status is never inherited. If a curating base's last active partnership
 
 ## Ordering
 
-A Timestamp field, wherever it appears in this schema, is self-reported by the writing device's own clock. It is not provably true — nothing prevents a steward from appending an entry today carrying a date from months ago. No rule in this specification depends on a timestamp being accurate; timestamps are display information only.
-
-Order between entries in the same feed is proven by sequence position, not by timestamp. Order between entries in different feeds is proven only by citation: a witness signal referencing a Referenced Signal, or a Partner Log entry citing a Collection Log Entry ID, provably came after the entry it cites. Anywhere this schema would otherwise require knowing which of two things happened first across separate feeds, that citing relationship establishes it — not the recorded time.
+Timestamps are self-reported by the writing device's own clock and are not provably accurate — display information only. Order within a feed is proven by sequence position. Order across feeds is proven by citation: a witness signal's Referenced Signal, or a Partner Log entry's Collection Log Entry ID, provably came after what it cites.
 
 ---
 
@@ -252,7 +250,7 @@ Order between entries in the same feed is proven by sequence position, not by ti
 
 Querying operates within a connected base or library. No global search. Discovery is base to base through the partner chain, or directly through a steward's library address.
 
-A query that reaches across the partner chain works by enumeration: the querying base walks its own Partner Log to find every base it is connected to, directly or transitively, then queries each reachable base's own published index and combines the results locally. This happens as one action from the querying steward's side, without a separate step per base. A live, recursive search protocol across the whole chain — rather than this enumerate-then-query approach — is a larger feature and is not part of this specification.
+A query that reaches across the partner chain works by enumeration: the querying base walks its own Partner Log to find every base it is connected to, directly or transitively, then queries each reachable base's own published index and combines the results locally. This happens as one action from the querying steward's side, without a separate step per base.
 
 Both operational and commons nodes are queryable by: node type, location, signal type, timestamp, witness activity, referenced signal, built from, and signal text.
 
@@ -428,9 +426,9 @@ Retirement is signed once by the base keypair and cannot be reversed. No further
 
 Retirement does not delete anything. The base's Collection Log and Partner Log history remain permanently visible to anyone holding the base's address or a replicated copy, per Constraints 6 and 8. What stops is propagation going forward: no new curation, no active partnerships, nothing further reachable through this base as a live link in the partner chain.
 
-`Successor Base ID` is a pointer only, set at the retiring steward's discretion — never automatic, never inherited. It carries no protocol effect. It does not transfer the retiring base's Collection Log, does not restore its former partners' handshakes, and does not confer verified status on the successor. Each former partner independently decides whether to form a new Partner Log handshake with the successor, the same way any two bases decide to partner — direct meeting or independent assessment of collection record, per Constraint 10. The successor base is a distinct base with its own keypair, built from zero, whether or not a predecessor pointed to it.
+Successor Base ID is a pointer only, set at the retiring steward's discretion. It has no protocol effect — the successor inherits no Collection Log, no partnerships, and no verified status. Each former partner independently decides whether to form a new Partner Log handshake with the successor, the same way any two bases decide to partner — direct meeting or independent assessment of collection record, per Constraint 10.
 
-Verified status is computed live from current curation, not stored. A base's own verified status depends on whether it currently holds at least one active Partner Log entry — retirement removes this, so a retired base is no longer verified. A node's verified status depends on whether it is currently curated by a base that is currently verified — if a node's only curating base retires, the node loses verified status the moment that base's partnerships go inactive, regardless of whether a successor is later named. Regaining verified status, for either a base or a node, requires a new active partnership or new curation by a currently-verified base — never inherited from a predecessor. Past witness signals on the node remain permanently valid regardless, per Constraint 8.
+Verified status is computed live from current curation, not stored. A base's own verified status depends on whether it currently holds at least one active Partner Log entry — retirement removes this, so a retired base is no longer verified. A node's verified status depends on whether it is currently curated by a base that is currently verified — if a node's only curating base retires, the node loses verified status the moment that base's partnerships go inactive, regardless of whether a successor is later named. Regaining verified status, for either a base or a node, requires a new active partnership or new curation by a currently-verified base.
 
 ---
 
@@ -470,9 +468,7 @@ The threshold applies to whatever verified bases exist at the time. The first ba
 
 ### Base Keypair Linkage
 
-The base keypair created at Initialize Base is not derived as a child key of the space keypair that triggered it. Ed25519 provides no publicly verifiable child-key derivation without exposing the parent's private key material, so a derived relationship could not be checked by another client without compromising the space keypair.
-
-The link is established by attestation instead: the space keypair signs a statement naming the base keypair as the one it initialized. Any client holding the statement and the space's public key can verify the link independently, without needing derivation. This closes the self-curation gap named in Constraint 10 — a base cannot count toward its own initialization threshold for nodes belonging to a space it is already attested to, and any client can check this directly rather than relying on a self-reported field.
+The base keypair created at Initialize Base is linked to the space keypair by attestation, not derivation — Ed25519 has no verifiable child-key derivation without exposing private material. The space keypair signs a statement naming the base keypair as the one it initialized. Any client holding the statement and the space's public key can verify the link independently, without needing derivation.
 
 This follows the same pattern as other second signatures in this schema — Steward Sig, partner co-signatures — carried inside the record it authorizes rather than tracked as a separate object.
 
