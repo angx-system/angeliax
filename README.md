@@ -45,7 +45,7 @@ any one transport. Hypercore is the current, concrete choice: an
 existing, working, append-only signed feed protocol with exactly the 
 properties ANGX needs.
 
-Interactive demos of the core mechanics — node registration and signal posting, the full walkthroughs, and angx-reader's matching — are in demos/. Standalone HTML, open directly in a browser.
+Interactive demos of the core mechanics — node registration and signal posting, the full walkthroughs, and angx-reader's matching — are in [demos/](https://github.com/angx-system/angeliax/tree/main/demos). Standalone HTML, open directly in a browser.
 
 ---
 
