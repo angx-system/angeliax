@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #0f0f0f;
+  --bg-panel:   #161616;
+  --bg-row:     #1a1a1a;
+  --bg-hover:   #202020;
+  --border:     #2a2a2a;
+  --border-mid: #333333;
+  --amber:      #c8922a;
+  --amber-dim:  #8a6420;
+  --text:       #d4d4d4;
+  --text-dim:   #888888;
+  --text-faint: #555555;
+  --green:      #4a7c59;
+  --red:        #7c4a4a;
+  --font:       'Courier New', Courier, monospace;
+  --font-size:  13px;
+  --line:       1.5;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  line-height: var(--line);
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* --- Utility --- */
+.hidden { display: none !important; }
+
+/* --- First Run Screen --- */
+.screen { width: 100%; min-height: 100vh; }
+
+.init-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 48px;
+  gap: 16px;
+}
+
+.init-title {
+  font-size: 28px;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.init-message {
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  background: transparent;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 6px 16px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+.btn-primary:hover { background: var(--amber); color: var(--bg); }
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-mid);
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 6px 16px;
+  cursor: pointer;
+}
+.btn-secondary:hover { border-color: var(--text-dim); color: var(--text); }
+
+.btn-back {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  cursor: pointer;
+  padding: 4px 0;
+}
+.btn-back:hover { color: var(--amber); }
+
+/* --- Tab Bar --- */
+.tab-bar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  gap: 0;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 12px 16px 10px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  margin-bottom: -1px;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+.tab-bar-right {
+  margin-left: auto;
+}
+
+.identity-display {
+  color: var(--text-faint);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+/* --- View Toggle --- */
+.view-toggle {
+  display: flex;
+  gap: 0;
+  padding: 12px 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.view-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 6px 14px 8px;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.view-btn:hover { color: var(--text); }
+.view-btn.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+/* --- View & Layout --- */
+.tab-content { width: 100%; }
+.view { padding: 24px; }
+
+.view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.view-title {
+  color: var(--text-dim);
+  font-size: var(--font-size);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* --- Node Table --- */
+.node-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size);
+}
+
+.node-table th {
+  text-align: left;
+  padding: 8px 12px;
+  color: var(--text-faint);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border);
+  font-weight: normal;
+}
+
+.node-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.node-table tbody tr:hover { background: var(--bg-hover); cursor: pointer; }
+
+.empty-row td {
+  color: var(--text-faint);
+  padding: 24px 12px;
+  cursor: default;
+}
+.empty-row:hover { background: transparent !important; }
+
+.node-id-cell {
+  color: var(--amber);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.node-type-cell { color: var(--text-dim); }
+
+.node-desc-cell {
+  color: var(--text);
+  max-width: 280px;
+}
+
+.node-location-cell { color: var(--text-dim); white-space: nowrap; }
+
+.node-signals-cell {
+  color: var(--text-dim);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* --- Node Meta --- */
+.node-meta {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.meta-headline {
+  font-size: 16px;
+  color: var(--amber);
+  margin-bottom: 12px;
+  letter-spacing: 0.03em;
+}
+
+.meta-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.meta-key {
+  color: var(--text-faint);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.meta-val { color: var(--text); word-break: break-all; }
+
+/* --- Log Sections --- */
+.log-section { margin-bottom: 28px; }
+
+.log-label {
+  color: var(--text-dim);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.log-entries { display: flex; flex-direction: column; gap: 6px; }
+
+.log-entry {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.log-entry-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.signal-type-tag {
+  color: var(--amber);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.signal-type-tag.failure { color: var(--red); filter: brightness(1.6); }
+.signal-type-tag.learning { color: #7ab3a0; }
+.signal-type-tag.retired { color: var(--text-faint); }
+.signal-type-tag.operational { color: var(--amber); }
+
+.witness-prefix {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+.log-entry-msg { color: var(--text); }
+
+.log-entry-ts {
+  color: var(--text-faint);
+  font-size: 11px;
+  margin-left: auto;
+}
+
+.log-entry-ref {
+  color: var(--text-faint);
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.log-empty {
+  color: var(--text-faint);
+  font-size: 12px;
+  padding: 12px 0;
+}
+
+.retired-notice {
+  color: var(--text-faint);
+  font-size: 12px;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+/* --- Overlays --- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.overlay-panel {
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border-mid);
+  width: 420px;
+  min-height: 100vh;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+}
+
+.overlay-title {
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+}
+
+.overlay-subtitle {
+  color: var(--text-dim);
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.overlay-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* --- Forms --- */
+.form-row { margin-bottom: 16px; }
+
+.form-label {
+  display: block;
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.field-note {
+  color: var(--text-faint);
+  font-size: 10px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.required { color: var(--amber); }
+
+.text-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 7px 10px;
+  outline: none;
+}
+.text-input:focus { border-color: var(--amber-dim); }
+
+.select-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 7px 10px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+.select-input:focus { border-color: var(--amber-dim); }
+
+.signal-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 7px 10px;
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+}
+.signal-textarea:focus { border-color: var(--amber-dim); }
+
+.char-counter {
+  text-align: right;
+  color: var(--text-faint);
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.form-error {
+  color: #c87a7a;
+  font-size: 11px;
+  margin-top: 10px;
+  min-height: 16px;
+}
+
+/* --- Node View --- */
+.stage1-note {
+  color: var(--text-faint);
+  font-size: 11px;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.nodeview-search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.nodeview-search .text-input { flex: 1; }
+
+.nodeview-import {
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 24px;
+  background: var(--bg-panel);
+}
+
+.import-label {
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.import-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 11px;
+  padding: 8px 10px;
+  outline: none;
+  resize: vertical;
+  min-height: 60px;
+  margin-bottom: 10px;
+}
+.import-textarea:focus { border-color: var(--amber-dim); }
+
+.import-msg {
+  color: #7ab3a0;
+  font-size: 11px;
+  margin-left: 10px;
+}
+.import-msg.error { color: #c87a7a; }
+
+.nodeview-result { margin-top: 8px; }
+
+.witness-form-section {
+  border: 1px solid var(--border);
+  padding: 16px;
+  background: var(--bg-panel);
+  margin-top: 8px;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-mid); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+/* --- IPFS --- */
+.file-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border-mid);
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.ipfs-status {
+  font-size: 11px;
+  margin-top: 6px;
+  min-height: 16px;
+  color: var(--text-faint);
+}
+
+.ipfs-status.ready { color: #7ab3a0; }
+.ipfs-status.error { color: #c87a7a; }
+.ipfs-status.loading { color: var(--amber-dim); }
+
+.ipfs-link-display {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.ipfs-link-display a {
+  color: #7ab3a0;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.ipfs-link-display a:hover { text-decoration: underline; }
+
+.daemon-status {
+  font-size: 11px;
+  padding: 6px 12px;
+  margin: 0 24px 0;
+  border: 1px solid var(--border);
+}
+
+.daemon-status.online { color: #7ab3a0; border-color: #7ab3a0; }
+.daemon-status.offline { color: var(--text-faint); border-color: var(--border); }
+
+/* --- Stage 3: Signatures --- */
+.sig-badge {
+  font-size: 11px;
+  margin-right: 2px;
+}
+
+.sig-badge.valid { color: var(--amber); }
+.sig-badge.unsigned { color: var(--text-faint); }
+.sig-badge.invalid { color: #c87a7a; }
+
+.sig-invalid {
+  color: #c87a7a;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.identity-copy-btn {
+  font-size: 10px;
+  padding: 3px 8px;
+  margin-left: 8px;
+  opacity: 0.5;
+}
+.identity-copy-btn:hover { opacity: 1; }
+
+/* --- Stage 4: Export / Import --- */
+.import-file-input {
+  display: none;
+}
+
+.import-file-label {
+  display: inline-block;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--border-mid);
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: var(--font-size);
+  padding: 6px 16px;
+}
+.import-file-label:hover { border-color: var(--text-dim); color: var(--text); }
+
+.imported-nodes-section {
+  margin-bottom: 24px;
+}
+
+/* --- Relay Status Bar --- */
+.relay-status {
+  font-size: 11px;
+  padding: 6px 12px;
+  margin: 4px 24px 0;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.relay-status.connected {
+  color: #7ab3a0;
+  border-color: #7ab3a0;
+}
+
+.relay-status.disconnected {
+  color: var(--text-faint);
+  border-color: var(--border);
+}
+
+.relay-status:hover {
+  border-color: var(--amber-dim);
+  color: var(--amber);
+}
+
+.relay-status.pending {
+  color: var(--amber-dim);
+  border-color: var(--amber-dim);
+}
+
+</style>
+<style>
+  /* Minimal additions — same visual language as style.css, no new colors */
+  .screen { border-bottom: 4px solid #000; }
+  .screen-tag { position:absolute; top:0; right:0; background:#000; color:var(--text-faint);
+    font-size:10px; padding:3px 8px; letter-spacing:0.08em; text-transform:uppercase; z-index:10; }
+  .init-option { border:1px solid var(--border-mid); padding:14px 16px; margin-bottom:10px; max-width:420px; cursor:pointer; }
+  .init-option.selected { border-color:var(--amber-dim); background:rgba(200,146,42,0.06); }
+  .init-option-label { color:var(--amber); margin-bottom:4px; }
+  .init-option-desc { color:var(--text-dim); font-size:12px; line-height:1.5; }
+  .identity-block { background:var(--bg-panel); border:1px solid var(--border); padding:16px 20px; margin-bottom:24px; }
+  .identity-name { font-size:16px; color:var(--amber); margin-bottom:12px; letter-spacing:0.03em; }
+  .lib-address-row { margin-top:16px; padding-top:16px; border-top:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+  .lib-address-label { color:var(--text-dim); font-size:11px; }
+  .lib-address-val { color:var(--text-faint); font-size:11px; word-break:break-all; }
+  .verified-badge { font-size:10px; padding:1px 6px; border:1px solid; margin-left:6px; letter-spacing:0.03em; }
+  .verified-badge.v { color:var(--green); border-color:var(--green); }
+  .verified-badge.u { color:var(--text-faint); border-color:var(--border-mid); }
+  .observe-input-row { display:flex; gap:10px; margin-bottom:24px; }
+  .observe-input-row .text-input { flex:1; }
+  .partner-row { display:flex; align-items:center; gap:14px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; }
+  .partner-name { color:var(--amber); min-width:120px; }
+  .partner-key { color:var(--text-faint); flex:1; }
+  .partner-date { color:var(--text-dim); }
+  .wsig-cell { color:var(--text-faint); font-size:11px; }
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 — CLIENT TYPE DECLARATION (finalized schema wording) -->
+<div class="screen" style="position:relative;">
+  <div class="screen-tag">01 · client type declaration</div>
+  <div class="init-container">
+    <div class="init-title">ANGX</div>
+    <div class="init-message" style="max-width:460px; margin-bottom:20px;">Does this work or provision stay in one place, or does it move with you?</div>
+    <div class="init-option selected">
+      <div class="init-option-label">[ It stays in one place ]</div>
+      <div class="init-option-desc">A hostel, clinic, farm, lab, workshop, seedbank, household, or any other fixed location.</div>
+    </div>
+    <div class="init-option">
+      <div class="init-option-label">[ It moves with me ]</div>
+      <div class="init-option-desc">A practice, research, or project that moves with the steward.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 2 — LIBRARY -->
+<div class="screen" style="position:relative;">
+  <div class="screen-tag">02 · library</div>
+  <div class="tab-bar">
+    <button class="tab-btn">[Operational]</button>
+    <button class="tab-btn">[Commons]</button>
+    <button class="tab-btn active">[Library]</button>
+    <button class="tab-btn">[Observe]</button>
+    <button class="tab-btn">[Base]</button>
+    <div class="tab-bar-right">
+      <span class="identity-display">d9d6d9b2...</span>
+      <button class="btn-secondary identity-copy-btn">pubkey</button>
+    </div>
+  </div>
+  <div class="relay-status connected" style="margin:8px 24px 0;">relay: connected — nairobi · library published</div>
+  <div class="view">
+    <div class="view-header"><span class="view-title">Own Nodes</span></div>
+    <table class="node-table">
+      <thead><tr><th>NODE</th><th>TYPE</th><th>DESCRIPTION</th><th>LOCATION</th><th>SIGNALS</th></tr></thead>
+      <tbody>
+        <tr><td class="node-id-cell">c2febbb7</td><td class="node-type-cell">water</td>
+          <td class="node-desc-cell">Developing low-cost ceramic water filter for high-sediment river water.</td>
+          <td class="node-location-cell">Nairobi, Kenya</td><td class="node-signals-cell">6</td></tr>
+        <tr><td class="node-id-cell">288381fb</td><td class="node-type-cell">informational</td>
+          <td class="node-desc-cell">Free water filtration consultation. Two hours weekly. Wednesdays 2-4PM.</td>
+          <td class="node-location-cell">Mathare, Nairobi</td><td class="node-signals-cell">3</td></tr>
+        <tr><td class="node-id-cell">25b76881</td><td class="node-type-cell">food</td>
+          <td class="node-desc-cell">Surplus vegetables from rooftop garden. Fridays after 5PM. Gate on Mwangi Street.</td>
+          <td class="node-location-cell">Mathare, Nairobi</td><td class="node-signals-cell">2</td></tr>
+      </tbody>
+    </table>
+    <div class="view-header" style="margin-top:28px;"><span class="view-title">Replicated Nodes</span></div>
+    <table class="node-table">
+      <thead><tr><th>NODE</th><th>TYPE</th><th>DESCRIPTION</th><th>LOCATION</th><th>SIGNALS</th></tr></thead>
+      <tbody>
+        <tr><td class="node-id-cell">f9fb6fa3</td><td class="node-type-cell">water</td>
+          <td class="node-desc-cell">Rainwater harvesting system for household use in Kampala informal settlements.</td>
+          <td class="node-location-cell">Kampala, Uganda</td><td class="node-signals-cell">4</td></tr>
+        <tr><td class="node-id-cell">a1c704d2</td><td class="node-type-cell">energy</td>
+          <td class="node-desc-cell">Low-cost solar dryer for post-harvest grain. Testing across three farm sites.</td>
+          <td class="node-location-cell">Kitale, Kenya</td><td class="node-signals-cell">7</td></tr>
+      </tbody>
+    </table>
+    <div class="lib-address-row">
+      <span class="lib-address-label">LIBRARY ADDRESS</span>
+      <span class="lib-address-val">d9d6d9b2e6f1047a3f92c1d8b047e6f2a19d3c5b8e1f047a3f92c1d8b047e6f</span>
+      <button class="btn-secondary">copy</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 3 — OBSERVE (Replicate / Add to Base) -->
+<div class="screen" style="position:relative;">
+  <div class="screen-tag">03 · observe</div>
+  <div class="tab-bar">
+    <button class="tab-btn">[Operational]</button>
+    <button class="tab-btn">[Commons]</button>
+    <button class="tab-btn">[Library]</button>
+    <button class="tab-btn active">[Observe]</button>
+    <button class="tab-btn">[Base]</button>
+    <div class="tab-bar-right">
+      <span class="identity-display">d9d6d9b2...</span>
+      <button class="btn-secondary identity-copy-btn">pubkey</button>
+    </div>
+  </div>
+  <div class="relay-status connected" style="margin:8px 24px 0;">relay: connected — nairobi</div>
+  <div class="view">
+    <div class="observe-input-row">
+      <input class="text-input" value="f9fb6fa3b047e6f2a19d3c5b8e1f047a3f92c1d8b047e6f2a19d3c5b8e1f049" readonly>
+      <button class="btn-primary">connect</button>
+    </div>
+    <div class="node-meta">
+      <div class="meta-headline">f9fb6fa3 · water · Kampala, Uganda <span class="verified-badge v">verified</span></div>
+      <div class="meta-row"><span class="meta-key">Description</span><span class="meta-val">Rainwater harvesting system for household use in Kampala informal settlements.</span></div>
+      <div class="meta-row"><span class="meta-key">Contact</span><span class="meta-val">Signal: david.harvest</span></div>
+      <div class="meta-row"><span class="meta-key">Node ID</span><span class="meta-val" style="font-size:10px;color:var(--text-faint)">f9fb6fa3b047e6f2a19d3c5b8e1f047a3f92c1d8b047e6f2a19d3c5b8e1f049</span></div>
+    </div>
+    <div class="log-section">
+      <div class="log-label">Steward Log:</div>
+      <div class="log-entries">
+        <div class="log-entry"><div class="log-entry-header"><span class="signal-type-tag learning">[learning]</span><span class="log-entry-ts">2026-04-28</span></div>
+          <div class="log-entry-msg">Corrugated iron catchment area increases yield 30% vs tile. Method documented and attached.</div></div>
+      </div>
+    </div>
+    <div class="log-section">
+      <div class="log-label">Witness Log:</div>
+      <div class="log-entries">
+        <div class="log-entry"><div class="log-entry-header"><span class="witness-prefix">[3d8a9c1e]</span><span class="signal-type-tag learning">[learning]</span></div>
+          <div class="log-entry-msg">Corrugated iron method replicated at Kampala site. Yield consistent with claim.</div>
+          <div class="log-entry-ref">ref: learning signal above</div></div>
+      </div>
+    </div>
+    <div class="overlay-actions" style="margin-top:20px;">
+      <button class="btn-secondary">Replicate</button>
+      <button class="btn-primary">Add to Base</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 4 — BASE -->
+<div class="screen" style="position:relative;">
+  <div class="screen-tag">04 · base</div>
+  <div class="tab-bar">
+    <button class="tab-btn">[Operational]</button>
+    <button class="tab-btn">[Commons]</button>
+    <button class="tab-btn">[Library]</button>
+    <button class="tab-btn">[Observe]</button>
+    <button class="tab-btn active">[Base]</button>
+    <div class="tab-bar-right">
+      <span class="identity-display">a3f92c1d...</span>
+      <button class="btn-secondary identity-copy-btn">pubkey</button>
+    </div>
+  </div>
+  <div class="relay-status connected" style="margin:8px 24px 0;">base: active — nairobi</div>
+  <div class="view">
+    <div class="view-header"><span class="view-title">Identity</span></div>
+    <div class="identity-block">
+      <div class="identity-name">nairobi</div>
+      <div class="meta-row"><span class="meta-key">Description</span><span class="meta-val">Colive and cowork space for builders in East Africa.</span></div>
+      <div class="meta-row"><span class="meta-key">Location</span><span class="meta-val">Nairobi, Kenya</span></div>
+      <div class="meta-row"><span class="meta-key">Contact</span><span class="meta-val">origin.nairobi</span></div>
+      <div class="meta-row"><span class="meta-key">Public Key</span><span class="meta-val" style="font-size:10px;color:var(--text-faint)">a3f92c1d8b047e6f2a19d3c5b8e1f047a3f92c1d8b047e6f2a19d3c5b8e1f04</span></div>
+      <div class="meta-row"><span class="meta-key">Initialised</span><span class="meta-val">2026-04-01 09:00</span></div>
+    </div>
+
+    <div class="view-header"><span class="view-title">Collection</span></div>
+    <table class="node-table">
+      <thead><tr><th>NODE</th><th>TYPE</th><th>DESCRIPTION</th><th>WITNESS SIG</th><th>CURATION</th><th>ADDED</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="node-id-cell">c2febbb7</td><td class="node-type-cell">water</td>
+          <td class="node-desc-cell">Developing low-cost ceramic water filter for high-sediment river water.</td>
+          <td class="wsig-cell">7a2c4f...</td><td class="node-type-cell">open</td>
+          <td class="node-location-cell">2026-04-14</td><td><button class="btn-secondary">remove</button></td></tr>
+        <tr><td class="node-id-cell">288381fb</td><td class="node-type-cell">informational</td>
+          <td class="node-desc-cell">Free water filtration consultation. Two hours weekly. Wednesdays 2-4PM.</td>
+          <td class="wsig-cell">9e1b0d...</td><td class="node-type-cell">open</td>
+          <td class="node-location-cell">2026-04-14</td><td><button class="btn-secondary">remove</button></td></tr>
+        <tr><td class="node-id-cell">f9fb6fa3</td><td class="node-type-cell">water</td>
+          <td class="node-desc-cell">Rainwater harvesting system for household use in Kampala informal settlements.</td>
+          <td class="wsig-cell">3d8a9c...</td><td class="node-type-cell">open</td>
+          <td class="node-location-cell">2026-04-15</td><td><button class="btn-secondary">remove</button></td></tr>
+        <tr><td class="node-id-cell">8b3ca901</td><td class="node-type-cell">shelter</td>
+          <td class="node-desc-cell">Free one-week stay for two builders with active operational log. Contact via Signal.</td>
+          <td class="wsig-cell">c4f7e2...</td><td class="node-type-cell">consent-required</td>
+          <td class="node-location-cell">2026-04-01</td><td><button class="btn-secondary">remove</button></td></tr>
+      </tbody>
+    </table>
+
+    <div class="view-header" style="margin-top:28px;">
+      <span class="view-title">Partners</span>
+      <button class="btn-primary">+ Add Partner</button>
+    </div>
+    <div class="partner-row">
+      <span class="partner-name">java-farm <span class="verified-badge v">verified</span></span>
+      <span class="partner-key">7e4a1bc903a7e4a1bc903a7e4a1bc903a7e4a1bc903a7e4a1bc903a7e4a1bc9</span>
+      <span class="partner-date">reviewed: 2 entries · 2026-05-01</span>
+    </div>
+    <div class="partner-row">
+      <span class="partner-name">kampala-clinic <span class="verified-badge v">verified</span></span>
+      <span class="partner-key">b2f71daa14b2f71daa14b2f71daa14b2f71daa14b2f71daa14b2f71daa14b2f</span>
+      <span class="partner-date">reviewed: 3 entries · 2026-05-07</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
