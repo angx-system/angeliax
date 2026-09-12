@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGX — Matching (angx-reader)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --amber:#e2a63c;
+    --text:#e5e5e5;
+    --dim:#6b6b6b;
+    --faint:#3a3a3a;
+    --border:#1c1c1c;
+    --red:#c9776a;
+    --teal:#6bb3c9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono', Menlo, Consolas, monospace;
+    font-size:14px;
+    line-height:1.6;
+  }
+  .wrap{ max-width:940px; margin:0 auto; padding:56px 24px 60px; }
+
+  .topline{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  h1{ font-size:16px; font-weight:500; color:var(--amber); margin:0; }
+  .counter{ color:var(--faint); font-size:12px; }
+  .chapter{ color:var(--dim); font-size:12px; margin-bottom:44px; }
+
+  .stage{ display:flex; gap:48px; min-height:380px; }
+  .narration{ flex:0 0 250px; padding-top:6px; }
+  .narration p{ margin:0 0 14px; color:var(--text); }
+
+  .panel{ flex:1; border:1px solid var(--border); padding:22px 24px; min-width:0; }
+
+  .node-card + .node-card{ margin-top:22px; }
+  .node-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  .node-id{ color:var(--dim); font-size:12px; }
+  .node-type{ color:var(--amber); }
+  .node-desc{ margin:4px 0 2px; }
+  .node-gloss{ color:var(--faint); font-size:12px; font-style:italic; margin:2px 0 2px; }
+  .node-meta{ color:var(--dim); font-size:12px; }
+  .curation-tag{ color:var(--faint); font-size:11px; margin-left:10px; }
+  .registered{ color:var(--faint); font-size:11px; margin-top:4px; }
+
+  .log-label{ color:var(--faint); font-size:11px; margin:16px 0 4px; }
+  .signal{ padding:9px 0; border-top:1px solid var(--border); border-left:2px solid transparent; padding-left:10px; margin-left:-10px; }
+  .signal:first-child{ border-top:none; }
+  .signal-top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .signal-type{ font-size:12px; }
+  .signal-type.operational{ color:var(--amber); }
+  .signal-type.failure{ color:var(--red); }
+  .signal-type.learning{ color:var(--teal); }
+  .signal-date{ color:var(--faint); font-size:11px; }
+  .signal-msg{ font-size:13px; margin-top:2px; }
+  .signal-gloss{ font-size:12px; color:var(--faint); font-style:italic; margin-top:2px; }
+  .signal-doc{ font-size:11px; color:var(--faint); margin-top:3px; }
+  .signal-doc span{ color:var(--teal); }
+  .signal-id{ color:var(--faint); font-size:11px; margin-top:3px; }
+  .witness{ border-left-color:var(--faint); }
+  .witness-tag{ color:var(--faint); font-size:11px; }
+
+  .query-label{ color:var(--dim); font-size:12px; margin-bottom:12px; }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .chip{ border:1px solid var(--border); color:var(--dim); font-size:11px; padding:3px 8px; }
+  .empty-result{ color:var(--faint); font-size:13px; padding:18px 0; border-top:1px solid var(--border); }
+
+  .scatter-caption{ color:var(--faint); font-size:11px; margin-top:10px; }
+  .legend{ display:flex; gap:16px; margin-top:8px; font-size:11px; color:var(--faint); }
+  .legend span{ display:inline-flex; align-items:center; gap:5px; }
+  .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dot.failure{ background:var(--red); }
+  .dot.learning{ background:var(--teal); }
+  .dot.query{ background:var(--red); border:2px solid #fff; }
+
+  .rank-list{ margin-top:6px; }
+  .rank-item{ padding:12px 0; border-top:1px solid var(--border); }
+  .rank-item:first-child{ border-top:none; }
+  .rank-top{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
+  .rank-name{ color:var(--text); }
+  .rank-score{ color:var(--teal); font-size:12px; }
+  .rank-bar{ height:3px; background:var(--border); }
+  .rank-fill{ height:3px; background:var(--teal); }
+  .rank-excluded{ opacity:0.4; }
+  .rank-excluded .rank-score{ color:var(--faint); }
+  .rank-excluded .rank-fill{ background:var(--faint); }
+  .rank-note{ color:var(--faint); font-size:11px; margin-top:4px; }
+
+  .base-block{ margin-bottom:22px; }
+  .base-name{ color:var(--amber); font-size:15px; margin-bottom:2px; }
+  .base-key{ color:var(--faint); font-size:11px; margin-bottom:6px; }
+  .base-meta{ color:var(--dim); font-size:12px; }
+  .section-label{ color:var(--faint); font-size:11px; margin:18px 0 6px; }
+
+  .closing p{ margin:0 0 14px; }
+
+  .navrow{ display:flex; justify-content:space-between; align-items:center; margin-top:44px; padding-top:20px; border-top:1px solid var(--border); }
+  .navbtn{ background:none; border:none; cursor:pointer; color:var(--dim); font-family:inherit; font-size:13px; }
+  .navbtn:hover:not(:disabled){ color:var(--amber); }
+  .navbtn:disabled{ color:var(--faint); cursor:default; }
+  .dots{ display:flex; gap:5px; }
+  .dot-nav{ width:5px; height:5px; border-radius:50%; background:var(--faint); }
+  .dot-nav.active{ background:var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topline">
+    <h1>ANGX — Matching (angx-reader)</h1>
+    <div class="counter" id="counter"></div>
+  </div>
+  <div class="chapter" id="chapter"></div>
+
+  <div class="stage">
+    <div class="narration" id="narration"></div>
+    <div id="panelWrap" style="flex:1; min-width:0;"></div>
+  </div>
+
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn" onclick="go(-1)">&larr; back</button>
+    <div class="dots" id="dots"></div>
+    <button class="navbtn" id="nextBtn" onclick="go(1)">next &rarr;</button>
+  </div>
+</div>
+
+<script>
+/* ---------- entity IDs ---------- */
+const ID = {
+  limaBank: 'a4e08c71',
+  podlasieFarm: '2f6d91ae',
+  cassavaCoop: 'e7b3f04d',
+  irrigationNode: '90ac5d18',
+  punoBaseKey: 'c1d84f7e'
+};
+
+/* ---------- helpers ---------- */
+function sig(type, msg, id, ts, doc, gloss){
+  const docHtml = doc ? `<div class="signal-doc">documentation → <span>${doc}</span></div>` : '';
+  const glossHtml = gloss ? `<div class="signal-gloss">${gloss}</div>` : '';
+  return `<div class="signal ${type}">
+    <div class="signal-top"><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    ${glossHtml}
+    ${docHtml}
+    <div class="signal-id">id: ${id}</div>
+  </div>`;
+}
+function witnessSig(type, msg, from, ts, ref, gloss){
+  const glossHtml = gloss ? `<div class="signal-gloss">${gloss}</div>` : '';
+  return `<div class="signal witness">
+    <div class="signal-top"><span class="witness-tag">witness · ${from}</span><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    ${glossHtml}
+    <div class="signal-id">ref: ${ref}</div>
+  </div>`;
+}
+function nodeCard(id, type, desc, loc, curation, registered, gloss){
+  const cur = curation ? `<span class="curation-tag">${curation}</span>` : '';
+  const reg = registered ? `<div class="registered">registered ${registered}</div>` : '';
+  const glossHtml = gloss ? `<div class="node-gloss">${gloss}</div>` : '';
+  return `<div class="node-card">
+    <div class="node-head"><span class="node-id">${id}</span><span class="node-type">${type}</span>${cur}</div>
+    <div class="node-desc">${desc}</div>
+    ${glossHtml}
+    <div class="node-meta">${loc}</div>
+    ${reg}`;
+}
+function endCard(){ return `</div>`; }
+
+/* background texture points for the full vector-space scatter — decorative,
+   representing the rest of the network's failure/learning signals */
+const BG_POINTS = [
+  [60,40,'failure'],[110,70,'learning'],[300,50,'failure'],[360,90,'learning'],
+  [430,140,'failure'],[400,230,'learning'],[350,270,'failure'],[280,290,'learning'],
+  [90,260,'failure'],[50,190,'learning'],[220,40,'failure'],[460,200,'learning'],
+  [30,120,'failure'],[240,300,'learning']
+];
+function bgDots(){
+  return BG_POINTS.map(([x,y,t]) =>
+    `<circle cx="${x}" cy="${y}" r="4" fill="${t==='failure' ? 'var(--red)' : 'var(--teal)'}" opacity="0.25"/>`
+  ).join('');
+}
+
+/* ---------- slides ---------- */
+const SLIDES = [
+
+/* ===== Chapter 1 — The limit of manual query ===== */
+{
+  chapter: "Part 1 — A failure with nothing to search for",
+  narration: ["A food bank in Lima logs a failure signal."],
+  panel: nodeCard(ID.limaBank, "food", "Almacenamiento y distribución de alimentos para refugios locales.", "Lima, Perú", "open", "2025-11-02", "Food storage and distribution for local shelters.")
+    + `<div class="log-label">Steward log</div>`
+    + sig("failure", "50kg de arroz dañado esta semana. Humedad de almacenamiento demasiado alta, sin método de deshumidificación.", "6c19ae43", "2026-06-01 09:20", null,
+        "50kg rice spoiled this week. Storage humidity too high, no dehumidifying method in place.")
+    + endCard()
+},
+{
+  chapter: "Part 1 — A failure with nothing to search for",
+  narration: ["The steward tries a plain query — the same mechanism WT1 and WT2 both used successfully.",
+    "This time it returns nothing. The fix exists in the network. It just doesn't use any of these words."],
+  panel: `<div class="query-label">manual query — filtered by type · signal type · text</div>
+  <div class="chips"><span class="chip">type: food</span><span class="chip">signal: learning</span><span class="chip">text: "arroz" / "rice" / "humidity"</span></div>
+  <div class="empty-result">No results.</div>`
+},
+
+/* ===== Chapter 2 — What's already running ===== */
+{
+  chapter: "Part 2 — What's already running",
+  narration: ["angx-reader doesn't wait to be asked. It runs quietly on every base, embedding every failure and learning signal the moment it's replicated — regardless of language.",
+    "Only failure and learning signals are vectorized. Operational and retired signals have no meaningful pairing, so reader ignores them entirely."],
+  panel: `<svg viewBox="0 0 480 320" style="width:100%; height:auto;">
+    ${bgDots()}
+    <circle cx="185" cy="150" r="6" fill="var(--teal)"/>
+    <circle cx="260" cy="210" r="6" fill="var(--teal)"/>
+    <circle cx="150" cy="170" r="9" fill="var(--red)" stroke="#fff" stroke-width="2"/>
+  </svg>
+  <div class="legend">
+    <span><span class="dot query"></span>Lima's failure (just logged)</span>
+    <span><span class="dot learning"></span>learning signals</span>
+    <span><span class="dot failure"></span>other failure signals</span>
+  </div>
+  <div class="scatter-caption">Position is semantic proximity, not geography or arrival time.</div>`
+},
+
+/* ===== Chapter 3 — The match surfaces ===== */
+{
+  chapter: "Part 3 — The match surfaces",
+  narration: ["Zoomed to Lima's neighborhood in the vector space: two learning signals sit close enough to matter, and one failure sits far enough to ignore.",
+    "The result is always a ranked list, never a single best answer."],
+  panel: `<svg viewBox="0 0 480 200" style="width:100%; height:auto; margin-bottom:18px;">
+    <circle cx="150" cy="100" r="9" fill="var(--red)" stroke="#fff" stroke-width="2"/>
+    <circle cx="195" cy="80" r="6" fill="var(--teal)"/>
+    <circle cx="260" cy="140" r="6" fill="var(--teal)"/>
+    <circle cx="430" cy="40" r="6" fill="var(--red)" opacity="0.4"/>
+    <line x1="150" y1="100" x2="195" y2="80" stroke="var(--teal)" stroke-width="1" opacity="0.5"/>
+    <line x1="150" y1="100" x2="260" y2="140" stroke="var(--teal)" stroke-width="1" opacity="0.3"/>
+  </svg>
+  <div class="rank-list">
+    <div class="rank-item">
+      <div class="rank-top"><span class="rank-name">${ID.podlasieFarm} — grain storage, Podlasie, Poland</span><span class="rank-score">91%</span></div>
+      <div class="rank-bar"><div class="rank-fill" style="width:91%;"></div></div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-top"><span class="rank-name">${ID.cassavaCoop} — cassava flour storage, coastal co-op</span><span class="rank-score">73%</span></div>
+      <div class="rank-bar"><div class="rank-fill" style="width:73%;"></div></div>
+    </div>
+    <div class="rank-item rank-excluded">
+      <div class="rank-top"><span class="rank-name">${ID.irrigationNode} — irrigation pump failure</span><span class="rank-score">8%</span></div>
+      <div class="rank-bar"><div class="rank-fill" style="width:8%;"></div></div>
+      <div class="rank-note">below relevance threshold — not returned to the steward</div>
+    </div>
+  </div>`
+},
+{
+  chapter: "Part 3 — The match surfaces",
+  narration: ["The top result — logged eight months earlier, in English, by a farm that has never heard of the food bank in Lima."],
+  panel: nodeCard(ID.podlasieFarm, "food", "Grain storage infrastructure for a regional cooperative.", "Podlasie region, Poland", "open", "2024-09-15")
+    + `<div class="log-label">Steward log</div>`
+    + sig("learning", "Grain storage humidity controlled with silica gel trays and passive vents. Moisture held under threshold across two harvests.", "3ab7f902", "2025-10-01 07:45", "hyper://2f6d91ae…/humidity-fix.pdf")
+    + endCard()
+},
+
+/* ===== Chapter 4 — How a steward actually sees this ===== */
+{
+  chapter: "Part 4 — How this actually reaches her",
+  narration: ["Puno-base — a different operator, holds her node — already has matches computed for it. She queries it directly.",
+    "This is angx-reader's primary path: a lookup against an index puno-base keeps continuously current, not a search run on demand."],
+  panel: `<div class="query-label">base-hosted match lookup — by Node ID, against a precomputed index</div>
+  <div class="chips"><span class="chip">base: puno-base ${ID.punoBaseKey}…</span><span class="chip">node: ${ID.limaBank}</span></div>
+  <div class="rank-list">
+    <div class="rank-item">
+      <div class="rank-top"><span class="rank-name">${ID.podlasieFarm} — grain storage, Podlasie, Poland</span><span class="rank-score">91%</span></div>
+      <div class="rank-bar"><div class="rank-fill" style="width:91%;"></div></div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-top"><span class="rank-name">${ID.cassavaCoop} — cassava flour storage, coastal co-op</span><span class="rank-score">73%</span></div>
+      <div class="rank-bar"><div class="rank-fill" style="width:73%;"></div></div>
+    </div>
+  </div>`
+},
+
+/* ===== Chapter 5 — Closing the loop ===== */
+{
+  chapter: "Part 5 — Closing the loop",
+  narration: ["The steward fetches the attachment, reads it, tries the method.",
+    "It works. They log their own outcome — crediting the method, not claiming it — the same pattern WT1 and WT2 both end on."],
+  panel: nodeCard(ID.limaBank, "food", "Almacenamiento y distribución de alimentos para refugios locales.", "Lima, Perú", "open", "2025-11-02", "Food storage and distribution for local shelters.")
+    + `<div class="log-label">Steward log</div>`
+    + sig("failure", "50kg de arroz dañado esta semana. Humedad de almacenamiento demasiado alta, sin método de deshumidificación.", "6c19ae43", "2026-06-01 09:20", null,
+        "50kg rice spoiled this week. Storage humidity too high, no dehumidifying method in place.")
+    + sig("learning", "Bandejas de gel de sílice y respiraderos pasivos adaptados del método de Podlasie. El deterioro se detuvo tras una semana.", "d81ef625", "2026-06-20 10:00", null,
+        "Silica gel trays and passive vents adapted from Podlasie method. Spoilage stopped after one week.")
+    + endCard()
+},
+{
+  chapter: "Part 5 — Closing the loop",
+  narration: ["The steward posts a witness signal back on the original — the match, once acted on, becomes one more confirmation for the next steward who finds it."],
+  panel: nodeCard(ID.podlasieFarm, "food", "Grain storage infrastructure for a regional cooperative.", "Podlasie region, Poland", "open", "2024-09-15")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("learning", "Replicado en Lima. Clima distinto, cultivo distinto — el control de humedad funcionó igual.", ID.limaBank, "2026-06-20 10:05", "3ab7f902",
+        "Replicated in Lima. Different climate, different crop — humidity control held regardless.")
+    + endCard()
+},
+
+/* ===== Closing ===== */
+{
+  chapter: "What remained",
+  narration: [],
+  panel: `<div class="closing">
+    <p>Nothing here was requested. Nothing was matched to a need. A failure, written in Spanish, met a method that already existed — logged eight months earlier, in English, by someone who never knew Lima had this problem.</p>
+    <p>WT1 and WT2 both showed a steward finding an answer because they knew what to search for. This is what happens when they don't — the network finds it anyway, running quietly, whether or not anyone ever asks.</p>
+  </div>`
+},
+];
+
+/* ---------- render engine ---------- */
+let idx = 0;
+
+function render(){
+  const s = SLIDES[idx];
+  document.getElementById('chapter').textContent = s.chapter;
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + SLIDES.length;
+  document.getElementById('narration').innerHTML = s.narration.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('panelWrap').innerHTML = `<div class="panel">${s.panel}</div>`;
+
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').textContent = (idx === SLIDES.length - 1) ? 'end' : 'next →';
+  document.getElementById('nextBtn').disabled = (idx === SLIDES.length - 1);
+
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = SLIDES.map((_, i) => `<div class="dot-nav${i===idx?' active':''}"></div>`).join('');
+}
+
+function go(delta){
+  const next = idx + delta;
+  if (next < 0 || next >= SLIDES.length) return;
+  idx = next;
+  render();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+render();
+</script>
+</body>
+</html>

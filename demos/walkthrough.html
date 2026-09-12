@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGX — Walkthrough 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --amber:#e2a63c;
+    --text:#e5e5e5;
+    --dim:#6b6b6b;
+    --faint:#3a3a3a;
+    --border:#1c1c1c;
+    --red:#c9776a;
+    --teal:#6bb3c9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono', Menlo, Consolas, monospace;
+    font-size:14px;
+    line-height:1.6;
+  }
+  .wrap{ max-width:940px; margin:0 auto; padding:56px 24px 60px; }
+
+  .topline{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  h1{ font-size:16px; font-weight:500; color:var(--amber); margin:0; }
+  .counter{ color:var(--faint); font-size:12px; }
+  .chapter{ color:var(--dim); font-size:12px; margin-bottom:44px; }
+
+  .stage{ display:flex; gap:48px; min-height:380px; }
+  .narration{ flex:0 0 250px; padding-top:6px; }
+  .narration p{ margin:0 0 14px; color:var(--text); }
+
+  .panel{ flex:1; border:1px solid var(--border); padding:22px 24px; min-width:0; }
+  .panel.split{ display:flex; gap:20px; border:none; padding:0; }
+  .panel.split .node-card{ flex:1; border:1px solid var(--border); padding:20px 22px; }
+
+  .node-card + .node-card{ margin-top:22px; }
+  .node-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  .node-id{ color:var(--dim); font-size:12px; }
+  .node-type{ color:var(--amber); }
+  .node-desc{ margin:4px 0 2px; }
+  .node-meta{ color:var(--dim); font-size:12px; }
+  .curation-tag{ color:var(--faint); font-size:11px; margin-left:10px; }
+  .built-from{ color:var(--faint); font-size:11px; margin-top:6px; }
+  .built-from span{ color:var(--teal); }
+  .registered{ color:var(--faint); font-size:11px; margin-top:4px; }
+
+  .log-label{ color:var(--faint); font-size:11px; margin:16px 0 4px; }
+  .signal{ padding:9px 0; border-top:1px solid var(--border); border-left:2px solid transparent; padding-left:10px; margin-left:-10px; }
+  .signal:first-child{ border-top:none; }
+  .signal-top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .signal-type{ font-size:12px; }
+  .signal-type.operational{ color:var(--amber); }
+  .signal-type.failure{ color:var(--red); }
+  .signal-type.learning{ color:var(--teal); }
+  .signal-date{ color:var(--faint); font-size:11px; }
+  .signal-msg{ font-size:13px; margin-top:2px; }
+  .signal-doc{ font-size:11px; color:var(--faint); margin-top:3px; }
+  .signal-doc span{ color:var(--teal); }
+  .signal-id{ color:var(--faint); font-size:11px; margin-top:3px; }
+  .witness{ border-left-color:var(--faint); }
+  .witness-tag{ color:var(--faint); font-size:11px; }
+  .conflict{ border-left-color:var(--red); }
+  .conflict-note{ color:var(--red); font-size:11px; margin-top:3px; }
+
+  .sibling-link{ flex:0 0 100px; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--faint); font-size:11px; line-height:1.5; }
+
+  .base-block{ margin-bottom:22px; }
+  .base-name{ color:var(--amber); font-size:15px; margin-bottom:2px; }
+  .base-key{ color:var(--faint); font-size:11px; margin-bottom:6px; }
+  .base-meta{ color:var(--dim); font-size:12px; }
+  .section-label{ color:var(--faint); font-size:11px; margin:18px 0 6px; }
+  .query-label{ color:var(--dim); font-size:12px; margin-bottom:12px; }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .chip{ border:1px solid var(--border); color:var(--dim); font-size:11px; padding:3px 8px; }
+  .collection-row, .partner-row{ display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--border); font-size:13px; }
+  .collection-row:first-child, .partner-row:first-child{ border-top:none; }
+  .collection-row .ctype{ color:var(--amber); margin-right:8px; }
+  .collection-row .cid{ color:var(--dim); font-size:12px; margin-right:8px; }
+  .collection-row .cdate{ color:var(--faint); font-size:11px; }
+  .partner-row .pname{ color:var(--text); }
+  .partner-row .pkey{ color:var(--faint); font-size:11px; margin-left:8px; }
+  .verified-tag{ color:var(--teal); font-size:11px; margin-left:8px; }
+
+  .closing p{ margin:0 0 14px; }
+
+  .navrow{ display:flex; justify-content:space-between; align-items:center; margin-top:44px; padding-top:20px; border-top:1px solid var(--border); }
+  .navbtn{ background:none; border:none; cursor:pointer; color:var(--dim); font-family:inherit; font-size:13px; }
+  .navbtn:hover:not(:disabled){ color:var(--amber); }
+  .navbtn:disabled{ color:var(--faint); cursor:default; }
+  .dots{ display:flex; gap:5px; }
+  .dot{ width:5px; height:5px; border-radius:50%; background:var(--faint); }
+  .dot.active{ background:var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topline">
+    <h1>ANGX — Walkthrough 1</h1>
+    <div class="counter" id="counter"></div>
+  </div>
+  <div class="chapter" id="chapter"></div>
+
+  <div class="stage">
+    <div class="narration" id="narration"></div>
+    <div id="panelWrap" style="flex:1; min-width:0;"></div>
+  </div>
+
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn" onclick="go(-1)">&larr; back</button>
+    <div class="dots" id="dots"></div>
+    <button class="navbtn" id="nextBtn" onclick="go(1)">next &rarr;</button>
+  </div>
+</div>
+
+<script>
+/* ---------- entity IDs (hex, matching the prototype's own convention) ---------- */
+const ID = {
+  amaraFilter: 'c2febbb7',
+  davidWater: 'f9fb6fa3',
+  mathareNode: 'e91a4c07',
+  blantyreDoser: 'c2a8f047',
+  zamboangaDoser: '9d61b3ea',
+  settlementBEnergy: '9f2b6e83',
+  settlementAWater: '6b3f9a02',
+  aminaClinic: '5b2f9e14',
+  kisumuSteward: '8a3d71c2',
+  localWitness: 'e6a2c815',
+  mathareKey: 'a3f92c1d',
+  javaKey: '7e4a1bc9'
+};
+
+/* ---------- helpers ---------- */
+function sig(type, msg, id, ts, doc){
+  const docHtml = doc ? `<div class="signal-doc">documentation → <span>${doc}</span></div>` : '';
+  return `<div class="signal ${type}">
+    <div class="signal-top"><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    ${docHtml}
+    <div class="signal-id">id: ${id}</div>
+  </div>`;
+}
+function witnessSig(type, msg, from, ts, ref, contradicts){
+  const cls = contradicts ? ' conflict' : '';
+  const note = contradicts ? `<div class="conflict-note">⚠ contradicts the referenced learning signal</div>` : '';
+  return `<div class="signal witness${cls}">
+    <div class="signal-top"><span class="witness-tag">witness · ${from}</span><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    <div class="signal-id">ref: ${ref}</div>
+    ${note}
+  </div>`;
+}
+function nodeCard(id, type, desc, loc, curation, registered, builtFrom){
+  const cur = curation ? `<span class="curation-tag">${curation}</span>` : '';
+  const bf = builtFrom ? `<div class="built-from">built from → <span>${builtFrom}</span></div>` : '';
+  const reg = registered ? `<div class="registered">registered ${registered}</div>` : '';
+  return `<div class="node-card">
+    <div class="node-head"><span class="node-id">${id}</span><span class="node-type">${type}</span>${cur}</div>
+    <div class="node-desc">${desc}</div>
+    <div class="node-meta">${loc}</div>
+    ${reg}${bf}`;
+}
+function endCard(){ return `</div>`; }
+
+/* ---------- slides ---------- */
+const SLIDES = [
+
+/* ===== Chapter 1 — Amara ===== */
+{
+  chapter: "Part 1 — Amara",
+  narration: ["Amara lives in Nairobi. Eight months developing a low-cost ceramic water filter for high-sediment river water.",
+    "She registers her work as an operational node."],
+  panel: nodeCard(ID.amaraFilter, "water",
+    "Developing low-cost ceramic water filter for high-sediment river water.",
+    "Nairobi, Kenya", "open", "2025-08-14") + endCard()
+},
+{
+  chapter: "Part 1 — Amara",
+  narration: ["She logs as she works — one signal per real event."],
+  panel: nodeCard(ID.amaraFilter, "water", "Developing low-cost ceramic water filter for high-sediment river water.", "Nairobi, Kenya", "open", "2025-08-14")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Ceramic filter prototype four assembled. Testing flow rate in high-sediment water this week.", "cc00fafe", "2026-04-14 07:14")
+    + endCard()
+},
+{
+  chapter: "Part 1 — Amara",
+  narration: ["Failures are logged too — not hidden, not deleted."],
+  panel: nodeCard(ID.amaraFilter, "water", "Developing low-cost ceramic water filter for high-sediment river water.", "Nairobi, Kenya", "open", "2025-08-14")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Ceramic filter prototype four assembled. Testing flow rate in high-sediment water this week.", "cc00fafe", "2026-04-14 07:14")
+    + sig("failure", "Local ceramic supplier inconsistent porosity. Flow rate 40% below minimum viable. Switching to composite material.", "5d7dbe89", "2026-04-14 07:15")
+    + endCard()
+},
+{
+  chapter: "Part 1 — Amara",
+  narration: ["Composite ceramic blend confirmed. The full method is attached to the learning signal.",
+    "Eight months, one failure, one method — signed by her keypair the moment she wrote it."],
+  panel: nodeCard(ID.amaraFilter, "water", "Developing low-cost ceramic water filter for high-sediment river water.", "Nairobi, Kenya", "open", "2025-08-14")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Ceramic filter prototype four assembled. Testing flow rate in high-sediment water this week.", "cc00fafe", "2026-04-14 07:14")
+    + sig("failure", "Local ceramic supplier inconsistent porosity. Flow rate 40% below minimum viable. Switching to composite material.", "5d7dbe89", "2026-04-14 07:15")
+    + sig("learning", "Composite ceramic blend confirmed. Filters high-sediment water 8hrs continuous.", "f822ccff", "2026-04-14 07:16", "hyper://a2f91c8e…/method.pdf")
+    + endCard()
+},
+
+/* ===== Chapter 2 — A Nairobi base ===== */
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["A community kitchen in Mathare. The steward has cooked and shared meals here for six years.",
+    "She registers it as a commons node."],
+  panel: nodeCard(ID.mathareNode, "food", "Community kitchen. Free meals shared with the neighborhood. Operating for six years.", "Mathare, Nairobi", "open", "2020-03-01") + endCard()
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["Commons entries state what's true and how long it's been true — confirmed over time, not promised."],
+  panel: nodeCard(ID.mathareNode, "food", "Community kitchen. Free meals shared with the neighborhood. Operating for six years.", "Mathare, Nairobi", "open", "2020-03-01")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Kitchen running this week. Regular turnout.", "4e0a71bf", "2026-03-02 08:00")
+    + sig("failure", "No cooking this week. Repairs needed on the stove.", "d29c5a03", "2026-03-09 08:00")
+    + sig("learning", "Batch cooking three days ahead cuts spoiled leftovers to near zero. Method documented and attached.", "76fbe1d9", "2026-03-16 08:00", "hyper://7bd3e04f…/batch-method.pdf")
+    + endCard()
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["A health worker who's eaten here for over a year, and a visiting steward from Kisumu, each post a witness signal after direct observation."],
+  panel: nodeCard(ID.mathareNode, "food", "Community kitchen. Free meals shared with the neighborhood. Operating for six years.", "Mathare, Nairobi", "open", "2020-03-01")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Eaten here regularly for over a year. Running exactly as described. Steward present every time.", ID.aminaClinic, "2026-03-20 09:10", "76fbe1d9")
+    + witnessSig("operational", "Visited twice on my own work. Same pattern confirmed.", ID.kisumuSteward, "2026-03-27 14:40", "76fbe1d9")
+    + endCard()
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["Two verified bases independently add the kitchen's node to their own collections.",
+    "The threshold is met — Initialize Base activates."],
+  panel: `<div class="base-block">
+    <div class="base-name">mathare-kitchen</div>
+    <div class="base-key">public key ${ID.mathareKey}…</div>
+    <div class="base-meta">Community kitchen and local base, Mathare, Nairobi.<br>Initialised 2026-04-02 09:00</div>
+  </div>`
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["mathare-kitchen partners with a base in Java — a different base from the two that triggered Initialize Base — each citing entries from the other's collection as the basis for trust."],
+  panel: `<div class="base-block">
+    <div class="base-name">mathare-kitchen</div>
+    <div class="base-key">public key ${ID.mathareKey}…</div>
+    <div class="base-meta">Community kitchen and local base, Mathare, Nairobi.</div>
+  </div>
+  <div class="section-label">Partners</div>
+  <div class="partner-row"><span class="pname">java-farm<span class="pkey">${ID.javaKey}…</span></span><span class="verified-tag">verified</span></div>`
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["A local steward the base steward already knows, holding a verified operational node of her own, has visited Amara's lab and posted a witness signal on the filter's record.",
+    "The base steward reads it alongside the eight months of signals before curating."],
+  panel: nodeCard(ID.amaraFilter, "water", "Developing low-cost ceramic water filter for high-sediment river water.", "Nairobi, Kenya", "open", "2025-08-14")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Visited the lab across several weeks. Filter running as described each time. Setup consistent.", ID.localWitness, "2026-04-10 11:20", "f822ccff")
+    + endCard()
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["The steward has followed Amara's work for months — visited her lab, read the failure-to-learning arc in full.",
+    "She curates the node into the base's collection."],
+  panel: `<div class="base-block">
+    <div class="base-name">mathare-kitchen</div>
+    <div class="base-key">public key ${ID.mathareKey}…</div>
+    <div class="base-meta">Community kitchen and local base, Mathare, Nairobi.</div>
+  </div>
+  <div class="section-label">Collection</div>
+  <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.amaraFilter}</span></span><span class="cdate">added 2026-04-14</span></div>
+  <div class="section-label">Partners</div>
+  <div class="partner-row"><span class="pname">java-farm<span class="pkey">${ID.javaKey}…</span></span><span class="verified-tag">verified</span></div>`
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["Months later, the same Kisumu steward who witnessed the kitchen finds the batch-cooking method through a query, replicates it, and posts her own witness signal — crediting the method, not claiming it."],
+  panel: nodeCard(ID.mathareNode, "food", "Community kitchen. Free meals shared with the neighborhood. Operating for six years.", "Mathare, Nairobi", "open", "2020-03-01")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Eaten here regularly for over a year. Running exactly as described. Steward present every time.", ID.aminaClinic, "2026-03-20 09:10", "76fbe1d9")
+    + witnessSig("operational", "Visited twice on my own work. Same pattern confirmed.", ID.kisumuSteward, "2026-03-27 14:40", "76fbe1d9")
+    + witnessSig("learning", "Replicated three-day batch cooking. Spoilage down to near zero, same as reported.", ID.kisumuSteward, "2026-06-02 10:05", "76fbe1d9")
+    + endCard()
+},
+
+/* ===== Chapter 3 — David ===== */
+{
+  chapter: "Part 3 — David",
+  narration: ["David lives in Kampala. Four months developing rainwater harvesting for informal settlements.",
+    "A Kampala base already curated his node before he ever left home."],
+  panel: nodeCard(ID.davidWater, "water", "Rainwater harvesting system for household use in Kampala informal settlements.", "Kampala, Uganda", "open", "2025-12-14")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Rainwater collection tank installed. Testing first fill cycle this week.", "4a1bc903", "2026-04-14 08:22")
+    + sig("operational", "First fill cycle complete. 400L collected in 48hr. System holding pressure.", "7e2d1f08", "2026-04-20 11:04")
+    + sig("failure", "Heavy rain overwhelmed gutter screen. Debris clogged tank inlet, reducing collection rate.", "2b8f6a91", "2026-04-24 09:00")
+    + sig("learning", "Corrugated iron catchment area increases yield 30% vs tile. Method documented.", "9c3e8a12", "2026-04-28 09:15", "hyper://5e19ac70…/catchment.pdf")
+    + endCard()
+},
+{
+  chapter: "Part 3 — David",
+  narration: ["He travels to Nairobi and queries mathare-kitchen's collection for water nodes.",
+    "Amara's stands out — a failure, a learning signal, a full method attached."],
+  panel: `<div class="query-label">manual query — a plain structured lookup, not the matching demo 4 will show</div>
+  <div class="chips"><span class="chip">type: water</span></div>
+  <div class="section-label">Collection</div>
+  <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.amaraFilter}</span></span><span class="cdate">3 signals</span></div>`
+},
+{
+  chapter: "Part 3 — David",
+  narration: ["He runs her method himself, under her supervision, for three weeks."],
+  panel: nodeCard(ID.amaraFilter, "water", "Developing low-cost ceramic water filter for high-sediment river water.", "Nairobi, Kenya", "open", "2025-08-14")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Visited the lab across several weeks. Filter running as described each time. Setup consistent.", ID.localWitness, "2026-04-10 11:20", "f822ccff")
+    + witnessSig("operational", "Filter running as described. Setup replicable. Steward present throughout.", ID.davidWater, "2026-05-05 10:30", "f822ccff")
+    + witnessSig("learning", "Replicated composite blend using Kampala materials. Flow rate within 5% of Nairobi result.", ID.davidWater, "2026-05-06 16:00", "f822ccff")
+    + endCard()
+},
+{
+  chapter: "Part 3 — David",
+  narration: ["Then a contradiction. After 72 hours of continuous use, output drops 60% — a failure Amara's own documentation never flagged."],
+  panel: nodeCard(ID.amaraFilter, "water", "Developing low-cost ceramic water filter for high-sediment river water.", "Nairobi, Kenya", "open", "2025-08-14")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Visited the lab across several weeks. Filter running as described each time. Setup consistent.", ID.localWitness, "2026-04-10 11:20", "f822ccff")
+    + witnessSig("operational", "Filter running as described. Setup replicable. Steward present throughout.", ID.davidWater, "2026-05-05 10:30", "f822ccff")
+    + witnessSig("learning", "Replicated composite blend using Kampala materials. Flow rate within 5% of Nairobi result.", ID.davidWater, "2026-05-06 16:00", "f822ccff")
+    + witnessSig("failure", "Output degrades 60% after 72hr continuous use without cleaning. Not flagged in original docs. Critical for field deployment.", ID.davidWater, "2026-05-09 12:00", "f822ccff", true)
+    + endCard()
+},
+{
+  chapter: "Part 3 — David",
+  narration: ["Amara reads it and answers on her own node.",
+    "Original claim, independent replication, honest contradiction, steward response — all permanent, none of it mediated."],
+  panel: nodeCard(ID.amaraFilter, "water", "Developing low-cost ceramic water filter for high-sediment river water.", "Nairobi, Kenya", "open", "2025-08-14")
+    + `<div class="log-label">Steward log</div>`
+    + sig("learning", "Composite ceramic blend confirmed. Filters high-sediment water 8hrs continuous.", "f822ccff", "2026-04-14 07:16", "hyper://a2f91c8e…/method.pdf")
+    + sig("learning", "Cleaning interval critical. 72hr max before significant output degradation. Updated method attached.", "9b41ee2c", "2026-05-10 09:00", "hyper://a2f91c8e…/update.pdf")
+    + endCard()
+},
+{
+  chapter: "Part 3 — David",
+  narration: ["David has logged four months of his own work. Amara has watched him build and test for three weeks — she witnesses his node in turn."],
+  panel: nodeCard(ID.davidWater, "water", "Rainwater harvesting system for household use in Kampala informal settlements.", "Kampala, Uganda", "open", "2025-12-14")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Watched him build and test for three weeks. Setup sound, method consistent with what's logged.", ID.amaraFilter, "2026-05-11 08:45", "9c3e8a12")
+    + endCard()
+},
+{
+  chapter: "Part 3 — David",
+  narration: ["His node — already held by Kampala's base — now enters mathare-kitchen's collection too.",
+    "Neither base needed the other's permission: David's node was set to open at registration.",
+    "Two verified bases, holding the same record independently."],
+  panel: `<div class="base-block">
+    <div class="base-name">mathare-kitchen</div>
+    <div class="base-key">public key ${ID.mathareKey}…</div>
+    <div class="base-meta">Community kitchen and local base, Mathare, Nairobi.</div>
+  </div>
+  <div class="section-label">Collection</div>
+  <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.amaraFilter}</span></span><span class="cdate">added 2026-04-14</span></div>
+  <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.davidWater}</span></span><span class="cdate">added 2026-05-11</span></div>
+  <div class="section-label">Partners</div>
+  <div class="partner-row"><span class="pname">java-farm<span class="pkey">${ID.javaKey}…</span></span><span class="verified-tag">verified</span></div>`
+},
+
+/* ===== Chapter 4 — Two bases, apart ===== */
+{
+  chapter: "Part 4 — Two bases, apart",
+  narration: ["Elsewhere: a small settlement running its own base, solar-powered, connectivity thin.",
+    "Lina queries energy nodes across the partner chain and finds a wiring-fault fix logged by a steward she's never heard of."],
+  panel: nodeCard(ID.settlementBEnergy, "energy", "Battery-bank energy system for off-grid settlement.", "Unnamed settlement", "open", "2025-09-01")
+    + `<div class="log-label">Steward log</div>`
+    + sig("learning", "Wiring fault traced to loose bank connector. Fix documented and attached.", "3f6c1d90", "2025-11-20 07:30", "hyper://9f2b6e83…/wiring-fix.pdf")
+    + endCard()
+},
+{
+  chapter: "Part 4 — Two bases, apart",
+  narration: ["She replicates it on her own hardware. It works on the first attempt — and she logs her own witness signal, crediting the method."],
+  panel: nodeCard(ID.settlementBEnergy, "energy", "Battery-bank energy system for off-grid settlement.", "Unnamed settlement", "open", "2025-09-01")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("learning", "Replicated wiring fix locally. Fault resolved, same configuration. First corroboration of this method.", ID.settlementAWater, "2026-05-22 18:20", "3f6c1d90")
+    + endCard()
+},
+{
+  chapter: "Part 4 — Two bases, apart",
+  narration: ["Months later, that same steward is facing a water problem of his own — and finds Lina's tank-fault repair the same way, unprompted, through the same partner chain.",
+    "Neither steward arranged any of this."],
+  panel: nodeCard(ID.settlementAWater, "water", "Storage tank for settlement water supply.", "Lina's settlement", "open", "2026-04-01")
+    + `<div class="log-label">Steward log</div>`
+    + sig("failure", "Storage tank losing volume faster than expected. Cause unclear.", "2c7ea410", "2026-08-01 09:00")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("learning", "Repair applied. Tank holding at expected volume after two weeks.", ID.settlementBEnergy, "2026-08-12 09:00", "2c7ea410")
+    + endCard()
+},
+
+/* ===== Chapter 5 — A design with no steward ===== */
+{
+  chapter: "Part 5 — A design with no steward",
+  narration: ["Somewhere, someone posts a chlorine-doser schematic to a public repo and never logs anything again.",
+    "A clinic steward outside Blantyre finds it and builds one."],
+  panel: nodeCard(ID.blantyreDoser, "water", "Gravity-fed chlorine doser for community tank, built from public design.", "Blantyre region, Malawi", "open", "2026-02-01", "github.com/…doser-schematic")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Doser installed. Tank serving forty households. Dosing steady first two weeks.", "1a9de603", "2026-02-01 09:00")
+    + sig("failure", "Valve corroding at eight weeks. Dosing rate dropping. Investigating replacement material.", "6f0c8b1e", "2026-03-28 10:15")
+    + sig("learning", "Brass fitting resolves corrosion. Stable at fourteen weeks. Method documented and attached.", "e2a419cd", "2026-05-10 08:40", "hyper://c40d8b21…/brass-fix.pdf")
+    + endCard()
+},
+{
+  chapter: "Part 5 — A design with no steward",
+  narration: ["A steward in the Philippines finds Blantyre's own witnessed record through the partner chain — not the original repo — and builds one too, citing Blantyre's Node ID as Built From.",
+    "Two nodes citing the same source cluster as siblings."],
+  panel: `<div class="panel split">`
+    + nodeCard(ID.blantyreDoser, "water", "Gravity-fed chlorine doser, built from public design.", "Blantyre region, Malawi", null, null, "github.com/…doser-schematic") + endCard()
+    + `<div class="sibling-link">↔<br>siblings</div>`
+    + nodeCard(ID.zamboangaDoser, "water", "Gravity-fed chlorine doser, adapted for barangay water system.", "Zamboanga del Sur, Philippines", null, "2026-07-01", ID.blantyreDoser) + endCard()
+    + `</div>`
+},
+
+/* ===== Closing ===== */
+{
+  chapter: "What remained",
+  narration: [],
+  panel: `<div class="closing">
+    <p>David arrived in Nairobi on business of his own. He left having replicated eight months of another builder's method under direct supervision — and surfaced something her own record had missed.</p>
+    <p>A wiring fix crossed a distance neither steward had planned for. Months later, a tank fault crossed back.</p>
+    <p>The network grew by one mechanism, over and over: someone who was there long enough to know put their name behind what they saw, and left it where the next person could find it.</p>
+  </div>`
+},
+];
+
+/* ---------- render engine ---------- */
+let idx = 0;
+
+function render(){
+  const s = SLIDES[idx];
+  document.getElementById('chapter').textContent = s.chapter;
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + SLIDES.length;
+  document.getElementById('narration').innerHTML = s.narration.map(p => `<p>${p}</p>`).join('');
+
+  const panelHtml = s.panel.trim().startsWith('<div class="panel split">')
+    ? s.panel
+    : `<div class="panel">${s.panel}</div>`;
+  document.getElementById('panelWrap').innerHTML = panelHtml;
+
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').textContent = (idx === SLIDES.length - 1) ? 'end' : 'next →';
+  document.getElementById('nextBtn').disabled = (idx === SLIDES.length - 1);
+
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = SLIDES.map((_, i) => `<div class="dot${i===idx?' active':''}"></div>`).join('');
+}
+
+function go(delta){
+  const next = idx + delta;
+  if (next < 0 || next >= SLIDES.length) return;
+  idx = next;
+  render();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+render();
+</script>
+</body>
+</html>

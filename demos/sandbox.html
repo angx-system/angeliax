@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGX — Sandbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --amber:#e2a63c;
+    --text:#e5e5e5;
+    --dim:#6b6b6b;
+    --faint:#3a3a3a;
+    --border:#1c1c1c;
+    --red:#c9776a;
+    --teal:#6bb3c9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono', Menlo, Consolas, monospace;
+    font-size:14px;
+    line-height:1.6;
+  }
+  .wrap{ max-width:760px; margin:0 auto; padding:64px 24px 100px; }
+
+  h1{ font-size:18px; font-weight:500; color:var(--amber); margin:0 0 6px; }
+  .subtitle{ color:var(--dim); font-size:13px; margin:0 0 44px; }
+
+  .tabs{ display:flex; gap:28px; margin-bottom:28px; border-bottom:1px solid var(--border); }
+  .tab{
+    background:none; border:none; cursor:pointer;
+    font-family:inherit; font-size:13px; color:var(--dim);
+    padding:0 0 12px; border-bottom:1px solid transparent;
+    margin-bottom:-1px;
+  }
+  .tab.active{ color:var(--amber); border-bottom-color:var(--amber); }
+
+  .node{ border-bottom:1px solid var(--border); padding:16px 0; }
+  .node-head{ display:flex; align-items:baseline; cursor:pointer; gap:10px; }
+  .node-id{ color:var(--dim); font-size:12px; flex:0 0 auto; }
+  .node-main{ flex:1; min-width:0; }
+  .node-type{ color:var(--amber); margin-right:10px; }
+  .node-desc{ color:var(--text); }
+  .node-loc{ color:var(--dim); font-size:12px; white-space:nowrap; }
+  .node-curation{ color:var(--faint); font-size:11px; white-space:nowrap; }
+
+  .node-body{ display:none; margin-top:14px; padding-left:2px; }
+  .node-body.open{ display:block; }
+  .node-registered{ color:var(--faint); font-size:11px; margin-bottom:14px; }
+
+  .signal{ padding:9px 0; border-top:1px solid var(--border); }
+  .signal:first-child{ border-top:none; }
+  .signal-top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .signal-type{ font-size:12px; }
+  .signal-type.operational{ color:var(--amber); }
+  .signal-type.failure{ color:var(--red); }
+  .signal-type.learning{ color:var(--teal); }
+  .signal-type.retired{ color:var(--dim); }
+  .signal-date{ color:var(--faint); font-size:11px; }
+  .signal-msg{ font-size:13px; margin-top:2px; }
+  .signal-doc{ font-size:11px; color:var(--faint); margin-top:3px; }
+  .signal-doc span{ color:var(--teal); }
+  .signal-id{ color:var(--faint); font-size:11px; margin-top:3px; }
+  .signal-successor{ font-size:11px; color:var(--faint); margin-top:3px; }
+  .signal-successor span{ color:var(--amber); }
+  .no-signals{ color:var(--faint); font-size:12px; padding:4px 0; }
+  .retired-note{ color:var(--faint); font-size:12px; padding:14px 0 4px; border-top:1px solid var(--border); margin-top:14px; }
+
+  .inline-form{ display:flex; gap:8px; margin-top:14px; }
+  .doc-field{ flex:1; display:none; }
+  .doc-field.show{ display:block; }
+  select, input[type=text]{
+    background:none;
+    border:none;
+    border-bottom:1px solid var(--border);
+    color:var(--text);
+    font-family:inherit;
+    font-size:13px;
+    padding:6px 2px;
+  }
+  select:focus, input:focus{ outline:none; border-bottom-color:var(--amber); }
+  select{ color:var(--dim); flex:0 0 auto; }
+  input[type=text]{ flex:1; min-width:0; }
+  input[type=text]::placeholder{ color:var(--faint); }
+  input[type=text].flash{ border-bottom-color:var(--red); }
+
+  .add-btn{
+    background:none; border:none; cursor:pointer;
+    color:var(--dim); font-family:inherit; font-size:13px;
+    padding:6px 2px;
+  }
+  .add-btn:hover{ color:var(--amber); }
+
+  .new-node-row{ padding:16px 0; }
+  .new-node-row .inline-form{ margin-top:0; align-items:center; }
+  .new-node-row .inline-form + .inline-form{ margin-top:10px; }
+  .new-node-row select{ flex:0 0 110px; }
+  .new-node-row select#newCuration{ flex:0 0 130px; }
+  .new-node-row .row1 input{ flex:1; }
+  .new-node-row .row2 input{ flex:1; }
+
+  .empty{ color:var(--faint); font-size:13px; padding:24px 0; }
+  .charcount{ color:var(--faint); font-size:11px; flex:0 0 auto; align-self:center; }
+  .charcount.limit{ color:var(--red); }
+
+  .footer{ margin-top:60px; color:var(--faint); font-size:12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>ANGX — Sandbox</h1>
+  <p class="subtitle">Register nodes across the two logs. Post signals. Nothing here leaves your browser.</p>
+
+  <div class="tabs">
+    <button class="tab active" data-log="operational" onclick="setLog('operational')">Operational</button>
+    <button class="tab" data-log="commons" onclick="setLog('commons')">Commons</button>
+  </div>
+
+  <div id="list"></div>
+
+  <div class="new-node-row">
+    <div class="inline-form row1">
+      <select id="newType"></select>
+      <input type="text" id="newDesc" placeholder="description" maxlength="120" oninput="countChars('newDesc','newDescCount')">
+      <span class="charcount" id="newDescCount">0/120</span>
+    </div>
+    <div class="inline-form row2">
+      <input type="text" id="newLoc" placeholder="location" maxlength="64" oninput="countChars('newLoc','newLocCount')">
+      <span class="charcount" id="newLocCount">0/64</span>
+      <input type="text" id="newContact" placeholder="contact (optional)" maxlength="64" oninput="countChars('newContact','newContactCount')">
+      <span class="charcount" id="newContactCount">0/64</span>
+      <select id="newCuration">
+        <option value="open">open</option>
+        <option value="consent-required">consent-required</option>
+      </select>
+      <button class="add-btn" onclick="addNode()">+ add</button>
+    </div>
+  </div>
+
+  <p class="footer">Single steward, single device. Witnessing, bases, and partnering need other stewards — see the walkthrough demos for those.</p>
+
+</div>
+
+<script>
+const TYPES = {
+  operational: ['food','water','shelter','health','energy','connectivity','other'],
+  commons: ['food','water','shelter','health','energy','connectivity','informational','other']
+};
+const SIGNAL_TYPES = ['operational','failure','learning','retired'];
+
+let state = { operational: [], commons: [] };
+let activeLog = 'operational';
+let openId = null;
+let uid = 0;
+
+function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+function hex(len){
+  const chars = '0123456789abcdef';
+  let out = '';
+  for (let i=0;i<len;i++) out += chars[Math.floor(Math.random()*16)];
+  return out;
+}
+function stamp(){
+  const d = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function setLog(log){
+  activeLog = log;
+  openId = null;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.log === log));
+  populateTypeSelect();
+  render();
+}
+
+function populateTypeSelect(){
+  document.getElementById('newType').innerHTML =
+    TYPES[activeLog].map(t => `<option value="${t}">${t}</option>`).join('');
+}
+
+function addNode(){
+  const type = document.getElementById('newType').value;
+  const descEl = document.getElementById('newDesc');
+  const desc = descEl.value.trim();
+  const locEl = document.getElementById('newLoc');
+  const loc = locEl.value.trim();
+  const contactEl = document.getElementById('newContact');
+  const contact = contactEl.value.trim();
+  const curation = document.getElementById('newCuration').value;
+  if (!desc){ flash(descEl); return; }
+  if (!loc){ flash(locEl); return; }
+  uid++;
+  state[activeLog].push({
+    uid, hid: hex(8), type, desc, loc, contact, curation,
+    registered: stamp(), signals: []
+  });
+  descEl.value = '';
+  document.getElementById('newDescCount').textContent = '0/120';
+  locEl.value = '';
+  document.getElementById('newLocCount').textContent = '0/64';
+  contactEl.value = '';
+  document.getElementById('newContactCount').textContent = '0/64';
+  render();
+}
+
+function toggleNode(id){
+  openId = (openId === id) ? null : id;
+  render();
+}
+
+function flash(el){
+  el.classList.add('flash');
+  el.focus();
+  setTimeout(() => el.classList.remove('flash'), 900);
+}
+
+function countChars(fieldId, countId){
+  const el = document.getElementById(fieldId);
+  const out = document.getElementById(countId);
+  const max = el.maxLength;
+  const n = el.value.length;
+  out.textContent = n + '/' + max;
+  out.classList.toggle('limit', n >= max);
+}
+
+function addSignal(nodeId){
+  const sel = document.getElementById('sigType-' + nodeId);
+  const msgEl = document.getElementById('sigMsg-' + nodeId);
+  const docEl = document.getElementById('sigDoc-' + nodeId);
+  const succEl = document.getElementById('sigSucc-' + nodeId);
+  const text = msgEl.value.trim();
+  if (!text){ flash(msgEl); return; }
+  const node = state[activeLog].find(n => n.uid === nodeId);
+  if (isRetired(node)) return; // node is closed — no further signals
+  const doc = (sel.value === 'learning') ? docEl.value.trim() : '';
+  const successor = (sel.value === 'retired') ? succEl.value.trim() : '';
+  node.signals.push({
+    hid: hex(8), type: sel.value, msg: text,
+    doc: doc || null, successor: successor || null, ts: stamp()
+  });
+  msgEl.value = '';
+  docEl.value = '';
+  succEl.value = '';
+  render();
+}
+
+function isRetired(node){
+  return node.signals.some(s => s.type === 'retired');
+}
+
+function toggleDocField(nodeId){
+  const sel = document.getElementById('sigType-' + nodeId);
+  const docEl = document.getElementById('sigDoc-' + nodeId);
+  const succEl = document.getElementById('sigSucc-' + nodeId);
+  docEl.classList.toggle('show', sel.value === 'learning');
+  succEl.classList.toggle('show', sel.value === 'retired');
+}
+
+function render(){
+  const list = document.getElementById('list');
+  const nodes = state[activeLog];
+
+  if (nodes.length === 0){
+    list.innerHTML = `<div class="empty">No ${activeLog} nodes yet.</div>`;
+    return;
+  }
+
+  list.innerHTML = nodes.map(n => `
+    <div class="node">
+      <div class="node-head" onclick="toggleNode(${n.uid})">
+        <span class="node-id">${n.hid}</span>
+        <div class="node-main"><span class="node-type">${n.type}</span><span class="node-desc">${esc(n.desc)}</span></div>
+        <span class="node-loc">${esc(n.loc)}</span>
+        <span class="node-curation">${n.curation}</span>
+      </div>
+      <div class="node-body ${openId === n.uid ? 'open' : ''}">
+        <div class="node-registered">registered ${n.registered}${n.contact ? ' · contact: ' + esc(n.contact) : ''}</div>
+        ${n.signals.length === 0
+          ? `<div class="no-signals">No signals yet.</div>`
+          : n.signals.map(s => `
+              <div class="signal">
+                <div class="signal-top">
+                  <span class="signal-type ${s.type}">${s.type}</span>
+                  <span class="signal-date">${s.ts}</span>
+                </div>
+                <div class="signal-msg">${esc(s.msg)}</div>
+                ${s.doc ? `<div class="signal-doc">documentation → <span>${esc(s.doc)}</span></div>` : ''}
+                ${s.successor ? `<div class="signal-successor">continued by → <span>${esc(s.successor)}</span></div>` : ''}
+                <div class="signal-id">id: ${s.hid}</div>
+              </div>`).join('')
+        }
+        ${isRetired(n)
+          ? `<div class="retired-note">This node is retired. No further signals can be posted.</div>`
+          : `<div class="inline-form">
+          <select id="sigType-${n.uid}" onchange="toggleDocField(${n.uid})">
+            ${SIGNAL_TYPES.map(t => `<option value="${t}">${t}</option>`).join('')}
+          </select>
+          <input type="text" id="sigMsg-${n.uid}" placeholder="signal" maxlength="120" oninput="countChars('sigMsg-${n.uid}','sigMsgCount-${n.uid}')">
+          <span class="charcount" id="sigMsgCount-${n.uid}">0/120</span>
+          <input type="text" id="sigDoc-${n.uid}" class="doc-field" placeholder="hyper://…/file (optional)">
+          <input type="text" id="sigSucc-${n.uid}" class="doc-field" placeholder="successor node id (optional)">
+          <button class="add-btn" onclick="addSignal(${n.uid})">+ post</button>
+        </div>`
+        }
+      </div>
+    </div>
+  `).join('');
+}
+
+populateTypeSelect();
+render();
+
+// Delegated Enter-to-submit: attached once to a stable container, so it
+// works reliably regardless of browser quirks with inline handlers on
+// dynamically re-rendered markup.
+document.getElementById('list').addEventListener('keydown', function(e){
+  if (e.key !== 'Enter') return;
+  const m = (e.target.id || '').match(/^(sigMsg|sigDoc|sigSucc)-(\d+)$/);
+  if (m) addSignal(parseInt(m[2], 10));
+});
+</script>
+</body>
+</html>

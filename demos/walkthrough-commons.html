@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGX — Walkthrough 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --amber:#e2a63c;
+    --text:#e5e5e5;
+    --dim:#6b6b6b;
+    --faint:#3a3a3a;
+    --border:#1c1c1c;
+    --red:#c9776a;
+    --teal:#6bb3c9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono', Menlo, Consolas, monospace;
+    font-size:14px;
+    line-height:1.6;
+  }
+  .wrap{ max-width:940px; margin:0 auto; padding:56px 24px 60px; }
+
+  .topline{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  h1{ font-size:16px; font-weight:500; color:var(--amber); margin:0; }
+  .counter{ color:var(--faint); font-size:12px; }
+  .chapter{ color:var(--dim); font-size:12px; margin-bottom:44px; }
+
+  .stage{ display:flex; gap:48px; min-height:380px; }
+  .narration{ flex:0 0 250px; padding-top:6px; }
+  .narration p{ margin:0 0 14px; color:var(--text); }
+
+  .panel{ flex:1; border:1px solid var(--border); padding:22px 24px; min-width:0; }
+
+  .node-card + .node-card{ margin-top:22px; }
+  .node-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  .node-id{ color:var(--dim); font-size:12px; }
+  .node-type{ color:var(--amber); }
+  .node-desc{ margin:4px 0 2px; }
+  .node-meta{ color:var(--dim); font-size:12px; }
+  .curation-tag{ color:var(--faint); font-size:11px; margin-left:10px; }
+  .registered{ color:var(--faint); font-size:11px; margin-top:4px; }
+
+  .log-label{ color:var(--faint); font-size:11px; margin:16px 0 4px; }
+  .signal{ padding:9px 0; border-top:1px solid var(--border); border-left:2px solid transparent; padding-left:10px; margin-left:-10px; }
+  .signal:first-child{ border-top:none; }
+  .signal-top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .signal-type{ font-size:12px; }
+  .signal-type.operational{ color:var(--amber); }
+  .signal-type.failure{ color:var(--red); }
+  .signal-type.learning{ color:var(--teal); }
+  .signal-date{ color:var(--faint); font-size:11px; }
+  .signal-msg{ font-size:13px; margin-top:2px; }
+  .signal-doc{ font-size:11px; color:var(--faint); margin-top:3px; }
+  .signal-doc span{ color:var(--teal); }
+  .signal-id{ color:var(--faint); font-size:11px; margin-top:3px; }
+  .witness{ border-left-color:var(--faint); }
+  .witness-tag{ color:var(--faint); font-size:11px; }
+
+  .base-block{ margin-bottom:22px; }
+  .base-name{ color:var(--amber); font-size:15px; margin-bottom:2px; }
+  .base-key{ color:var(--faint); font-size:11px; margin-bottom:6px; }
+  .base-meta{ color:var(--dim); font-size:12px; }
+  .section-label{ color:var(--faint); font-size:11px; margin:18px 0 6px; }
+  .query-label{ color:var(--dim); font-size:12px; margin-bottom:12px; }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .chip{ border:1px solid var(--border); color:var(--dim); font-size:11px; padding:3px 8px; }
+  .collection-row, .partner-row{ display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--border); font-size:13px; }
+  .collection-row:first-child, .partner-row:first-child{ border-top:none; }
+  .collection-row .ctype{ color:var(--amber); margin-right:8px; }
+  .collection-row .cid{ color:var(--dim); font-size:12px; margin-right:8px; }
+  .collection-row .cdate{ color:var(--faint); font-size:11px; }
+  .partner-row .pname{ color:var(--text); }
+  .partner-row .pkey{ color:var(--faint); font-size:11px; margin-left:8px; }
+  .verified-tag{ color:var(--teal); font-size:11px; margin-left:8px; }
+
+  .option-card{ border:1px solid var(--border); padding:14px 16px; margin-bottom:12px; }
+  .option-card.selected{ border-color:var(--amber); }
+  .option-title{ font-size:13px; margin-bottom:4px; }
+  .option-card.selected .option-title{ color:var(--amber); }
+  .option-card:not(.selected) .option-title{ color:var(--dim); }
+  .option-desc{ color:var(--faint); font-size:12px; }
+
+  .curated-note{ color:var(--teal); font-size:12px; margin-top:14px; }
+
+  .closing p{ margin:0 0 14px; }
+
+  .navrow{ display:flex; justify-content:space-between; align-items:center; margin-top:44px; padding-top:20px; border-top:1px solid var(--border); }
+  .navbtn{ background:none; border:none; cursor:pointer; color:var(--dim); font-family:inherit; font-size:13px; }
+  .navbtn:hover:not(:disabled){ color:var(--amber); }
+  .navbtn:disabled{ color:var(--faint); cursor:default; }
+  .dots{ display:flex; gap:5px; }
+  .dot{ width:5px; height:5px; border-radius:50%; background:var(--faint); }
+  .dot.active{ background:var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topline">
+    <h1>ANGX — Walkthrough 2</h1>
+    <div class="counter" id="counter"></div>
+  </div>
+  <div class="chapter" id="chapter"></div>
+
+  <div class="stage">
+    <div class="narration" id="narration"></div>
+    <div id="panelWrap" style="flex:1; min-width:0;"></div>
+  </div>
+
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn" onclick="go(-1)">&larr; back</button>
+    <div class="dots" id="dots"></div>
+    <button class="navbtn" id="nextBtn" onclick="go(1)">next &rarr;</button>
+  </div>
+</div>
+
+<script>
+/* ---------- entity IDs ---------- */
+const ID = {
+  fatimaGarden: '7c3fb182',
+  youssefPress: 'b2a418ef',
+  healthConsult: 'f0e2c9a6',
+  santaFeFarm: '9d61e0ab',
+  secondWitness: 'c48d17ae',
+  sfaxPersonal: '5e91ad07',
+  farmMornagKey: 'b81f4a92',
+  sfaxKey: 'e2c908d1',
+  replicatorA: '3f7bc902',
+  replicatorB: '8e1d4a6f',
+  replicatorC: 'd06c93b8'
+};
+
+/* ---------- helpers ---------- */
+function sig(type, msg, id, ts, doc){
+  const docHtml = doc ? `<div class="signal-doc">documentation → <span>${doc}</span></div>` : '';
+  return `<div class="signal ${type}">
+    <div class="signal-top"><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    ${docHtml}
+    <div class="signal-id">id: ${id}</div>
+  </div>`;
+}
+function witnessSig(type, msg, from, ts, ref, base){
+  const baseTag = base ? ` · ${base}` : '';
+  return `<div class="signal witness">
+    <div class="signal-top"><span class="witness-tag">witness · ${from}${baseTag}</span><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    <div class="signal-id">ref: ${ref}</div>
+  </div>`;
+}
+function nodeCard(id, type, desc, loc, curation, registered){
+  const cur = curation ? `<span class="curation-tag">${curation}</span>` : '';
+  const reg = registered ? `<div class="registered">registered ${registered}</div>` : '';
+  return `<div class="node-card">
+    <div class="node-head"><span class="node-id">${id}</span><span class="node-type">${type}</span>${cur}</div>
+    <div class="node-desc">${desc}</div>
+    <div class="node-meta">${loc}</div>
+    ${reg}`;
+}
+function endCard(){ return `</div>`; }
+
+/* ---------- slides ---------- */
+const SLIDES = [
+
+/* ===== Chapter 1 — Fatima ===== */
+{
+  chapter: "Part 1 — Fatima",
+  narration: ["Fatima lives outside Tunis. She runs a small market garden with her sister.",
+    "First run of the client, one question — no operational log required to participate."],
+  panel: `<div class="option-card selected">
+    <div class="option-title">[ It stays in one place ]</div>
+    <div class="option-desc">A hostel, clinic, farm, lab, workshop, seedbank, household, or any other fixed location.</div>
+  </div>
+  <div class="option-card">
+    <div class="option-title">[ It moves with me ]</div>
+    <div class="option-desc">A practice, research, or project that moves with the steward.</div>
+  </div>`
+},
+{
+  chapter: "Part 1 — Fatima",
+  narration: ["She registers a commons node — a standing provision, not a one-off offer.",
+    "The entry states what is true and how long it has been true."],
+  panel: nodeCard(ID.fatimaGarden, "food", "Surplus vegetables from a market garden, given freely. Running for over a year.", "Mornag region, Tunisia", "open", "2025-04-05") + endCard()
+},
+{
+  chapter: "Part 1 — Fatima",
+  narration: ["She logs every Saturday after the gate closes.",
+    "Twelve months. Forty-eight Saturdays. Failures logged alongside the good weeks."],
+  panel: nodeCard(ID.fatimaGarden, "food", "Surplus vegetables from a market garden, given freely. Running for over a year.", "Mornag region, Tunisia", "open", "2025-04-05")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Gate open. Tomatoes and courgettes. Six people came. All taken.", "4d0a7e21", "2025-04-05 18:10")
+    + sig("operational", "Gate open. Smaller harvest. Tomatoes only. Three people came.", "9b1f6c04", "2025-06-14 18:05")
+    + sig("failure", "No surplus this Saturday. Heat damage to courgette crop. Back next week.", "1e7ad930", "2025-08-02 18:00")
+    + sig("operational", "Gate open. Tomatoes, peppers, herbs. Eight people came.", "6f3c81b5", "2025-10-25 18:15")
+    + endCard()
+},
+
+/* ===== Chapter 2 — Witnesses ===== */
+{
+  chapter: "Part 2 — Witnesses",
+  narration: ["Commons witnessing is presence-gated — it needs a verified node of one's own, but not one of the same type.",
+    "Youssef holds a verified olive press node. He's known the garden for two months."],
+  panel: nodeCard(ID.fatimaGarden, "food", "Surplus vegetables from a market garden, given freely. Running for over a year.", "Mornag region, Tunisia", "open", "2025-04-05")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Garden running as described. Good quantity. Steward present. Consistent over two months.", ID.youssefPress, "2025-12-06 10:00", "6f3c81b5")
+    + endCard()
+},
+{
+  chapter: "Part 2 — Witnesses",
+  narration: ["A second local steward witnesses the following month. A base steward from Sfax, in the region for her own work, witnesses the month after — using her personal steward keypair, separate from the base she operates.",
+    "Three witness signals. Two regions."],
+  panel: nodeCard(ID.fatimaGarden, "food", "Surplus vegetables from a market garden, given freely. Running for over a year.", "Mornag region, Tunisia", "open", "2025-04-05")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Garden running as described. Good quantity. Steward present. Consistent over two months.", ID.youssefPress, "2025-12-06 10:00", "6f3c81b5")
+    + witnessSig("operational", "Visited myself. Same pattern, same quality. Confirmed.", ID.secondWitness, "2026-01-10 09:30", "6f3c81b5")
+    + witnessSig("operational", "In the region for my own work. Garden running exactly as logged.", ID.sfaxPersonal, "2026-02-14 16:20", "6f3c81b5")
+    + endCard()
+},
+
+/* ===== Chapter 3 — The farm becomes a base ===== */
+{
+  chapter: "Part 3 — The farm becomes a base",
+  narration: ["The Sfax base steward has read the signal history directly. A household base outside Bizerte reads the same history independently.",
+    "Both add her food node to their collections. The threshold is met — Initialize Base activates."],
+  panel: `<div class="base-block">
+    <div class="base-name">farm-mornag</div>
+    <div class="base-key">public key ${ID.farmMornagKey}…</div>
+    <div class="base-meta">Small market garden outside Tunis. Standing surplus provision, witnessed locally.<br>Initialised 2026-03-01 09:00</div>
+  </div>`
+},
+{
+  chapter: "Part 3 — The farm becomes a base",
+  narration: ["farm-mornag partners with Sfax. Both cite specific entries from each other's history, sign, and log the handshake independently.",
+    "farm-mornag is now verified — reachable through the partner chain."],
+  panel: `<div class="base-block">
+    <div class="base-name">farm-mornag</div>
+    <div class="base-key">public key ${ID.farmMornagKey}…</div>
+    <div class="base-meta">Small market garden outside Tunis. Standing surplus provision, witnessed locally.</div>
+  </div>
+  <div class="section-label">Partners</div>
+  <div class="partner-row"><span class="pname">sfax-base<span class="pkey">${ID.sfaxKey}…</span></span><span class="verified-tag">verified</span></div>`
+},
+{
+  chapter: "Part 3 — The farm becomes a base",
+  narration: ["Fatima has watched Youssef's olive press for a year — September to December, no charge, seen operating directly.",
+    "She posts a witness signal, then curates his node into her own base's collection."],
+  panel: nodeCard(ID.youssefPress, "food", "Seasonal olive press. Free to anyone who brings olives. September to December.", "Mornag region, Tunisia", "open", "2025-06-01")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Press running as described. Season active. No charge, confirmed directly.", ID.fatimaGarden, "2026-03-12 11:00", "b2a418ef")
+    + `<div class="curated-note">curated into farm-mornag's collection</div>`
+    + endCard()
+},
+{
+  chapter: "Part 3 — The farm becomes a base",
+  narration: ["A woman from the next village runs a free health consultation from her home, three years running. Fatima has attended twice — enough to know it's real.",
+    "Same pattern: witness, then curate."],
+  panel: nodeCard(ID.healthConsult, "informational", "Free health consultation, home-based. Wednesday mornings. Three years running.", "Mornag region, Tunisia", "open", "2023-02-01")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Consultation held as described. Attended twice. Steward present.", ID.fatimaGarden, "2026-03-15 09:40", "f0e2c9a6")
+    + `<div class="curated-note">curated into farm-mornag's collection</div>`
+    + endCard()
+},
+{
+  chapter: "Part 3 — The farm becomes a base",
+  narration: ["Both provisions, observed directly, now stand in farm-mornag's collection — reachable through every base partnered with it.",
+    "Fatima did not build either. She watched them long enough to put her own name behind them."],
+  panel: `<div class="base-block">
+    <div class="base-name">farm-mornag</div>
+    <div class="base-key">public key ${ID.farmMornagKey}…</div>
+    <div class="base-meta">Small market garden outside Tunis. Standing surplus provision, witnessed locally.</div>
+  </div>
+  <div class="section-label">Collection</div>
+  <div class="collection-row"><span><span class="ctype">food</span><span class="cid">${ID.fatimaGarden}</span></span><span class="cdate">added 2026-03-01</span></div>
+  <div class="collection-row"><span><span class="ctype">food</span><span class="cid">${ID.youssefPress}</span></span><span class="cdate">added 2026-03-12</span></div>
+  <div class="collection-row"><span><span class="ctype">informational</span><span class="cid">${ID.healthConsult}</span></span><span class="cdate">added 2026-03-15</span></div>
+  <div class="section-label">Partners</div>
+  <div class="partner-row"><span class="pname">sfax-base<span class="pkey">${ID.sfaxKey}…</span></span><span class="verified-tag">verified</span></div>`
+},
+
+/* ===== Chapter 4 — Fatima queries the network ===== */
+{
+  chapter: "Part 4 — Fatima queries the network",
+  narration: ["Fatima has been losing courgette plants to a soil fungus for two seasons. Nothing she's tried has worked.",
+    "The open internet would return generic advice — wrong climate, unavailable treatments, unverified claims. The partner chain is different: every result is a witnessed record.",
+    "She knows the pathogen's name — pythium — and searches for it directly."],
+  panel: `<div class="query-label">manual query — a plain structured lookup, not the matching demo 4 will show</div>
+  <div class="chips"><span class="chip">type: food</span><span class="chip">signal: learning</span><span class="chip">text: "pythium"</span></div>
+  <div class="collection-row"><span><span class="ctype">food</span><span class="cid">${ID.santaFeFarm}</span></span><span class="cdate">Santa Fe, Argentina</span></div>`
+},
+{
+  chapter: "Part 4 — Fatima queries the network",
+  narration: ["A farm base in Santa Fe logged this eight months ago — a method using composted organic material, available in any market garden.",
+    "Witnessed and replicated by three other bases before it ever reached Fatima's query."],
+  panel: nodeCard(ID.santaFeFarm, "food", "Market garden, identical climate profile. Standing surplus provision.", "Santa Fe, Argentina", "open", "2024-01-10")
+    + `<div class="log-label">Steward log</div>`
+    + sig("learning", "Pythium root rot treated with composted organic material worked into topsoil. Confirmed across two seasons.", "8a41ce7d", "2025-08-02 08:30", "hyper://9d61e0ab…/pythium-fix.pdf")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("learning", "Replicated in similar climate. Root rot cleared within one season.", ID.replicatorA, "2025-10-14 09:00", "8a41ce7d", "Uruguay")
+    + witnessSig("learning", "Applied to our own beds. Fungal spread stopped, confirmed after harvest.", ID.replicatorB, "2025-12-03 10:15", "8a41ce7d", "Portugal")
+    + witnessSig("learning", "Method held across two plots over one season. No recurrence.", ID.replicatorC, "2026-02-20 08:40", "8a41ce7d", "Morocco")
+    + endCard()
+},
+{
+  chapter: "Part 4 — Fatima queries the network",
+  narration: ["She fetches the attachment, reads it, tries the method.",
+    "It works."],
+  panel: `<div class="closing"><p style="color:var(--teal);">Same mechanism, different continent: someone she has never met, working a garden she has never seen, solved her problem before she had it — and left the record where she could find it.</p></div>`
+},
+
+/* ===== Closing ===== */
+{
+  chapter: "What remained",
+  narration: [],
+  panel: `<div class="closing">
+    <p>Fatima started with surplus vegetables and a gate. Twelve months of honest logging, failures included. Three stewards witnessed her provision directly. Two independent bases judged her record real.</p>
+    <p>Her farm became a verified base, partnered with Sfax. She curated two more local provisions she'd watched long enough to trust.</p>
+    <p>Nothing here required a stranger to find her gate and act on it. Every connection — Youssef's node, the consultation, the fungus treatment — moved through someone who was there long enough to know it was real.</p>
+  </div>`
+},
+];
+
+/* ---------- render engine ---------- */
+let idx = 0;
+
+function render(){
+  const s = SLIDES[idx];
+  document.getElementById('chapter').textContent = s.chapter;
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + SLIDES.length;
+  document.getElementById('narration').innerHTML = s.narration.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('panelWrap').innerHTML = `<div class="panel">${s.panel}</div>`;
+
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').textContent = (idx === SLIDES.length - 1) ? 'end' : 'next →';
+  document.getElementById('nextBtn').disabled = (idx === SLIDES.length - 1);
+
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = SLIDES.map((_, i) => `<div class="dot${i===idx?' active':''}"></div>`).join('');
+}
+
+function go(delta){
+  const next = idx + delta;
+  if (next < 0 || next >= SLIDES.length) return;
+  idx = next;
+  render();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+render();
+</script>
+</body>
+</html>
