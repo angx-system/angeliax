@@ -400,7 +400,10 @@ the node belongs in the public collection.
 **Add to base** — a node already held in the base's library is promoted
 into the Collection Log. Logged, signed, permanent. This is the only
 path into the Collection Log — a node cannot be added without first
-being replicated into the library.
+being replicated into the library, with one exception: the node whose
+external curation triggered Initialize Base enters the Collection Log
+immediately, verified by the same attestation that links it to the new
+base keypair.
 
 **Remove** — a node is removed from the Collection Log only. It
 remains in the base's library if the base steward chooses to keep
