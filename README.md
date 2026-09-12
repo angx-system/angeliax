@@ -56,6 +56,7 @@ Interactive demos of the core mechanics — node registration and signal posting
 - SCHEMA.md — complete technical specification
 - CONSTRAINTS.md — ten system constraints
 - demos/ — click-through versions of the two walkthroughs, plus a sandbox and angx-reader's matching mechanism
+- reference/ — screenshots from the original prototype (archived) — UI reference only
 
 Two optional companion tools extend ANGX without being required to run
 it: [angx-reader](https://github.com/angx-system/angx-reader) surfaces
