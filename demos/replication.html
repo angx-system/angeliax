@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGX — Replication</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --amber:#e2a63c;
+    --text:#e5e5e5;
+    --dim:#6b6b6b;
+    --faint:#3a3a3a;
+    --border:#1c1c1c;
+    --red:#c9776a;
+    --teal:#6bb3c9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono', Menlo, Consolas, monospace;
+    font-size:14px;
+    line-height:1.6;
+  }
+  .wrap{ max-width:940px; margin:0 auto; padding:56px 24px 60px; }
+
+  .topline{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  h1{ font-size:16px; font-weight:500; color:var(--amber); margin:0; }
+  .counter{ color:var(--faint); font-size:12px; }
+  .chapter{ color:var(--dim); font-size:12px; margin-bottom:44px; }
+
+  .stage{ display:flex; gap:48px; min-height:380px; }
+  .narration{ flex:0 0 250px; padding-top:6px; }
+  .narration p{ margin:0 0 14px; color:var(--text); }
+
+  .panel{ flex:1; border:1px solid var(--border); padding:22px 24px; min-width:0; }
+  .panel.split{ display:flex; gap:20px; border:none; padding:0; }
+  .panel.split .node-card{ flex:1; border:1px solid var(--border); padding:20px 22px; }
+
+  .node-card + .node-card{ margin-top:22px; }
+  .node-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  .node-id{ color:var(--dim); font-size:12px; }
+  .node-type{ color:var(--amber); }
+  .node-desc{ margin:4px 0 2px; }
+  .node-meta{ color:var(--dim); font-size:12px; }
+  .curation-tag{ color:var(--faint); font-size:11px; margin-left:10px; }
+  .built-from{ color:var(--faint); font-size:11px; margin-top:6px; }
+  .built-from span{ color:var(--teal); }
+  .registered{ color:var(--faint); font-size:11px; margin-top:4px; }
+
+  .log-label{ color:var(--faint); font-size:11px; margin:16px 0 4px; }
+  .signal{ padding:9px 0; border-top:1px solid var(--border); border-left:2px solid transparent; padding-left:10px; margin-left:-10px; }
+  .signal:first-child{ border-top:none; }
+  .signal-top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .signal-type{ font-size:12px; }
+  .signal-type.operational{ color:var(--amber); }
+  .signal-type.failure{ color:var(--red); }
+  .signal-type.learning{ color:var(--teal); }
+  .signal-date{ color:var(--faint); font-size:11px; }
+  .signal-msg{ font-size:13px; margin-top:2px; }
+  .signal-doc{ font-size:11px; color:var(--faint); margin-top:3px; }
+  .signal-doc span{ color:var(--teal); }
+  .signal-id{ color:var(--faint); font-size:11px; margin-top:3px; }
+  .witness{ border-left-color:var(--faint); }
+  .witness-tag{ color:var(--faint); font-size:11px; }
+  .conflict{ border-left-color:var(--red); }
+  .conflict-note{ color:var(--red); font-size:11px; margin-top:3px; }
+
+  .sibling-link{ flex:0 0 100px; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--faint); font-size:11px; line-height:1.5; }
+
+  .legend{ display:flex; gap:16px; margin-top:10px; font-size:11px; color:var(--faint); }
+  .legend span{ display:inline-flex; align-items:center; gap:5px; }
+  .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dot.failure{ background:var(--red); }
+  .dot.learning{ background:var(--teal); }
+  .scatter-caption{ color:var(--faint); font-size:11px; margin-top:10px; }
+
+  .prose p{ margin:0 0 14px; }
+  .prose p:last-child{ margin-bottom:0; }
+  .stat-row{ display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--border); font-size:13px; }
+  .stat-row:first-child{ border-top:none; }
+  .stat-varies{ color:var(--red); }
+  .stat-holds{ color:var(--teal); }
+
+  .navrow{ display:flex; justify-content:space-between; align-items:center; margin-top:44px; padding-top:20px; border-top:1px solid var(--border); }
+  .navbtn{ background:none; border:none; cursor:pointer; color:var(--dim); font-family:inherit; font-size:13px; }
+  .navbtn:hover:not(:disabled){ color:var(--amber); }
+  .navbtn:disabled{ color:var(--faint); cursor:default; }
+  .dots{ display:flex; gap:5px; }
+  .dot-nav{ width:5px; height:5px; border-radius:50%; background:var(--faint); }
+  .dot-nav.active{ background:var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topline">
+    <h1>ANGX — Replication</h1>
+    <div class="counter" id="counter"></div>
+  </div>
+  <div class="chapter" id="chapter"></div>
+
+  <div class="stage">
+    <div class="narration" id="narration"></div>
+    <div id="panelWrap" style="flex:1; min-width:0;"></div>
+  </div>
+
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn" onclick="go(-1)">&larr; back</button>
+    <div class="dots" id="dots"></div>
+    <button class="navbtn" id="nextBtn" onclick="go(1)">next &rarr;</button>
+  </div>
+</div>
+
+<script>
+/* ---------- entity IDs ---------- */
+const ID = {
+  belgrade: 'b3f81a2c',
+  manila: '7ad4e91b',
+  highland: '2e6c8f05',
+  lowland: '9f1b3d7a',
+  manilaWitness: 'c94d02fe',
+  highlandWitness: 'a17c5b30',
+  lowlandWitness: 'e05f8a19'
+};
+
+/* ---------- helpers ---------- */
+function sig(type, msg, id, ts, doc){
+  const docHtml = doc ? `<div class="signal-doc">documentation → <span>${doc}</span></div>` : '';
+  return `<div class="signal ${type}">
+    <div class="signal-top"><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    ${docHtml}
+    <div class="signal-id">id: ${id}</div>
+  </div>`;
+}
+function witnessSig(type, msg, from, ts, ref, contradicts){
+  const cls = contradicts ? ' conflict' : '';
+  const note = contradicts ? `<div class="conflict-note">⚠ contradicts the steward's own operational signal</div>` : '';
+  return `<div class="signal witness${cls}">
+    <div class="signal-top"><span class="witness-tag">witness · ${from}</span><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
+    <div class="signal-msg">${msg}</div>
+    <div class="signal-id">ref: ${ref}</div>
+    ${note}
+  </div>`;
+}
+function nodeCard(id, type, desc, loc, curation, registered, builtFrom){
+  const cur = curation ? `<span class="curation-tag">${curation}</span>` : '';
+  const bf = builtFrom ? `<div class="built-from">built from → <span>${builtFrom}</span></div>` : '';
+  const reg = registered ? `<div class="registered">registered ${registered}</div>` : '';
+  return `<div class="node-card">
+    <div class="node-head"><span class="node-id">${id}</span><span class="node-type">${type}</span>${cur}</div>
+    <div class="node-desc">${desc}</div>
+    <div class="node-meta">${loc}</div>
+    ${reg}${bf}`;
+}
+function endCard(){ return `</div>`; }
+function prose(paras){ return `<div class="prose">${paras.map(p => `<p>${p}</p>`).join('')}</div>`; }
+
+/* graph diagram (SVG) for the "tree vs graph" slide */
+function graphSvg(){
+  return `<svg viewBox="0 0 480 260" style="width:100%; height:auto;">
+    <line x1="240" y1="40" x2="100" y2="140" stroke="var(--faint)" stroke-width="1"/>
+    <line x1="240" y1="40" x2="240" y2="140" stroke="var(--faint)" stroke-width="1"/>
+    <line x1="240" y1="40" x2="380" y2="140" stroke="var(--faint)" stroke-width="1"/>
+    <line x1="240" y1="150" x2="380" y2="150" stroke="var(--teal)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <circle cx="240" cy="40" r="7" fill="var(--amber)"/>
+    <text x="240" y="22" fill="var(--amber)" font-size="12" text-anchor="middle">Belgrade</text>
+    <circle cx="100" cy="150" r="6" fill="var(--text)"/>
+    <text x="100" y="172" fill="var(--text)" font-size="12" text-anchor="middle">Manila</text>
+    <circle cx="240" cy="150" r="6" fill="var(--text)"/>
+    <text x="240" y="172" fill="var(--text)" font-size="12" text-anchor="middle">Highland</text>
+    <circle cx="380" cy="150" r="6" fill="var(--text)"/>
+    <text x="380" y="172" fill="var(--text)" font-size="12" text-anchor="middle">Lowland</text>
+    <text x="310" y="140" fill="var(--teal)" font-size="10" text-anchor="middle">reader match</text>
+  </svg>`;
+}
+
+/* ---------- slides ---------- */
+const SLIDES = [
+
+/* ===== The problem ===== */
+{
+  chapter: "The problem with a blueprint",
+  narration: ["A free school teaching design, programming, and device repair on recycled hardware has run for years in Belgrade. Someone writes it up — a PDF, a masterdoc."],
+  panel: prose([
+    "The document was written by people for whom the model already worked, in Belgrade's specific conditions. None of those conditions were a problem worth writing down at the time — so none of them are in the document.",
+    "The moment a new attempt meets a condition the document never had to solve, it goes silent. The person reads that silence as their own failure, because there's nowhere to log it to."
+  ])
+},
+
+/* ===== The source node ===== */
+{
+  chapter: "The source node",
+  narration: ["The Belgrade steward registers an operational node and cites the masterdoc as Built From — a URL, once, at registration."],
+  panel: nodeCard(ID.belgrade, "other", "Independent free design, programming, and device-repair school for ages 13-17, self-sustaining.", "Belgrade, Serbia", "open", "2025-02-10") + endCard()
+},
+{
+  chapter: "The source node",
+  narration: ["The origin's own history is not a finished recipe either.", "Nobody replicating Belgrade is replicating a finished object — they're replicating a node's position, failures included."],
+  panel: nodeCard(ID.belgrade, "other", "Independent free design, programming, and device-repair school for ages 13-17, self-sustaining.", "Belgrade, Serbia", "open", "2025-02-10")
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Twelve students enrolled. Repair bench running three afternoons a week.", "d4a91c02", "2025-03-04 15:00")
+    + sig("failure", "Donated laptop batteries swelling within four months. Storage conditions inadequate.", "6f3b8ed1", "2025-06-19 10:30")
+    + sig("learning", "Battery drawer with passive ventilation and monthly voltage check resolves swelling. Method documented and attached.", "0a7fd922", "2025-07-02 09:15", "hyper://b3f81a2c…/battery-fix.pdf")
+    + endCard()
+},
+
+/* ===== Three attempts, unrelated ===== */
+{
+  chapter: "Three attempts",
+  narration: ["Three stewards, three continents, none aware of the others, find the write-up and try.", "Each cites Belgrade's Node ID — not the PDF — as Built From. From registration, each is a sibling, not a copy."],
+  panel: prose([
+    "Three separate keypairs. Three separate append-only histories. Nothing about any of them can be edited by Belgrade, or by each other."
+  ])
+},
+
+/* ===== Manila ===== */
+{
+  chapter: "Manila — urban, high-bureaucracy",
+  narration: ["Someone tries it in Manila, Philippines — dense, urban, high-bureaucracy.", "Space is expensive, and every used space triggers a different permitting question than a purpose-built one."],
+  panel: nodeCard(ID.manila, "other", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "Manila, Philippines", "open", "2025-09-01", ID.belgrade) + endCard()
+},
+{
+  chapter: "Manila — urban, high-bureaucracy",
+  narration: ["Donated devices arrive fast — then sit at customs under an import classification nobody anticipated.", "A local repair collective, already verified, witnesses the space directly."],
+  panel: nodeCard(ID.manila, "other", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "Manila, Philippines", "open", "2025-09-01", ID.belgrade)
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Space secured, shared with a print shop after hours. Eight students enrolled first month.", "5c2e91af", "2025-09-15 14:00")
+    + sig("failure", "Eleven donated laptops held at customs six weeks under e-waste import classification. Repair bench idle.", "8b0f43d6", "2025-10-20 11:00")
+    + sig("learning", "Registering as an educational equipment donation, not e-waste, clears customs in under a week. Template letter attached.", "f19a67c3", "2025-11-03 08:40", "hyper://7ad4e91b…/customs-letter.pdf")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Sessions running as described. Bench active, students present, steward consistent.", ID.manilaWitness, "2025-12-01 10:00", "5c2e91af")
+    + endCard()
+},
+
+/* ===== Highlands ===== */
+{
+  chapter: "Rural highlands — low-connectivity",
+  narration: ["A second attempt: a rural highland region, low-connectivity and off-grid.", "The nearest reliable internet is a two-hour walk away. Power is intermittent, and the device pool is small enough that every failure is a real setback."],
+  panel: nodeCard(ID.highland, "other", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "rural highland region", "open", "2025-08-15", ID.belgrade) + endCard()
+},
+{
+  chapter: "Rural highlands — low-connectivity",
+  narration: ["Necessity forces two fixes: a dust/temperature storage method logged early on, then — after a desktop fails outright — cannibalizing parts to keep a working core running.", "Signals move over Reticulum via angx-bridge on weeks with no connection point — replicated normally once a device reaches internet."],
+  panel: nodeCard(ID.highland, "other", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "rural highland region", "open", "2025-08-15", ID.belgrade)
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Six students. Two donated desktops, one functioning laptop. Sessions twice weekly, daylight hours only.", "31d8ea54", "2025-09-02 12:00")
+    + sig("learning", "Silica-gel and passive-airflow storage protects the device pool from dust and temperature swings. Method documented and attached.", "4dc9027a", "2025-10-02 09:30", "hyper://2e6c8f05…/storage-method.pdf")
+    + sig("failure", "Second desktop failed. No local replacement part. Nearest repair shop four hours by bus.", "7e2b904c", "2025-11-11 13:20")
+    + sig("learning", "Cannibalizing failed units for parts across the small device pool keeps a working core running. One machine per two students, rotated, sustains the program below the scale Belgrade assumed.", "c608b3f1", "2025-11-28 12:45", "hyper://2e6c8f05…/rotation-method.pdf")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Sessions held as described despite device scarcity. Rotation method observed directly, functioning.", ID.highlandWitness, "2026-01-14 09:30", "31d8ea54")
+    + endCard()
+},
+
+/* ===== Lowland ===== */
+{
+  chapter: "Humid lowland town — tropical, material",
+  narration: ["A third attempt: a humid lowland town, tropical and material-stressed.", "Heat and humidity are the defining condition here, not bureaucracy or scarcity. Devices that ran for years in Belgrade's dry climate fail in months."],
+  panel: nodeCard(ID.lowland, "other", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "humid lowland town", "open", "2025-09-20", ID.belgrade) + endCard()
+},
+{
+  chapter: "Humid lowland town — tropical, material",
+  narration: ["A local steward witnesses the program directly — and flags corrosion the steward's own record hasn't caught yet.", "The contradiction sits permanently next to both claims. Neither is deleted. Neither is resolved by authority."],
+  panel: nodeCard(ID.lowland, "other", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "humid lowland town", "open", "2025-09-20", ID.belgrade)
+    + `<div class="log-label">Steward log</div>`
+    + sig("operational", "Ten students enrolled. Repair bench running, donated devices mostly functional on arrival.", "4f9c1e87", "2025-10-05 11:00")
+    + sig("failure", "Three motherboards corroded within ten weeks. Humidity well above manufacturer tolerance, no climate control available.", "a2d75f30", "2025-12-14 09:00")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Sessions running, students present, steward engaged.", ID.lowlandWitness, "2025-12-20 10:00", "4f9c1e87")
+    + witnessSig("failure", "Two additional units showing early corrosion not yet logged by the steward. Same cause likely.", ID.lowlandWitness, "2025-12-20 10:05", "4f9c1e87", true)
+    + endCard()
+},
+
+/* ===== Cross-pollination ===== */
+{
+  chapter: "The cross-pollination moment",
+  narration: ["Months pass. None of the three stewards have contacted each other.", "The highlands solved a version of this months earlier — for dust and temperature stress, not humidity. angx-reader has already embedded both signals."],
+  panel: `<svg viewBox="0 0 480 220" style="width:100%; height:auto;">
+    <circle cx="150" cy="110" r="9" fill="var(--red)" stroke="#fff" stroke-width="2"/>
+    <circle cx="230" cy="80" r="6" fill="var(--teal)"/>
+    <circle cx="60" cy="60" r="5" fill="var(--red)" opacity="0.3"/>
+    <circle cx="400" cy="150" r="5" fill="var(--teal)" opacity="0.3"/>
+    <circle cx="340" cy="40" r="5" fill="var(--red)" opacity="0.3"/>
+    <line x1="150" y1="110" x2="230" y2="80" stroke="var(--teal)" stroke-width="1" opacity="0.6"/>
+  </svg>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--red); border:2px solid #fff;"></span>lowland's corrosion failure (just logged)</span>
+    <span><span class="dot learning"></span>highland's dust/temperature storage-method signal</span>
+  </div>
+  <div class="scatter-caption">Position is semantic proximity — mechanism close, climate and geography apart.</div>`
+},
+{
+  chapter: "The cross-pollination moment",
+  narration: ["The lowland steward queries the base by their own Node ID, reads the match, adapts it with a local drying agent — and logs the outcome.", "Neither steward had heard of the other's context."],
+  panel: nodeCard(ID.lowland, "other", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "humid lowland town", "open", "2025-09-20", ID.belgrade)
+    + `<div class="log-label">Steward log</div>`
+    + sig("learning", "Passive-airflow storage with local drying agent, adapted from a method logged in the highlands, cuts corrosion rate substantially over eight weeks. Method documented and attached.", "9e41c7b5", "2026-02-18 08:20", "hyper://9f1b3d7a…/humidity-fix.pdf")
+    + `<div class="log-label">Witness log — posted on the highland node</div>`
+    + witnessSig("learning", "Adapted for tropical humidity rather than dust/temperature stress. Substantial improvement, different failure mode than originally addressed.", ID.lowland, "2026-02-18 08:25", "4dc9027a")
+    + endCard()
+},
+
+/* ===== The graph ===== */
+{
+  chapter: "The graph",
+  narration: ["A file distributed by download produces a tree: one origin, N identical copies, each copy's fate invisible to the others.", "What exists here is a graph — three siblings citing one root, plus one edge no one planned."],
+  panel: graphSvg() + `<div class="scatter-caption">Belgrade never updated. The PDF never needed a second edition. Everything that mattered propagated because it was logged where it could be found.</div>`
+},
+
+/* ===== What the graph reveals ===== */
+{
+  chapter: "What the graph reveals",
+  narration: ["A single document is one data point — it can't tell you what's essential versus what was just how Belgrade happened to do it.", "Four siblings can."],
+  panel: `<div class="stat-row"><span>schedule</span><span class="stat-varies">varies</span></div>
+  <div class="stat-row"><span>device ratio</span><span class="stat-varies">varies</span></div>
+  <div class="stat-row"><span>storage / climate method</span><span class="stat-varies">varies</span></div>
+  <div class="stat-row"><span>path through local bureaucracy</span><span class="stat-varies">varies</span></div>
+  <div class="stat-row"><span>free · ages 13–17 · design + programming + repair · recycled hardware · no owning institution</span><span class="stat-holds">holds</span></div>
+  ` + prose(["Nobody declared that a rule. Divergence under real pressure revealed it. Reality only ever pressures the packaging, never the principle underneath it.", "The same separation would surface for a free clinic, a hackerspace, a makerspace, a food bank."])
+},
+
+/* ===== Closing ===== */
+{
+  chapter: "Why the separateness is the point",
+  narration: [],
+  panel: prose([
+    "Three attempts at \"the same\" free school produced three different crises: import classification, device scarcity, material corrosion. None was a failure to replicate Belgrade correctly — each was Belgrade's model meeting a reality Belgrade never had to survive.",
+    "The Belgrade model didn't get copied three times. It got tested three times, by people who owed it nothing but a citation — and the record of all three tests is now worth more to the next replicator than the original document ever was."
+  ])
+},
+];
+
+/* ---------- render engine ---------- */
+let idx = 0;
+
+function render(){
+  const s = SLIDES[idx];
+  document.getElementById('chapter').textContent = s.chapter;
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + SLIDES.length;
+  document.getElementById('narration').innerHTML = s.narration.map(p => `<p>${p}</p>`).join('');
+
+  const panelHtml = s.panel.trim().startsWith('<div class="panel split">')
+    ? s.panel
+    : `<div class="panel">${s.panel}</div>`;
+  document.getElementById('panelWrap').innerHTML = panelHtml;
+
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').textContent = (idx === SLIDES.length - 1) ? 'end' : 'next →';
+  document.getElementById('nextBtn').disabled = (idx === SLIDES.length - 1);
+
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = SLIDES.map((_, i) => `<div class="dot-nav${i===idx?' active':''}"></div>`).join('');
+}
+
+function go(delta){
+  const next = idx + delta;
+  if (next < 0 || next >= SLIDES.length) return;
+  idx = next;
+  render();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+render();
+</script>
+</body>
+</html>
