@@ -40,11 +40,11 @@ about it.
 
 ## The source node
 
-The Belgrade steward registers an operational node.
+The Belgrade steward registers a commons node.
 
-**Operational tab → Register Node**
+**Commons tab → Register Node**
 
-- **Node Type:** `other`
+- **Node Type:** `informational`
 - **Description:** `Independent free design, programming, and device-repair school for ages 13-17, self-sustaining.`
 - **Location:** Belgrade, Serbia
 - **Curation:** open
@@ -86,9 +86,9 @@ edited by Belgrade, or by each other.
 
 ### Manila — urban, high-bureaucracy
 
-**Registering**
+**Commons tab → Register Node**
 
-- **Node Type:** `other`
+- **Node Type:** `informational`
 - **Description:** `Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.`
 - **Location:** Manila, Philippines
 - **Built From:** `[Belgrade Node ID]`
@@ -113,9 +113,9 @@ watched the space operate for two months.
 
 ### Rural highlands — low-connectivity
 
-**Registering**
+**Commons tab → Register Node**
 
-- **Node Type:** `other`
+- **Node Type:** `informational`
 - **Description:** `Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.`
 - **Location:** [rural highland region]
 - **Built From:** `[Belgrade Node ID]`
@@ -143,9 +143,9 @@ work, spends a week observing.
 
 ### Humid lowland town — tropical, material
 
-**Registering**
+**Commons tab → Register Node**
 
-- **Node Type:** `other`
+- **Node Type:** `informational`
 - **Description:** `Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.`
 - **Location:** [humid lowland town]
 - **Built From:** `[Belgrade Node ID]`
