@@ -1,6 +1,6 @@
 # demos
 
-*Four standalone HTML files — open directly in a browser, no build step.*
+*Five standalone HTML files — open directly in a browser, no build step.*
 
 ---
 
@@ -8,6 +8,7 @@
 - **walkthrough.html** — WALKTHROUGH.md as a slide sequence.
 - **walkthrough-commons.html** — WALKTHROUGH-commons.md as a slide sequence.
 - **reader-matching.html** — angx-reader's matching mechanism, demonstrated.
+- **replication.html** — REPLICATION.md as a slide sequence.
 
 Teaching aids, not reference implementations. Node IDs are shortened. Nothing persists — closing the tab clears all state.
 
