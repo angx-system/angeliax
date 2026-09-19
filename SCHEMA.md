@@ -1,6 +1,6 @@
 # angeliaX (ANGX) — Schema & Specification
 
-*August 2026*
+*September 2026*
 
 ---
 
@@ -13,6 +13,10 @@
 **base** — a persistent curated collection belonging to a physical space. Independent keypair. Stays when stewards rotate.
 
 **witness** — a steward who directly observed or replicated another node's work and recorded what they found.
+
+**general witnessing** — directly observing or receiving what a node provides, and recording it. One signal, posted once.
+
+**replication witnessing** — applying another node's method or fix yourself, then recording it: a witness signal on their node, and a `resolved_via` citation on your own. Two signals, always together.
 
 **library** — a publicly addressable collection of a keypair's own nodes
 and replicated feeds, held automatically by any keypair — steward,
@@ -114,6 +118,8 @@ ANGX is for actors with no institution already vouching for the operational real
 
 The retired signal accepts one optional field: `successor_node_id` — pointing to the node this work has evolved into. The link is one-way and part of the permanent record.
 
+The learning signal accepts one additional field when it credits a fix drawn from another node's work: `resolved_via` — the ID of the Witness Signal already posted on that node, naming the specific signal replicated. Mandatory for replication witnessing. A self-derived learning signal leaves it blank.
+
 ---
 
 ## Operational Log — Witness Signal
@@ -125,7 +131,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | Witness Node ID | Automatic | The witnessing node's identifier. |
 | Timestamp | Automatic | Immutable. |
 | Observed Node ID | Automatic | The node being witnessed. |
-| Referenced Signal | Optional | The specific steward signal being engaged with. |
+| Referenced Signal | Conditional | Mandatory for replication witnessing — the specific signal being replicated. Optional for general witnessing. |
 | Signal Type | Mandatory | Chosen independently by the witness. |
 | Message | Mandatory | Max 120 characters. What was directly observed or tested. |
 
@@ -161,7 +167,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | energy | Free energy — access, charging, microgrids, stranded or idle capacity |
 | connectivity | Free connectivity — wifi, mesh, backhaul, satellite |
 | informational | Free knowledge — consultation, legal aid, translation, technical guidance |
-| other | Any fundamental surplus provision not covered above. |
+| other | Any fundamental provision not covered above. |
 
 ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil fungus and an off-grid microgrid operator in El Salvador freely routing idle megawatts to a nearby compute cluster are the same kind of entry — a standing provision, freely given, permanently recorded, by an actor no institution was already vouching for. A patient-led group documenting a working insulin-dosing setup, and a seed-saving network logging a drought-resistant variety passed hand to hand for three generations, are the same kind of entry too — standing, freely given or freely maintained, permanently recorded, by people no institution was already tracking.
 
@@ -186,7 +192,9 @@ ANGX is scale-agnostic. A market garden in Tunis logging a compost fix for soil 
 
 The retired signal accepts one optional field: `successor_node_id` — the node ID of the provision that continues what this node provided. The link is one-way and part of the permanent record.
 
-A commons learning signal documents a method for sustaining the provision itself — not the surplus being given. Matching operates method-to-method only; a failure pairs with a learning signal, never with another node's surplus.
+The learning signal accepts one additional field when it credits a fix drawn from another node's work: `resolved_via` — the ID of the Witness Signal already posted on that node, naming the specific signal replicated. Mandatory for replication witnessing. A self-derived learning signal leaves it blank.
+
+A commons learning signal documents a method for sustaining the provision itself — not the thing being given. Matching operates method-to-method only; a failure pairs with a learning signal, never with another node's provision.
 
 ---
 
@@ -199,7 +207,7 @@ Requires any verified node — at least one own node of any type accepted into a
 | Witness Node ID | Automatic | The witnessing node's identifier. |
 | Timestamp | Automatic | Immutable. |
 | Observed Node ID | Automatic | The commons node being witnessed. |
-| Referenced Signal | Optional | The specific steward signal being responded to. |
+| Referenced Signal | Conditional | Mandatory for replication witnessing — the specific signal being replicated. Optional for general witnessing. |
 | Signal Type | Mandatory | operational / failure / learning / retired |
 | Message | Mandatory | Max 120 characters. What was directly observed or received. |
 
@@ -283,6 +291,7 @@ Both operational and commons nodes are queryable by: node type, location, signal
 | Witness verification | Operational witnessing requires a verified operational node. Commons witnessing requires any verified node. Operational witnessing is competence-gated. Commons witnessing is presence-gated. Base steward judgment at the curation decision is the primary integrity gate. |
 | Visible silence | Empty nodes and witness-only nodes are visible anomalies. |
 | Referenced signals | All witnesses to a specific claim queryable together. |
+| Resolved Via | Makes replication credit checkable — mandatory when a learning signal draws on another node's work. |
 
 ---
 
@@ -505,4 +514,4 @@ This follows the same pattern as other second signatures in this schema — Stew
 
 ---
 
-*ANGX — Schema & Specification — August 2026*
+*ANGX — Schema & Specification — September 2026*
