@@ -9,6 +9,7 @@
 - **walkthrough-commons.html** — WALKTHROUGH-commons.md as a slide sequence.
 - **reader-matching.html** — angx-reader's matching mechanism, demonstrated.
 - **replication.html** — REPLICATION.md as a slide sequence.
+- **witnessing.html** — how witnessing actually works, walked through end to end.
 
 Teaching aids, not reference implementations. Node IDs are shortened. Nothing persists — closing the tab clears all state.
 
