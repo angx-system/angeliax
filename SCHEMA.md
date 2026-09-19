@@ -30,9 +30,21 @@ keypair, which is created separately once that happens.
 
 Examples: a low-cost water filter being tested at a repair workshop · an off-grid battery configuration under trial at a co-work space · an earthbag shelter method not yet proven for the local climate · a portable diagnostic device being calibrated at a community clinic · a mesh-network relay design in field trials.
 
-**Commons Log** — standing provisions only. What a node regularly and freely gives. The node is the specific provision.
+**Commons Log** — standing provisions only. What a node regularly and
+freely gives. The node is the specific provision.
 
-Examples: a weekly free meal served at a hostel kitchen · a spare room in a colive space, held open for traveling builders · a free consultation hour held every Wednesday at a community clinic · repair and technical guidance given freely at a neighborhood workshop · excess solar capacity from a household system, routed to a shared charging point.
+Examples: a weekly free meal served at a hostel kitchen · a spare
+room in a colive space, held open for traveling builders · a free
+consultation hour held every Wednesday at a community clinic ·
+repair and technical guidance given freely at a neighborhood
+workshop · excess solar capacity from a household system, routed to
+a shared charging point.
+
+Some of these are surplus — capacity beyond what's needed, shared
+outward (the meal, the room, the solar capacity). Others, like a
+free clinic or a free school, are the provision itself, not an
+excess of it. Commons doesn't require surplus — only that the thing
+is currently, freely, and regularly given.
 
 Same client. Same keypair. Structurally separate.
 
