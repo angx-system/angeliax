@@ -194,11 +194,13 @@ surface as a match.
 
 The lowland steward queries the base by their own Node ID, reads the
 match, adapts the method — passive airflow plus a drying agent, built
-from what's locally available — and logs the outcome.
-
-**Signal — learning:** `Passive-airflow storage with local drying agent, adapted from a method logged in the highlands, cuts corrosion rate substantially over eight weeks. Method documented and attached.`
+from what's locally available — applies it, then records both halves
+of the credit: a witness signal on the highland node first, then their
+own learning signal citing it.
 
 **Witness signal — learning** *(on the highland node's original signal)*: `Adapted for tropical humidity rather than dust/temperature stress. Substantial improvement, different failure mode than originally addressed.`
+
+**Signal — learning** *(resolved_via the witness signal above)*: `Passive-airflow storage with local drying agent, adapted from a method logged in the highlands, cuts corrosion rate substantially over eight weeks. Method documented and attached.`
 
 Neither steward had heard of the other's context. Neither was looking
 for a match to their specific climate. The failure met a method that
