@@ -102,18 +102,8 @@ farm's device, independent of her own. The base is announced.
 **Base identity:**
 
 - **Name:** farm-mornag
-- **Description:** `Small market garden outside Tunis. Standing surplus provision, witnessed locally.`
+- **Description:** `Small market garden outside Tunis. Standing commons provision, witnessed locally.`
 - **Location:** Mornag region, Tunisia
-
-### Partnering with Sfax
-
-The Sfax base steward has read twelve months of Fatima's record and judged
-it sound; farm-mornag's steward does the same with Sfax's own collection.
-Both cite specific entries from each other's history, sign, and log the
-handshake independently.
-
-farm-mornag is now a verified base, its collection reachable through the
-partner chain.
 
 ### Curating
 
@@ -139,9 +129,20 @@ twice, enough to know it is real.
 
 **Client → Add to Base** — her informational commons node.
 
-Both provisions, observed directly, now stand in farm-mornag's collection,
-reachable through every base partnered with it. Fatima did not build
-either. She watched them long enough to put her own name behind them.
+Both provisions, observed directly, now stand in farm-mornag's collection.
+Fatima did not build either. She watched them long enough to put her
+own name behind them.
+
+### Partnering with Sfax
+
+The Sfax base steward has read twelve months of Fatima's record and judged
+it sound; farm-mornag's steward does the same with Sfax's own collection.
+Both cite specific entries from each other's history — for farm-mornag,
+Youssef's press and the consultation — sign, and log the handshake
+independently.
+
+farm-mornag is now a verified base, its collection reachable through the
+partner chain.
 
 ---
 
