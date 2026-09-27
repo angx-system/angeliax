@@ -150,7 +150,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | --- | --- | --- |
 | Node ID | Automatic | 256-bit value derived from keypair. 64-character hex string. |
 | Node Type | Mandatory | Single selection. Immutable. |
-| Description | Mandatory | One sentence. What is provided, as a standing commitment. |
+| Description | Mandatory | One sentence. What is provided, as a standing commitment. Max 120 characters. Immutable. |
 | Location | Mandatory | Region or locality, not an exact address. Max 64 characters. Immutable. |
 | Contact | Optional | Free text. Max 64 characters. |
 | Curation | Mandatory | open / consent-required. Default: open. Mutable. |
@@ -321,8 +321,8 @@ Independent keypair. Stays when stewards rotate. Distinct from a library
 
 Like any keypair, a base keypair automatically holds its own library —
 replicated candidate nodes it has not yet curated. This library is the
-base's private working set: where replication and observation happen,
-before any decision to add a node to the public Collection Log.
+base's working set: where replication and observation happen, before any
+decision to add a node to the public Collection Log.
 
 Three components: **identity**, **collection**, **partners**.
 
