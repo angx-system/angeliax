@@ -7,7 +7,7 @@
 ANGX is two logs. One records what is being built, tested, learned, and
 failed. The other records what is freely and consistently given. Both are
 append-only, signed, and permanent. Each entry is a record that something
-is true, written by the steward whose work or surplus it describes.
+is true, written by the steward whose work or provision it describes.
 
 ---
 
@@ -61,7 +61,7 @@ that will become the base.
 
 **Signal — failure:** `No cooking this week. Repairs needed on the stove.`
 
-**Signal — learning:** `Batch cooking three days ahead instead of daily prep cuts spoiled leftovers to near zero. Portions and quality unaffected. Method documented and attached.`
+**Signal — learning:** `Batch cooking three days ahead cuts spoiled leftovers to near zero. Portions unaffected. Method documented and attached.`
 
 The entry states what is true and how long it has been true. The record
 carries no schedule and no instruction — only the fact of an ongoing
@@ -104,6 +104,15 @@ to be running it.
 - **Description:** `Community kitchen and local base, Mathare, Nairobi.`
 - **Location:** Mathare, Nairobi
 
+### First additions
+
+Her own client already follows nearby provisions she has known for years.
+Since her own node was first curated, she has witnessed some of them. She
+copies two into the base's library and adds them to the base: the health
+worker's free clinic two streets away, and one other nearby provision.
+
+**Base tab → Replicate → Add to Base** — two commons nodes carrying her own witness signals.
+
 ### Partnering
 
 A base steward in Java, running a similar community kitchen base, has
@@ -112,7 +121,7 @@ additions that hold up, contradictions left visible, nothing inflated. The
 two stewards exchange base addresses.
 
 Java's base proposes, citing two of mathare-kitchen's Collection Log
-entries — Amara's water node and one other — as the basis for trust.
+entries — the clinic and one other — as the basis for trust.
 mathare-kitchen's base reviews Java's own collection in turn, citing two
 entries from it. Each side verifies the other's citations are real before
 accepting.
@@ -206,7 +215,7 @@ makes his signal admissible here.
 
 **Witness signal — learning** *(referenced to her learning signal):* `Replicated composite blend using Kampala materials. Flow rate within 5% of Nairobi result.`
 
-**Witness signal — failure** *(referenced to her learning signal):* `Output degrades 60% after 72hr continuous use. Not flagged in original docs. Critical for field deployment.`
+**Witness signal — failure** *(referenced to her learning signal):* `Output degrades 60% after 72hr continuous use without cleaning. Not in original docs. Critical for field deployment.`
 
 The failure signal contradicts her learning signal directly. Amara reads
 it and answers on her own node:
