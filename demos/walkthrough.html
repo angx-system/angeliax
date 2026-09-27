@@ -130,10 +130,12 @@ const ID = {
   zamboangaDoser: '9d61b3ea',
   settlementBEnergy: '9f2b6e83',
   settlementAWater: '6b3f9a02',
+  settlementAEnergy: '4c8e2d19',
   aminaClinic: '5b2f9e14',
   kisumuSteward: '8a3d71c2',
   localWitness: 'e6a2c815',
   mathareKey: 'a3f92c1d',
+  waterPoint: '3a9f6c58',
   javaKey: '7e4a1bc9'
 };
 
@@ -224,7 +226,7 @@ const SLIDES = [
     + `<div class="log-label">Steward log</div>`
     + sig("operational", "Kitchen running this week. Regular turnout.", "4e0a71bf", "2026-03-02 08:00")
     + sig("failure", "No cooking this week. Repairs needed on the stove.", "d29c5a03", "2026-03-09 08:00")
-    + sig("learning", "Batch cooking three days ahead cuts spoiled leftovers to near zero. Method documented and attached.", "76fbe1d9", "2026-03-16 08:00", "hyper://7bd3e04f…/batch-method.pdf")
+    + sig("learning", "Batch cooking three days ahead cuts spoiled leftovers to near zero. Portions unaffected. Method documented and attached.", "76fbe1d9", "2026-03-16 08:00", "hyper://7bd3e04f…/batch-method.pdf")
     + endCard()
 },
 {
@@ -248,7 +250,21 @@ const SLIDES = [
 },
 {
   chapter: "Part 2 — A Nairobi base",
-  narration: ["mathare-kitchen partners with a base in Java — a different base from the two that triggered Initialize Base — each citing entries from the other's collection as the basis for trust."],
+  narration: ["Before partnering, the new base needs something to show. Its steward has known nearby provisions for years, and has witnessed some of them since her own node was first curated.",
+    "She copies two into the base's library and adds them to the base — the health worker's free clinic, and a free water point nearby."],
+  panel: `<div class="base-block">
+    <div class="base-name">mathare-kitchen</div>
+    <div class="base-key">public key ${ID.mathareKey}…</div>
+    <div class="base-meta">Community kitchen and local base, Mathare, Nairobi.</div>
+  </div>
+  <div class="section-label">Collection</div>
+  <div class="collection-row"><span><span class="ctype">food</span><span class="cid">${ID.mathareNode}</span></span><span class="cdate">added 2026-04-02</span></div>
+  <div class="collection-row"><span><span class="ctype">health</span><span class="cid">${ID.aminaClinic}</span></span><span class="cdate">added 2026-04-03</span></div>
+  <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.waterPoint}</span></span><span class="cdate">added 2026-04-03</span></div>`
+},
+{
+  chapter: "Part 2 — A Nairobi base",
+  narration: ["mathare-kitchen partners with a base in Java — a different base from the two that triggered Initialize Base — each citing entries from the other's collection as the basis for trust — Java cites the clinic and the water point."],
   panel: `<div class="base-block">
     <div class="base-name">mathare-kitchen</div>
     <div class="base-key">public key ${ID.mathareKey}…</div>
@@ -276,6 +292,9 @@ const SLIDES = [
     <div class="base-meta">Community kitchen and local base, Mathare, Nairobi.</div>
   </div>
   <div class="section-label">Collection</div>
+  <div class="collection-row"><span><span class="ctype">food</span><span class="cid">${ID.mathareNode}</span></span><span class="cdate">added 2026-04-02</span></div>
+  <div class="collection-row"><span><span class="ctype">health</span><span class="cid">${ID.aminaClinic}</span></span><span class="cdate">added 2026-04-03</span></div>
+  <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.waterPoint}</span></span><span class="cdate">added 2026-04-03</span></div>
   <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.amaraFilter}</span></span><span class="cdate">added 2026-04-14</span></div>
   <div class="section-label">Partners</div>
   <div class="partner-row"><span class="pname">java-farm<span class="pkey">${ID.javaKey}…</span></span><span class="verified-tag">verified</span></div>`
@@ -331,7 +350,7 @@ const SLIDES = [
     + witnessSig("operational", "Visited the lab across several weeks. Filter running as described each time. Setup consistent.", ID.localWitness, "2026-04-10 11:20", "f822ccff")
     + witnessSig("operational", "Filter running as described. Setup replicable. Steward present throughout.", ID.davidWater, "2026-05-05 10:30", "f822ccff")
     + witnessSig("learning", "Replicated composite blend using Kampala materials. Flow rate within 5% of Nairobi result.", ID.davidWater, "2026-05-06 16:00", "f822ccff")
-    + witnessSig("failure", "Output degrades 60% after 72hr continuous use without cleaning. Not flagged in original docs. Critical for field deployment.", ID.davidWater, "2026-05-09 12:00", "f822ccff", true)
+    + witnessSig("failure", "Output degrades 60% after 72hr continuous use without cleaning. Not in original docs. Critical for field deployment.", ID.davidWater, "2026-05-09 12:00", "f822ccff", true)
     + endCard()
 },
 {
@@ -363,6 +382,9 @@ const SLIDES = [
     <div class="base-meta">Community kitchen and local base, Mathare, Nairobi.</div>
   </div>
   <div class="section-label">Collection</div>
+  <div class="collection-row"><span><span class="ctype">food</span><span class="cid">${ID.mathareNode}</span></span><span class="cdate">added 2026-04-02</span></div>
+  <div class="collection-row"><span><span class="ctype">health</span><span class="cid">${ID.aminaClinic}</span></span><span class="cdate">added 2026-04-03</span></div>
+  <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.waterPoint}</span></span><span class="cdate">added 2026-04-03</span></div>
   <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.amaraFilter}</span></span><span class="cdate">added 2026-04-14</span></div>
   <div class="collection-row"><span><span class="ctype">water</span><span class="cid">${ID.davidWater}</span></span><span class="cdate">added 2026-05-11</span></div>
   <div class="section-label">Partners</div>
@@ -384,7 +406,7 @@ const SLIDES = [
   narration: ["She replicates it on her own hardware. It works on the first attempt — and she logs her own witness signal, crediting the method."],
   panel: nodeCard(ID.settlementBEnergy, "energy", "Battery-bank energy system for off-grid settlement.", "Unnamed settlement", "open", "2025-09-01")
     + `<div class="log-label">Witness log</div>`
-    + witnessSig("learning", "Replicated wiring fix locally. Fault resolved, same configuration. First corroboration of this method.", ID.settlementAWater, "2026-05-22 18:20", "3f6c1d90")
+    + witnessSig("learning", "Replicated wiring fix locally. Fault resolved, same configuration. First corroboration of this method.", ID.settlementAEnergy, "2026-05-22 18:20", "3f6c1d90")
     + endCard()
 },
 {
@@ -393,9 +415,10 @@ const SLIDES = [
     "Neither steward arranged any of this."],
   panel: nodeCard(ID.settlementAWater, "water", "Storage tank for settlement water supply.", "Lina's settlement", "open", "2026-04-01")
     + `<div class="log-label">Steward log</div>`
-    + sig("failure", "Storage tank losing volume faster than expected. Cause unclear.", "2c7ea410", "2026-08-01 09:00")
+    + sig("failure", "Storage tank losing volume faster than expected. Cause unclear.", "2c7ea410", "2026-06-10 09:00")
+    + sig("learning", "Seam leak at tank base found. Resealed with bitumen compound. Volume holding. Method documented and attached.", "5e8d1b47", "2026-06-28 08:30", "hyper://6b3f9a02…/tank-seam-fix.pdf")
     + `<div class="log-label">Witness log</div>`
-    + witnessSig("learning", "Repair applied. Tank holding at expected volume after two weeks.", ID.settlementBEnergy, "2026-08-12 09:00", "2c7ea410")
+    + witnessSig("learning", "Repair applied. Tank holding at expected volume after two weeks.", ID.settlementBEnergy, "2026-08-12 09:00", "5e8d1b47")
     + endCard()
 },
 

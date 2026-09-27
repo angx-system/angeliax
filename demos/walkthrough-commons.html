@@ -232,20 +232,8 @@ const SLIDES = [
   panel: `<div class="base-block">
     <div class="base-name">farm-mornag</div>
     <div class="base-key">public key ${ID.farmMornagKey}…</div>
-    <div class="base-meta">Small market garden outside Tunis. Standing surplus provision, witnessed locally.<br>Initialised 2026-03-01 09:00</div>
+    <div class="base-meta">Small market garden outside Tunis. Standing commons provision, witnessed locally.<br>Initialised 2026-03-01 09:00</div>
   </div>`
-},
-{
-  chapter: "Part 3 — The farm becomes a base",
-  narration: ["farm-mornag partners with Sfax. Both cite specific entries from each other's history, sign, and log the handshake independently.",
-    "farm-mornag is now verified — reachable through the partner chain."],
-  panel: `<div class="base-block">
-    <div class="base-name">farm-mornag</div>
-    <div class="base-key">public key ${ID.farmMornagKey}…</div>
-    <div class="base-meta">Small market garden outside Tunis. Standing surplus provision, witnessed locally.</div>
-  </div>
-  <div class="section-label">Partners</div>
-  <div class="partner-row"><span class="pname">sfax-base<span class="pkey">${ID.sfaxKey}…</span></span><span class="verified-tag">verified</span></div>`
 },
 {
   chapter: "Part 3 — The farm becomes a base",
@@ -269,12 +257,24 @@ const SLIDES = [
 },
 {
   chapter: "Part 3 — The farm becomes a base",
+  narration: ["Now farm-mornag has something to show. It partners with Sfax — both cite specific entries from each other's history (for farm-mornag, Youssef's press and the consultation), sign, and log the handshake independently.",
+    "farm-mornag is now verified — reachable through the partner chain."],
+  panel: `<div class="base-block">
+    <div class="base-name">farm-mornag</div>
+    <div class="base-key">public key ${ID.farmMornagKey}…</div>
+    <div class="base-meta">Small market garden outside Tunis. Standing commons provision, witnessed locally.</div>
+  </div>
+  <div class="section-label">Partners</div>
+  <div class="partner-row"><span class="pname">sfax-base<span class="pkey">${ID.sfaxKey}…</span></span><span class="verified-tag">verified</span></div>`
+},
+{
+  chapter: "Part 3 — The farm becomes a base",
   narration: ["Both provisions, observed directly, now stand in farm-mornag's collection — reachable through every base partnered with it.",
     "Fatima did not build either. She watched them long enough to put her own name behind them."],
   panel: `<div class="base-block">
     <div class="base-name">farm-mornag</div>
     <div class="base-key">public key ${ID.farmMornagKey}…</div>
-    <div class="base-meta">Small market garden outside Tunis. Standing surplus provision, witnessed locally.</div>
+    <div class="base-meta">Small market garden outside Tunis. Standing commons provision, witnessed locally.</div>
   </div>
   <div class="section-label">Collection</div>
   <div class="collection-row"><span><span class="ctype">food</span><span class="cid">${ID.fatimaGarden}</span></span><span class="cdate">added 2026-03-01</span></div>
@@ -298,7 +298,7 @@ const SLIDES = [
   chapter: "Part 4 — Fatima queries the network",
   narration: ["A farm base in Santa Fe logged this eight months ago — a method using composted organic material, available in any market garden.",
     "Witnessed and replicated by three other bases before it ever reached Fatima's query."],
-  panel: nodeCard(ID.santaFeFarm, "food", "Market garden, identical climate profile. Standing surplus provision.", "Santa Fe, Argentina", "open", "2024-01-10")
+  panel: nodeCard(ID.santaFeFarm, "food", "Market garden, identical climate profile. Standing commons provision.", "Santa Fe, Argentina", "open", "2024-01-10")
     + `<div class="log-label">Steward log</div>`
     + sig("learning", "Pythium root rot treated with composted organic material worked into topsoil. Confirmed across two seasons.", "8a41ce7d", "2025-08-02 08:30", "hyper://9d61e0ab…/pythium-fix.pdf")
     + `<div class="log-label">Witness log</div>`

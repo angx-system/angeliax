@@ -231,13 +231,13 @@ const SLIDES = [
 /* ===== Chapter 3 — The match surfaces ===== */
 {
   chapter: "Part 3 — The match surfaces",
-  narration: ["Zoomed to Lima's neighborhood in the vector space: two learning signals sit close enough to matter, and one failure sits far enough to ignore.",
+  narration: ["Zoomed to Lima's neighborhood in the vector space: two learning signals sit close enough to matter, and a third sits too far to be returned.",
     "The result is always a ranked list, never a single best answer."],
   panel: `<svg viewBox="0 0 480 200" style="width:100%; height:auto; margin-bottom:18px;">
     <circle cx="150" cy="100" r="9" fill="var(--red)" stroke="#fff" stroke-width="2"/>
     <circle cx="195" cy="80" r="6" fill="var(--teal)"/>
     <circle cx="260" cy="140" r="6" fill="var(--teal)"/>
-    <circle cx="430" cy="40" r="6" fill="var(--red)" opacity="0.4"/>
+    <circle cx="430" cy="40" r="6" fill="var(--teal)" opacity="0.4"/>
     <line x1="150" y1="100" x2="195" y2="80" stroke="var(--teal)" stroke-width="1" opacity="0.5"/>
     <line x1="150" y1="100" x2="260" y2="140" stroke="var(--teal)" stroke-width="1" opacity="0.3"/>
   </svg>
@@ -251,7 +251,7 @@ const SLIDES = [
       <div class="rank-bar"><div class="rank-fill" style="width:73%;"></div></div>
     </div>
     <div class="rank-item rank-excluded">
-      <div class="rank-top"><span class="rank-name">${ID.irrigationNode} — irrigation pump failure</span><span class="rank-score">8%</span></div>
+      <div class="rank-top"><span class="rank-name">${ID.irrigationNode} — drip-line clogging fixed with sand pre-filter</span><span class="rank-score">8%</span></div>
       <div class="rank-bar"><div class="rank-fill" style="width:8%;"></div></div>
       <div class="rank-note">below relevance threshold — not returned to the steward</div>
     </div>
@@ -262,7 +262,7 @@ const SLIDES = [
   narration: ["The top result — logged eight months earlier, in English, by a farm that has never heard of the food bank in Lima."],
   panel: nodeCard(ID.podlasieFarm, "food", "Grain storage infrastructure for a regional cooperative.", "Podlasie region, Poland", "open", "2024-09-15")
     + `<div class="log-label">Steward log</div>`
-    + sig("learning", "Grain storage humidity controlled with silica gel trays and passive vents. Moisture held under threshold across two harvests.", "3ab7f902", "2025-10-01 07:45", "hyper://2f6d91ae…/humidity-fix.pdf")
+    + sig("learning", "Grain humidity controlled with silica gel trays and passive vents. Moisture under threshold across two harvests.", "3ab7f902", "2025-10-01 07:45", "hyper://2f6d91ae…/humidity-fix.pdf")
     + endCard()
 },
 
@@ -294,7 +294,7 @@ const SLIDES = [
     + `<div class="log-label">Steward log</div>`
     + sig("failure", "50kg de arroz dañado esta semana. Humedad de almacenamiento demasiado alta, sin método de deshumidificación.", "6c19ae43", "2026-06-01 09:20", null,
         "50kg rice spoiled this week. Storage humidity too high, no dehumidifying method in place.")
-    + sig("learning", "Bandejas de gel de sílice y respiraderos pasivos adaptados del método de Podlasie. El deterioro se detuvo tras una semana.", "d81ef625", "2026-06-20 10:00", null,
+    + sig("learning", "Bandejas de gel de sílice y respiraderos pasivos, adaptados del método de Podlasie. Deterioro detenido en una semana.", "d81ef625", "2026-06-20 10:00", null,
         "Silica gel trays and passive vents adapted from Podlasie method. Spoilage stopped after one week.")
     + endCard()
 },

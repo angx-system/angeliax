@@ -214,7 +214,7 @@ const SLIDES = [
 /* ===== Three attempts, unrelated ===== */
 {
   chapter: "Three attempts",
-  narration: ["Three stewards, three continents, none aware of the others, find the write-up and try.", "Each cites Belgrade's Node ID — not the PDF — as Built From. From registration, each is a sibling, not a copy."],
+  narration: ["Three stewards, three continents, none aware of the others, find the write-up and try.", "Each cites Belgrade's Node ID — not the PDF — as Built From. From registration, the three are siblings, each citing Belgrade — not copies."],
   panel: prose([
     "Three separate keypairs. Three separate append-only histories. Nothing about any of them can be edited by Belgrade, or by each other."
   ])
@@ -251,9 +251,9 @@ const SLIDES = [
   panel: nodeCard(ID.highland, "informational", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "rural highland region", "open", "2025-08-15", ID.belgrade)
     + `<div class="log-label">Steward log</div>`
     + sig("operational", "Six students. Two donated desktops, one functioning laptop. Sessions twice weekly, daylight hours only.", "31d8ea54", "2025-09-02 12:00")
-    + sig("learning", "Silica-gel and passive-airflow storage protects the device pool from dust and temperature swings. Method documented and attached.", "4dc9027a", "2025-10-02 09:30", "hyper://2e6c8f05…/storage-method.pdf")
+    + sig("learning", "Silica-gel and passive-airflow storage protects devices from dust and temperature swings. Method documented, attached.", "4dc9027a", "2025-10-02 09:30", "hyper://2e6c8f05…/storage-method.pdf")
     + sig("failure", "Second desktop failed. No local replacement part. Nearest repair shop four hours by bus.", "7e2b904c", "2025-11-11 13:20")
-    + sig("learning", "Cannibalizing failed units for parts across the small device pool keeps a working core running. One machine per two students, rotated, sustains the program below the scale Belgrade assumed.", "c608b3f1", "2025-11-28 12:45", "hyper://2e6c8f05…/rotation-method.pdf")
+    + sig("learning", "Parts from failed units keep a working core running. One machine per two students, rotated, below Belgrade's scale.", "c608b3f1", "2025-11-28 12:45", "hyper://2e6c8f05…/rotation-method.pdf")
     + `<div class="log-label">Witness log</div>`
     + witnessSig("operational", "Sessions held as described despite device scarcity. Rotation method observed directly, functioning.", ID.highlandWitness, "2026-01-14 09:30", "31d8ea54")
     + endCard()
@@ -301,9 +301,9 @@ const SLIDES = [
   narration: ["The lowland steward queries the base by their own Node ID, reads the match, adapts it with a local drying agent, applies it — then records both halves of the credit: a witness signal on the highland node first, then their own learning signal citing it.", "Neither steward had heard of the other's context."],
   panel: nodeCard(ID.lowland, "informational", "Free design, programming, and device-repair school for ages 13-17, adapted from Belgrade model.", "humid lowland town", "open", "2025-09-20", ID.belgrade)
     + `<div class="log-label">Witness log — posted on the highland node</div>`
-    + witnessSig("learning", "Adapted for tropical humidity rather than dust/temperature stress. Substantial improvement, different failure mode than originally addressed.", ID.lowland, "2026-02-18 08:20", "4dc9027a")
+    + witnessSig("learning", "Adapted for tropical humidity, not dust or heat. Different failure mode than originally addressed. Clear improvement.", ID.lowland, "2026-02-18 08:20", "4dc9027a")
     + `<div class="log-label">Steward log</div>`
-    + sig("learning", "Passive-airflow storage with local drying agent, adapted from a method logged in the highlands, cuts corrosion rate substantially over eight weeks. Method documented and attached.", "9e41c7b5", "2026-02-18 08:25", "hyper://9f1b3d7a…/humidity-fix.pdf", "witness signal posted on highland node, 2026-02-18 08:20")
+    + sig("learning", "Passive airflow plus local drying agent, adapted from highland method. Corrosion down over eight weeks. Method attached.", "9e41c7b5", "2026-02-18 08:25", "hyper://9f1b3d7a…/humidity-fix.pdf", "witness signal posted on highland node, 2026-02-18 08:20")
     + endCard()
 },
 
@@ -317,7 +317,7 @@ const SLIDES = [
 /* ===== What the graph reveals ===== */
 {
   chapter: "What the graph reveals",
-  narration: ["A single document is one data point — it can't tell you what's essential versus what was just how Belgrade happened to do it.", "Four siblings can."],
+  narration: ["A single document is one data point — it can't tell you what's essential versus what was just how Belgrade happened to do it.", "Four histories can."],
   panel: `<div class="stat-row"><span>schedule</span><span class="stat-varies">varies</span></div>
   <div class="stat-row"><span>device ratio</span><span class="stat-varies">varies</span></div>
   <div class="stat-row"><span>storage / climate method</span><span class="stat-varies">varies</span></div>

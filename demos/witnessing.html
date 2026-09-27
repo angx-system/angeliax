@@ -69,8 +69,6 @@
   .witness-tag{ color:var(--faint); font-size:11px; }
   .conflict{ border-left-color:var(--red); }
   .conflict-note{ color:var(--red); font-size:11px; margin-top:3px; }
-  .hollow{ border-left-color:var(--red); opacity:0.75; }
-  .hollow-note{ color:var(--red); font-size:11px; margin-top:3px; }
 
   .sibling-link{ flex:0 0 110px; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--faint); font-size:11px; line-height:1.5; }
 
@@ -158,14 +156,6 @@ function witnessSig(type, msg, from, ts, ref, contradicts){
     <div class="signal-msg">${msg}</div>
     <div class="signal-id">ref: ${ref}</div>
     ${note}
-  </div>`;
-}
-function hollowWitnessSig(type, msg, from, ts){
-  return `<div class="signal witness hollow">
-    <div class="signal-top"><span class="witness-tag">witness · ${from}</span><span class="signal-type ${type}">${type}</span><span class="signal-date">${ts}</span></div>
-    <div class="signal-msg">${msg}</div>
-    <div class="signal-id">ref: — (Referenced Signal left blank)</div>
-    <div class="hollow-note">⚠ unverifiable — nothing to check this claim against</div>
   </div>`;
 }
 function nodeCard(id, type, desc, loc, curation, registered, builtFrom){
@@ -300,7 +290,7 @@ const SLIDES = [
     + `<div class="log-label">Witness log</div>`
     + witnessSig("operational", "Filter running as described. Setup replicable. Steward present throughout.", ID.davidWater, "2026-05-05 10:30", "f822ccff")
     + witnessSig("learning", "Replicated composite blend using Kampala materials. Flow rate within 5% of Nairobi result.", ID.davidWater, "2026-05-06 16:00", "f822ccff")
-    + witnessSig("failure", "Output degrades 60% after 72hr continuous use without cleaning. Not flagged in original docs. Critical for field deployment.", ID.davidWater, "2026-05-09 12:00", "f822ccff", true)
+    + witnessSig("failure", "Output degrades 60% after 72hr continuous use without cleaning. Not in original docs. Critical for field deployment.", ID.davidWater, "2026-05-09 12:00", "f822ccff", true)
     + endCard()
 },
 {
@@ -341,7 +331,7 @@ const SLIDES = [
   narration: ["Back in Tbilisi: a batch of rebuilt chargers keeps overheating under sustained load. Giorgi logs the failure on his own node."],
   panel: nodeCard(ID.giorgiWorkshop, "energy", "Repair and rebuild methods for salvaged laptop chargers and battery packs.", "Tbilisi, Georgia", "open", "2025-11-02")
     + `<div class="log-label">Steward log</div>`
-    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable but casing temperature climbing past safe range after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
+    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable, casing past safe temperature after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
     + endCard()
 },
 {
@@ -359,7 +349,7 @@ const SLIDES = [
   panel: nodeCard(ID.candB, "energy", "Solar charge controller design and field testing.", "Yerevan, Armenia", "open", "2025-07-11")
     + `<div class="log-label">Steward log</div>`
     + sig("failure", "Controllers throttling and overheating under sustained high-current charging.", "3c8ea016", "2025-09-02 10:00")
-    + sig("learning", "Undersized output capacitor was the cause. Larger-rated part resolves thermal throttling under sustained load. Method documented.", "7b41ae93", "2025-10-20 09:40", "hyper://f4a71dc8…/capacitor-fix.pdf")
+    + sig("learning", "Undersized output capacitor was the cause. Larger-rated part resolves throttling under load. Method documented.", "7b41ae93", "2025-10-20 09:40", "hyper://f4a71dc8…/capacitor-fix.pdf")
     + endCard()
 },
 {
@@ -367,7 +357,7 @@ const SLIDES = [
   narration: ["He swaps the output capacitor on the next batch. Ten units, forty minutes of sustained load each. Casing temperature holds within safe range on all ten."],
   panel: nodeCard(ID.giorgiWorkshop, "energy", "Repair and rebuild methods for salvaged laptop chargers and battery packs.", "Tbilisi, Georgia", "open", "2025-11-02")
     + `<div class="log-label">Steward log</div>`
-    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable but casing temperature climbing past safe range after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
+    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable, casing past safe temperature after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
     + endCard()
 },
 
@@ -389,8 +379,8 @@ const SLIDES = [
     "Any client can check that witness signal is real, signed by Giorgi, and actually says what he's claiming. A self-derived learning signal, with nothing borrowed, leaves this field blank."],
   panel: nodeCard(ID.giorgiWorkshop, "energy", "Repair and rebuild methods for salvaged laptop chargers and battery packs.", "Tbilisi, Georgia", "open", "2025-11-02")
     + `<div class="log-label">Steward log</div>`
-    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable but casing temperature climbing past safe range after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
-    + sig("learning", "Output capacitor undersized for sustained load, same root cause as a Yerevan charge-controller fix. Larger-rated part resolves it. Ten units confirmed.", "8f2ac514", "2026-02-10 11:20", null, "witness signal on " + ID.candB + ", posted 2026-02-10 11:00")
+    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable, casing past safe temperature after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
+    + sig("learning", "Output capacitor undersized, same cause as a Yerevan fix. Larger-rated part resolves it. Ten units confirmed.", "8f2ac514", "2026-02-10 11:20", null, "witness signal on " + ID.candB + ", posted 2026-02-10 11:00")
     + endCard()
 },
 {
@@ -412,8 +402,8 @@ const SLIDES = [
     + `<div class="log-label">Steward log</div>`
     + sig("operational", "Repair bench set up. First batch of ten salvaged chargers under test.", "1c7fa903", "2025-11-02 09:10")
     + sig("learning", "Swapping the output capacitor resolves most early-failure chargers. Method documented.", "5e0a8c31", "2025-12-18 14:00", "hyper://a1c46d92…/capacitor-fix.pdf")
-    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable but casing temperature climbing past safe range after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
-    + sig("learning", "Output capacitor undersized for sustained load, same root cause as a Yerevan charge-controller fix. Larger-rated part resolves it. Ten units confirmed.", "8f2ac514", "2026-02-10 11:20", null, "witness signal on " + ID.candB)
+    + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable, casing past safe temperature after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
+    + sig("learning", "Output capacitor undersized, same cause as a Yerevan fix. Larger-rated part resolves it. Ten units confirmed.", "8f2ac514", "2026-02-10 11:20", null, "witness signal on " + ID.candB)
     + `<div class="log-label">Witness log — empty for now</div>`
     + endCard()
 },
