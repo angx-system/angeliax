@@ -77,8 +77,8 @@ Three stewards, on three continents, independently find the write-up
 and decide to try. None of them know the others exist.
 
 Each registers a node citing **Belgrade's Node ID** as `Built From` —
-not the PDF. From the moment of registration, each is a **sibling** of
-Belgrade, not a copy of a file. Three separate keypairs. Three
+not the PDF. From the moment of registration, the three are **siblings**,
+each citing Belgrade, not copies of a file. Three separate keypairs. Three
 separate append-only histories. Nothing about any of them can be
 edited by Belgrade, or by each other.
 
@@ -128,7 +128,7 @@ is a real setback, not a rounding error.
 
 **Signal — failure:** `Second desktop failed. No local replacement part. Nearest repair shop four hours by bus.`
 
-**Signal — learning:** `Cannibalizing failed units for parts across the small device pool keeps a working core running. One functioning machine per two students, rotated, sustains the program below the scale Belgrade assumed.`
+**Signal — learning:** `Parts from failed units keep a working core running. One machine per two students, rotated, below Belgrade's scale.`
 
 Signals move over Reticulum via angx-bridge on the weeks the steward
 cannot reach a connection point — carried hop by hop until they reach
@@ -198,9 +198,9 @@ from what's locally available — applies it, then records both halves
 of the credit: a witness signal on the highland node first, then their
 own learning signal citing it.
 
-**Witness signal — learning** *(on the highland node's original signal)*: `Adapted for tropical humidity rather than dust/temperature stress. Substantial improvement, different failure mode than originally addressed.`
+**Witness signal — learning** *(on the highland node's original signal)*: `Adapted for tropical humidity, not dust or heat. Different failure mode than originally addressed. Clear improvement.`
 
-**Signal — learning** *(resolved_via the witness signal above)*: `Passive-airflow storage with local drying agent, adapted from a method logged in the highlands, cuts corrosion rate substantially over eight weeks. Method documented and attached.`
+**Signal — learning** *(resolved_via the witness signal above)*: `Passive airflow plus local drying agent, adapted from highland method. Corrosion down over eight weeks. Method attached.`
 
 Neither steward had heard of the other's context. Neither was looking
 for a match to their specific climate. The failure met a method that
@@ -245,7 +245,7 @@ A single document is one data point — it can't tell you what's
 essential versus what's just how Belgrade happened to do it, because
 nothing has ever been tried differently under its own name.
 
-Four siblings can. Schedule, device ratio, storage method, paperwork —
+Four histories can. Schedule, device ratio, storage method, paperwork —
 all four differ. What every steward kept anyway, unplanned and
 unenforced, is the actual definition of the thing: free, ages 13 to
 17, design and programming taught alongside device repair, on donated
