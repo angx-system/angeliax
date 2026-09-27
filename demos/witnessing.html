@@ -133,7 +133,8 @@ const ID = {
   localWitness: 'e6a2c815',
   candA: 'e08b3f6c',
   candB: 'f4a71dc8',
-  candC: '9d2ef507'
+  candC: '9d2ef507',
+  baseSteward: 'b91e3d47'
 };
 
 /* ---------- helpers (same engine as walkthrough.html) ---------- */
@@ -195,11 +196,13 @@ const SLIDES = [
 {
   chapter: "Part 1 — Giorgi",
   narration: ["Giorgi runs a small electronics repair workshop in Tbilisi, Georgia. Six months testing repair methods for salvaged laptop chargers and battery packs.",
-    "Already curated by a local base. His workshop is a verified operational node."],
+    "Already curated by a local base. The base's steward, who runs a verified repair workshop of her own, watched his bench for a month first — her witness note is what the curation points to. His workshop is a verified operational node."],
   panel: nodeCard(ID.giorgiWorkshop, "energy", "Repair and rebuild methods for salvaged laptop chargers and battery packs.", "Tbilisi, Georgia", "open", "2025-11-02")
     + `<div class="log-label">Steward log</div>`
     + sig("operational", "Repair bench set up. First batch of ten salvaged chargers under test.", "1c7fa903", "2025-11-02 09:10")
     + sig("learning", "Swapping the output capacitor resolves most early-failure chargers. Method documented.", "5e0a8c31", "2025-12-18 14:00", "hyper://a1c46d92…/capacitor-fix.pdf")
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Watched the repair bench run for a month. Methods consistent with what's logged.", ID.baseSteward, "2025-12-20 10:00", "5e0a8c31")
     + endCard()
 },
 
@@ -397,14 +400,15 @@ const SLIDES = [
 {
   chapter: "Part 13 — Closing composed view",
   narration: ["Query his workshop today: his own steward log, composed with any witness signals citing it, pulled together only when someone asks.",
-    "No one has witnessed his node yet — witnessing flowed outward from Giorgi in every scene so far, none back. Nothing requires the reverse; it just hasn't happened yet."],
+    "One witness note points back at his node — the base steward's, the one his curation needed. Every other witness note in this story flowed outward from Giorgi. Nothing requires more; it just hasn't happened yet."],
   panel: nodeCard(ID.giorgiWorkshop, "energy", "Repair and rebuild methods for salvaged laptop chargers and battery packs.", "Tbilisi, Georgia", "open", "2025-11-02")
     + `<div class="log-label">Steward log</div>`
     + sig("operational", "Repair bench set up. First batch of ten salvaged chargers under test.", "1c7fa903", "2025-11-02 09:10")
     + sig("learning", "Swapping the output capacitor resolves most early-failure chargers. Method documented.", "5e0a8c31", "2025-12-18 14:00", "hyper://a1c46d92…/capacitor-fix.pdf")
     + sig("failure", "Rebuilt chargers overheating under sustained load. Output stable, casing past safe temperature after 40 minutes.", "6a3d8f52", "2026-02-02 13:15")
     + sig("learning", "Output capacitor undersized, same cause as a Yerevan fix. Larger-rated part resolves it. Ten units confirmed.", "8f2ac514", "2026-02-10 11:20", null, "witness signal on " + ID.candB)
-    + `<div class="log-label">Witness log — empty for now</div>`
+    + `<div class="log-label">Witness log</div>`
+    + witnessSig("operational", "Watched the repair bench run for a month. Methods consistent with what's logged.", ID.baseSteward, "2025-12-20 10:00", "5e0a8c31")
     + endCard()
 },
 

@@ -131,6 +131,10 @@
       <span class="charcount" id="newDescCount">0/120</span>
     </div>
     <div class="inline-form row2">
+      <input type="text" id="newBuilt" placeholder="built from (optional) — URL or Node ID" maxlength="256" oninput="countChars('newBuilt','newBuiltCount')">
+      <span class="charcount" id="newBuiltCount">0/256</span>
+    </div>
+    <div class="inline-form row2">
       <input type="text" id="newLoc" placeholder="location" maxlength="64" oninput="countChars('newLoc','newLocCount')">
       <span class="charcount" id="newLocCount">0/64</span>
       <input type="text" id="newContact" placeholder="contact (optional)" maxlength="64" oninput="countChars('newContact','newContactCount')">
@@ -195,11 +199,13 @@ function addNode(){
   const contactEl = document.getElementById('newContact');
   const contact = contactEl.value.trim();
   const curation = document.getElementById('newCuration').value;
+  const builtEl = document.getElementById('newBuilt');
+  const builtFrom = builtEl.value.trim();
   if (!desc){ flash(descEl); return; }
   if (!loc){ flash(locEl); return; }
   uid++;
   state[activeLog].push({
-    uid, hid: hex(8), type, desc, loc, contact, curation,
+    uid, hid: hex(8), type, desc, loc, contact, curation, builtFrom,
     registered: stamp(), signals: []
   });
   descEl.value = '';
@@ -208,6 +214,8 @@ function addNode(){
   document.getElementById('newLocCount').textContent = '0/64';
   contactEl.value = '';
   document.getElementById('newContactCount').textContent = '0/64';
+  builtEl.value = '';
+  document.getElementById('newBuiltCount').textContent = '0/256';
   render();
 }
 
@@ -282,7 +290,7 @@ function render(){
         <span class="node-curation">${n.curation}</span>
       </div>
       <div class="node-body ${openId === n.uid ? 'open' : ''}">
-        <div class="node-registered">registered ${n.registered}${n.contact ? ' · contact: ' + esc(n.contact) : ''}</div>
+        <div class="node-registered">registered ${n.registered}${n.contact ? ' · contact: ' + esc(n.contact) : ''}${n.builtFrom ? ' · built from → ' + esc(n.builtFrom) : ''}</div>
         ${n.signals.length === 0
           ? `<div class="no-signals">No signals yet.</div>`
           : n.signals.map(s => `
@@ -305,8 +313,8 @@ function render(){
           </select>
           <input type="text" id="sigMsg-${n.uid}" placeholder="signal" maxlength="120" oninput="countChars('sigMsg-${n.uid}','sigMsgCount-${n.uid}')">
           <span class="charcount" id="sigMsgCount-${n.uid}">0/120</span>
-          <input type="text" id="sigDoc-${n.uid}" class="doc-field" placeholder="hyper://…/file (optional)">
-          <input type="text" id="sigSucc-${n.uid}" class="doc-field" placeholder="successor node id (optional)">
+          <input type="text" id="sigDoc-${n.uid}" class="doc-field" placeholder="hyper://…/file (optional)" maxlength="256">
+          <input type="text" id="sigSucc-${n.uid}" class="doc-field" placeholder="successor node id (optional)" maxlength="64">
           <button class="add-btn" onclick="addSignal(${n.uid})">+ post</button>
         </div>`
         }
