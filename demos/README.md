@@ -1,6 +1,6 @@
 # demos
 
-*Five standalone HTML files — open directly in a browser, no build step.*
+*Six standalone HTML files — open directly in a browser, no build step.*
 
 ---
 
