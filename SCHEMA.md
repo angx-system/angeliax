@@ -77,7 +77,7 @@ Recommended hardware for running a base: Raspberry Pi 4 or 5 (64-bit OS, 4GB+ RA
 | Location | Mandatory | Free text. Max 64 characters. |
 | Contact | Optional | Free text. Max 64 characters. |
 | Curation | Mandatory | open / consent-required. Default: open. Mutable. |
-| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Max 256 characters. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
 
 ### Node Type Enum — Operational
 
@@ -154,7 +154,7 @@ Posted by any steward who directly observed or replicated another node's work. R
 | Location | Mandatory | Region or locality, not an exact address. Max 64 characters. Immutable. |
 | Contact | Optional | Free text. Max 64 characters. |
 | Curation | Mandatory | open / consent-required. Default: open. Mutable. |
-| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
+| Built From | Optional | URL or external reference — the steward's own first touch with physical reality, sourced outside ANGX. Or a Node ID — for a steward who found the work through ANGX itself. Max 256 characters. Immutable once set. One hop only: the steward's own most immediate upstream source, not the ultimate origin. Applies to any node, tangible or intangible — a physical design as much as a theoretical method. |
 
 ### Node Type Enum — Commons
 
