@@ -53,9 +53,10 @@ Interactive demos of the core mechanics — node registration and signal posting
 
 - WALKTHROUGH.md — how ANGX works
 - WALKTHROUGH-commons.md — how an ordinary space enters angeliaX
+- REPLICATION.md — what happens when one working model is rebuilt in several places
 - SCHEMA.md — complete technical specification
 - CONSTRAINTS.md — ten system constraints
-- demos/ — click-through versions of the two walkthroughs, plus a sandbox and angx-reader's matching mechanism
+- demos/ — click-through versions of both walkthroughs, replication, and witnessing, plus a sandbox and angx-reader's matching
 - reference/ — screenshots from the original prototype (archived) — UI reference only
 
 Two optional companion tools extend ANGX without being required to run
