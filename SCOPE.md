@@ -23,6 +23,7 @@ the repos:
 - **WALKTHROUGH.md** / **WALKTHROUGH-commons.md** — worked scenarios
   showing the mechanics in use, including the case of a steward who
   never touches the operational log at all
+- **REPLICATION.md** — one working model rebuilt in several places: Built From, siblings, and replication witnessing end to end
 
 Two companion tools extend the core without being required by it: **angx-reader** (failure↔learning matching) and **angx-bridge** (Reticulum transport when the internet is absent). Both are fully specified in their own repos and are out of core scope — see below.
 
@@ -30,9 +31,9 @@ Two companion tools extend the core without being required by it: **angx-reader*
 
 ## Already resolved
 
-A prior technical feasibility review identified six protocol-level
+A prior technical feasibility review identified several protocol-level
 decisions that would normally need resolving before implementation
-could start. All six are now closed and written into SCHEMA.md as
+could start. All of them are now closed and written into SCHEMA.md as
 settled specification, not open design questions a build team inherits:
 
 - The space↔base relationship is proven by attestation, not key
@@ -53,16 +54,18 @@ What remains genuinely open is listed as such in SCHEMA.md's own Open
 Questions sections — bootstrap rules for the first bases in a network,
 the Reviewed Entries minimum, multiple base stewards, Custody Log,
 partner replication strategy, Initialize Base trigger synchronization
-across devices, partner-chain traversal depth and result merging, the
-proposed node/base summary view, and a handful of UX decisions. These
+across devices, partner-chain traversal depth and result merging, node
+ownership across a steward's nodes, the proposed node/base summary
+view, and a handful of UX decisions. These
 are flagged, not hidden, and a build team resolves them against the
 running client as they're reached.
 
-Five of these are load-bearing for this build and require written
+Six of these are load-bearing for this build and require written
 sign-off before a resolution becomes permanent: first-base and
 second-base bootstrap rules, the Reviewed Entries minimum, partner
-replication strategy, Initialize Base trigger synchronization, and
-partner-chain query mechanics. If the node/base summary view is built
+replication strategy, Initialize Base trigger synchronization,
+partner-chain query mechanics, and node ownership across a steward's
+nodes. If the node/base summary view is built
 in this phase, the same applies to it. Custody Log and multiple base
 stewards are out of scope for this build (see below) and require no
 sign-off yet.
