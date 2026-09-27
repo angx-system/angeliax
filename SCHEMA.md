@@ -222,7 +222,7 @@ Requires any verified node — at least one own node of any type accepted into a
 
 ## Content Persistence
 
-Learning signal attachments are stored in the node's Hyperdrive. Textual signals replicate automatically. Attachments are fetched on demand by default, pending resolution of the broader replication strategy (see Open Questions).
+Learning signal attachments are stored in the node's Hyperdrive. Textual signals replicate automatically. Attachments are fetched on demand by default, pending resolution of the broader replication strategy (see Base — Open Questions).
 
 ---
 
@@ -310,6 +310,7 @@ Both operational and commons nodes are queryable by: node type, location, signal
   it before curation, not after. Counts and flags only — no inference,
   no derived score, no output usable to compare or rank nodes against
   each other. To be resolved with developers.
+- **Node ownership across a steward's nodes.** Witnessing and the Initialization Threshold both rely on knowing which nodes belong to the same steward, but Node IDs cannot be publicly linked to each other. Proposed: a two-way link — the steward's library lists its own nodes, and each node's first record names that library — so any client can confirm ownership independently, the same pattern as Base Keypair Linkage. To be resolved with developers.
 
 ---
 
