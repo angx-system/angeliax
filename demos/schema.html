@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANGX — Schema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --amber:#e2a63c;
+    --text:#e5e5e5;
+    --dim:#6b6b6b;
+    --faint:#3a3a3a;
+    --border:#1c1c1c;
+    --red:#c9776a;
+    --teal:#6bb3c9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono', Menlo, Consolas, monospace;
+    font-size:14px;
+    line-height:1.6;
+  }
+  .wrap{ max-width:940px; margin:0 auto; padding:56px 24px 60px; }
+
+  .topline{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  h1{ font-size:16px; font-weight:500; color:var(--amber); margin:0; }
+  .counter{ color:var(--faint); font-size:12px; }
+  .chapter{ color:var(--dim); font-size:12px; margin-bottom:44px; }
+
+  .stage{ display:flex; gap:48px; min-height:380px; }
+  .narration{ flex:0 0 250px; padding-top:6px; }
+  .narration p{ margin:0 0 14px; color:var(--text); }
+
+  .panel{ flex:1; border:1px solid var(--border); padding:22px 24px; min-width:0; }
+
+  .node-card + .node-card{ margin-top:22px; }
+  .node-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+  .node-id{ color:var(--dim); font-size:12px; }
+  .node-type{ color:var(--amber); }
+  .node-desc{ margin:4px 0 2px; }
+  .node-meta{ color:var(--dim); font-size:12px; }
+  .curation-tag{ color:var(--faint); font-size:11px; margin-left:10px; }
+  .registered{ color:var(--faint); font-size:11px; margin-top:4px; }
+
+  .log-label{ color:var(--faint); font-size:11px; margin:16px 0 4px; }
+  .signal{ padding:9px 0; border-top:1px solid var(--border); border-left:2px solid transparent; padding-left:10px; margin-left:-10px; }
+  .signal:first-child{ border-top:none; }
+  .signal-top{ display:flex; justify-content:space-between; align-items:baseline; }
+  .signal-type{ font-size:12px; }
+  .signal-type.operational{ color:var(--amber); }
+  .signal-type.failure{ color:var(--red); }
+  .signal-type.learning{ color:var(--teal); }
+  .signal-date{ color:var(--faint); font-size:11px; }
+  .signal-msg{ font-size:13px; margin-top:2px; }
+  .signal-doc{ font-size:11px; color:var(--faint); margin-top:3px; }
+  .signal-doc span{ color:var(--teal); }
+  .signal-id{ color:var(--faint); font-size:11px; margin-top:3px; }
+  .witness{ border-left-color:var(--faint); }
+  .witness-tag{ color:var(--faint); font-size:11px; }
+
+  .base-block{ margin-bottom:22px; }
+  .base-name{ color:var(--amber); font-size:15px; margin-bottom:2px; }
+  .base-key{ color:var(--faint); font-size:11px; margin-bottom:6px; }
+  .base-meta{ color:var(--dim); font-size:12px; }
+  .section-label{ color:var(--faint); font-size:11px; margin:18px 0 6px; }
+  .query-label{ color:var(--dim); font-size:12px; margin-bottom:12px; }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .chip{ border:1px solid var(--border); color:var(--dim); font-size:11px; padding:3px 8px; }
+  .collection-row, .partner-row{ display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--border); font-size:13px; }
+  .collection-row:first-child, .partner-row:first-child{ border-top:none; }
+  .collection-row .ctype{ color:var(--amber); margin-right:8px; }
+  .collection-row .cid{ color:var(--dim); font-size:12px; margin-right:8px; }
+  .collection-row .cdate{ color:var(--faint); font-size:11px; }
+  .partner-row .pname{ color:var(--text); }
+  .partner-row .pkey{ color:var(--faint); font-size:11px; margin-left:8px; }
+  .verified-tag{ color:var(--teal); font-size:11px; margin-left:8px; }
+
+  .option-card{ border:1px solid var(--border); padding:14px 16px; margin-bottom:12px; }
+  .option-card.selected{ border-color:var(--amber); }
+  .option-title{ font-size:13px; margin-bottom:4px; }
+  .option-card.selected .option-title{ color:var(--amber); }
+  .option-card:not(.selected) .option-title{ color:var(--dim); }
+  .option-desc{ color:var(--faint); font-size:12px; }
+
+  .curated-note{ color:var(--teal); font-size:12px; margin-top:14px; }
+
+  .closing p{ margin:0 0 14px; }
+
+  .navrow{ display:flex; justify-content:space-between; align-items:center; margin-top:44px; padding-top:20px; border-top:1px solid var(--border); }
+  .navbtn{ background:none; border:none; cursor:pointer; color:var(--dim); font-family:inherit; font-size:13px; }
+  .navbtn:hover:not(:disabled){ color:var(--amber); }
+  .navbtn:disabled{ color:var(--faint); cursor:default; }
+  .dots{ display:flex; gap:5px; }
+  .dot{ width:5px; height:5px; border-radius:50%; background:var(--faint); }
+  .dot.active{ background:var(--amber); }
+  .hl{ color:var(--amber); }
+  .frows{ margin-top:2px; }
+  .frow{ display:flex; gap:16px; padding:9px 0; border-top:1px solid var(--border); font-size:13px; }
+  .frow:first-child{ border-top:none; }
+  .fn{ flex:0 0 160px; color:var(--text); }
+  .fs{ flex:0 0 84px; font-size:12px; }
+  .fr{ flex:1; color:var(--dim); font-size:12px; line-height:1.55; }
+  .s-m{ color:var(--amber); } .s-o{ color:var(--dim); } .s-c{ color:var(--teal); }
+  .gl{ color:var(--dim); font-size:12px; margin-top:6px; }
+  @media (max-width:700px){ .stage{ flex-direction:column; gap:24px; min-height:0; } .narration{ flex:none; } .frow{ flex-wrap:wrap; gap:4px 16px; } .fn{ flex-basis:100%; } .dots{ display:none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topline">
+    <h1>ANGX — Schema</h1>
+    <div class="counter" id="counter"></div>
+  </div>
+  <div class="chapter" id="chapter"></div>
+
+  <div class="stage">
+    <div class="narration" id="narration"></div>
+    <div id="panelWrap" style="flex:1; min-width:0;"></div>
+  </div>
+
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn" onclick="go(-1)">&larr; back</button>
+    <div class="dots" id="dots"></div>
+    <button class="navbtn" id="nextBtn" onclick="go(1)">next &rarr;</button>
+  </div>
+</div>
+
+<script>
+/* ---------- schema helpers ---------- */
+const SC = {Mandatory:'s-m', Automatic:'s-o', Optional:'s-o', Conditional:'s-c'};
+const F = rows => `<div class="frows">` + rows.map(([n,s,d]) =>
+  `<div class="frow"><span class="fn">${n}</span>${s ? `<span class="fs ${SC[s]}">${s}</span>` : ''}<span class="fr">${d}</span></div>`).join('') + `</div>`;
+const X = (t, m, g) => `<div class="signal ${t}"><div class="signal-top"><span class="signal-type ${t}">${t}</span></div><div class="signal-msg">${m}</div>${g ? `<div class="gl">${g}</div>` : ''}</div>`;
+const XW = (t, m, g) => `<div class="signal witness"><div class="signal-top"><span class="witness-tag">witness</span><span class="signal-type ${t}">${t}</span></div><div class="signal-msg">${m}</div>${g ? `<div class="gl">${g}</div>` : ''}</div>`;
+const L = t => `<div class="log-label">${t}</div>`;
+const P = ps => `<div class="closing">${ps.map(p => `<p>${p}</p>`).join('')}</div>`;
+const CH = list => `<div class="chips">${list.map(c => `<span class="chip">${c}</span>`).join('')}</div>`;
+const SL = t => `<div class="section-label">${t}</div>`;
+const BASE = `<div class="base-block"><div class="base-name">base</div><div class="base-key">independent keypair · 64-character hex Base ID</div><div class="base-meta">A persistent curated collection belonging to a physical space.</div></div>`;
+
+/* ---------- slides: SCHEMA.md, in order ---------- */
+const SLIDES = [
+
+{ chapter: "Terms",
+  narration: ["The vocabulary the whole schema rests on."],
+  panel: F([["steward","","anyone running one or more operational or commons nodes"],
+    ["base steward","","a person operating a base. Curates its collection. Decides which feeds are accepted"],
+    ["base","","a persistent curated collection belonging to a physical space. Independent keypair. Stays when stewards rotate"],
+    ["witness","","a steward who directly observed or replicated another node's work and recorded what they found"],
+    ["general witnessing","","observing or receiving what a node provides, and recording it. One signal, posted once"],
+    ["replication witnessing","","applying another node's method or fix yourself: a witness signal on their node, and a resolved_via citation on your own. Two signals, always together"],
+    ["library","","a publicly addressable collection of a keypair's own nodes and replicated feeds, held automatically by any keypair"],
+    ["space keypair","","a steward keypair whose work stays in one place. May later trigger Initialize Base. Distinct from a base keypair"]]) },
+
+{ chapter: "Two Logs",
+  narration: ["Operational Log: the operational reality of work. What is being built, tested, failed, learned. The node is the specific project or practice.", "Commons Log: standing provisions only. What a node regularly and freely gives. The node is the specific provision.", "Same client. Same keypair. Structurally separate."],
+  panel: P(["<span class=\"hl\">Operational</span> — a low-cost water filter being tested at a repair workshop · an off-grid battery configuration under trial · an earthbag shelter method not yet proven for the local climate · a mesh-network relay design in field trials.",
+    "<span class=\"hl\">Commons</span> — a weekly free meal at a hostel kitchen · a spare room held open for traveling builders · a free consultation hour every Wednesday at a community clinic · excess solar capacity routed to a shared charging point.",
+    "Some of these are surplus. Others, like a free clinic or a free school, are the provision itself. Commons doesn't require surplus — only that the thing is currently, freely, and regularly given."]) },
+
+{ chapter: "Technical Stack",
+  narration: ["Four components, no central servers.", "Recommended base hardware: a Raspberry Pi 4 or 5 (64-bit OS, 4GB+ RAM) with a USB SSD or high-endurance storage, plus a UPS. Individual stewards may run the client on any laptop."],
+  panel: F([["Hypercore","","append-only, cryptographically signed feed. One feed per node. Immutable"],
+    ["Hyperbee","","B-tree index over Hypercore. Queries by any indexed field"],
+    ["Hyperswarm","","peer discovery via DHT. When internet is absent, angx-bridge (optional) carries feed updates over Reticulum until Hyperswarm resumes"],
+    ["Hyperdrive","","file storage attached to a node. Attachments fetched on demand. Max 10MB per attachment"]]) },
+
+{ chapter: "Operational Log — Registration",
+  narration: ["A node is registered once. The Node ID is derived from the keypair and never changes.", "Built From is the steward's own first touch with physical reality, sourced outside ANGX — or a Node ID, for someone who found the work through ANGX itself. One hop only: the most immediate upstream source, not the ultimate origin."],
+  panel: F([["Node ID","Automatic","256-bit value derived from keypair. 64-character hex string. Never changes"],
+    ["Node Type","Mandatory","single selection. Immutable"],
+    ["Description","Mandatory","one sentence. What is currently being built or tested. Max 120 characters. Immutable"],
+    ["Location","Mandatory","free text. Max 64 characters"],
+    ["Contact","Optional","free text. Max 64 characters"],
+    ["Curation","Mandatory","open / consent-required. Default: open. Mutable"],
+    ["Built From","Optional","URL, external reference, or a Node ID. Max 256 characters. Immutable once set"]]) },
+
+{ chapter: "Node Type Enum — Operational",
+  narration: ["The enum is intentionally minimal and stable.", "Evaluate nodes by primary function, not surface label: sanitation maps to health, transportation to connectivity, educational infrastructure to the relevant domain. Use other only when the work genuinely cannot be mapped."],
+  panel: F([["food","","food production, preservation, distribution infrastructure"],
+    ["water","","water access, purification, storage, distribution systems"],
+    ["shelter","","housing construction, materials, spatial infrastructure methods"],
+    ["health","","healthcare delivery, medical devices, public health systems"],
+    ["energy","","energy generation, storage, distribution, off-grid systems"],
+    ["connectivity","","communications hardware, protocols, mesh/satellite infrastructure"],
+    ["other","","work not covered above"]]) },
+
+{ chapter: "Who ANGX is for",
+  narration: ["Operational nodes cover practical and theoretical work within the enum. Learning signals with attached documentation are the primary mechanism for theoretical work."],
+  panel: P(["ANGX is for actors with no institution already vouching for the operational reality of their work — independent builders, small farms, informal repair and maintenance technicians, open hardware and appropriate-tech fabricators, community network operators, citizen-science instrument builders, patient-led medical device communities, disaster-response teams improvising fixes under real conditions.",
+    "If a school, hospital, company, or agency already tracks and reports this work through official channels, ANGX is not the right place for it."]) },
+
+{ chapter: "Operational Log — Steward Signal",
+  narration: ["Every signal carries these fields. The Signal ID is what witnesses use to reference a specific claim.", "Message: max 120 characters, factual, present tense. Learning signals may include attached documentation via Hyperdrive."],
+  panel: F([["Signal ID","Automatic","unique identifier. Used by witnesses to reference a specific claim"],
+    ["Node ID","Automatic","the posting node's identifier"],
+    ["Timestamp","Automatic","immutable"],
+    ["Signal Type","Mandatory","operational / failure / learning / retired"],
+    ["Message","Mandatory","max 120 characters. Factual. Present tense"]]) },
+
+{ chapter: "Operational Log — Steward Signal",
+  narration: ["Four signal types, each with a fixed meaning.", "A retired signal accepts one optional field, successor_node_id: the node this work has evolved into. One-way, part of the permanent record.", "A learning signal accepts resolved_via when it credits a fix drawn from another node's work: the ID of the Witness Signal already posted on that node. Mandatory for replication witnessing. A self-derived learning signal leaves it blank."],
+  panel: X("operational", "Open-design solar dehydrator assembled from shared plans. Running third week, output steady.", "Work progressing as intended.")
+    + X("failure", "Membrane clogged at 72hrs. Prototype three failed.", "Work cannot progress or method has failed.")
+    + X("learning", "Ceramic blend confirmed. 8hrs continuous. Method documented and attached.", "Something confirmed through direct experience or replication worth sharing.")
+    + X("retired", "Project closed. Logs remain public.", "Work permanently done.") },
+
+{ chapter: "Operational Log — Witness Signal",
+  narration: ["Posted by any steward who directly observed or replicated another node's work. Requires a verified operational node: at least one own operational node accepted into a verified base's collection.", "Commons-only stewards cannot post operational witness signals. Witnessing is competence-gated: the witness has done comparable work and can assess what they observed."],
+  panel: F([["Witness Node ID","Automatic","the witnessing node's identifier"],
+    ["Timestamp","Automatic","immutable"],
+    ["Observed Node ID","Automatic","the node being witnessed"],
+    ["Referenced Signal","Conditional","mandatory for replication witnessing — the specific signal being replicated. Optional for general witnessing"],
+    ["Signal Type","Mandatory","chosen independently by the witness"],
+    ["Message","Mandatory","max 120 characters. What was directly observed or tested"]]) },
+
+{ chapter: "Operational Log — Witness Signal",
+  narration: ["The same four types, now from the witness's side."],
+  panel: XW("operational", "Filter running. Flow rate confirmed. Steward present.", "Observed the work functioning as described.")
+    + XW("failure", "Lab empty. No steward contact in five days.", "Observed the work failing or not as described.")
+    + XW("learning", "Replicated in Kampala. Flow within 5% of Nairobi result.", "Directly replicated a method. Result confirmed or contradicted.")
+    + XW("retired", "Lab cleared. Equipment donated. Confirmed by steward.", "Directly observed permanent closure.") },
+
+{ chapter: "Commons Log — Registration",
+  narration: ["Same fields, with commons rules. The description is a standing commitment. Location is a region or locality, not an exact address, and is immutable."],
+  panel: F([["Node ID","Automatic","256-bit value derived from keypair. 64-character hex string"],
+    ["Node Type","Mandatory","single selection. Immutable"],
+    ["Description","Mandatory","one sentence. What is provided, as a standing commitment. Max 120 characters. Immutable"],
+    ["Location","Mandatory","region or locality, not an exact address. Max 64 characters. Immutable"],
+    ["Contact","Optional","free text. Max 64 characters"],
+    ["Curation","Mandatory","open / consent-required. Default: open. Mutable"],
+    ["Built From","Optional","URL, external reference, or a Node ID. Max 256 characters. Immutable once set"]]) },
+
+{ chapter: "Node Type Enum — Commons",
+  narration: ["The same list, read as provisions, with informational added.", "ANGX is scale-agnostic. A market garden in Tunis logging a compost fix and an off-grid microgrid operator in El Salvador routing idle megawatts to a nearby compute cluster are the same kind of entry."],
+  panel: F([["food","","free food — meals, agricultural surplus, preserved goods"],
+    ["water","","free water — access, filtration, distribution, desalination"],
+    ["shelter","","free space — accommodation, workspace, storage"],
+    ["health","","free medical provision — medicine, vaccines, cold-chain storage"],
+    ["energy","","free energy — access, charging, microgrids, stranded or idle capacity"],
+    ["connectivity","","free connectivity — wifi, mesh, backhaul, satellite"],
+    ["informational","","free knowledge — consultation, legal aid, translation, technical guidance"],
+    ["other","","any fundamental provision not covered above"]]) },
+
+{ chapter: "Commons Log — Steward Signal",
+  narration: ["Same fields and the same successor_node_id and resolved_via rules, now about the provision.", "A commons learning signal documents a method for sustaining the provision itself, not the thing being given. A failure pairs with a learning signal, never with another node's provision."],
+  panel: X("operational", "Breakfast running. Five people served. Supplies stable.", "Provision being fulfilled as described.")
+    + X("failure", "No supplies. Suspended this week. Back Monday.", "Provision cannot be met.")
+    + X("learning", "Batch cooking confirmed. Waste down 40%. Method documented and attached.", "Something discovered worth sharing.")
+    + X("retired", "Breakfast ended permanently. Final day March 31st.", "Provision permanently ended.") },
+
+{ chapter: "Commons Log — Witness Signal",
+  narration: ["Requires any verified node: at least one own node of any type accepted into a verified base's collection.", "Commons witnessing is presence-gated: any accountable steward who directly received or observed the provision may witness it. No commons node of the same type required."],
+  panel: XW("operational", "Breakfast was there. Exactly as logged. Seven people.", "Directly received the provision as described.")
+    + XW("failure", "No breakfast. Kitchen locked.", "Provision not available as described.")
+    + XW("learning", "Batch cooking confirmed. Applied in our space. Waste down 35%.", "Observed a method worth the network knowing.")
+    + XW("retired", "Space closed. Provision ended.", "Directly observed permanent end of provision.") },
+
+{ chapter: "Content Persistence",
+  narration: ["Learning signal attachments are stored in the node's Hyperdrive. Textual signals replicate automatically.", "Attachments are fetched on demand by default, pending resolution of the broader replication strategy."],
+  panel: X("learning", "Ceramic blend confirmed. 8hrs continuous. Method documented and attached.") + `<div class="signal-doc" style="margin:-4px 0 0 16px;">documentation → <span>hyper://a2f91c8e…/method.pdf</span> · max 10MB</div>` },
+
+{ chapter: "Library",
+  narration: ["Any keypair automatically has a library the moment it logs its first node or replicates a feed. No publish action, no setup, no name. The keypair is the library's identity.", "A library is a Hyperbee derived from the keypair, announced on Hyperswarm under its own discovery key. Anyone holding the address can read it.", "A library belongs to a keypair. A base belongs to a place."],
+  panel: SL("Own nodes") + `<div class="collection-row"><span><span class="ctype">own</span><span class="cid">node keys the keypair logs</span></span></div>`
+    + SL("Replicated feeds") + `<div class="collection-row"><span><span class="ctype">replicated</span><span class="cid">feed keys the keypair holds</span></span></div>`
+    + SL("Library address") + `<div class="collection-row"><span class="cid">one p2p address, derived from the keypair</span></div>` },
+
+{ chapter: "Verification",
+  narration: ["Verified status is never stored as a field. Every client computes it live, from whatever feeds it holds: the same inputs always produce the same output, on any device.", "The result is one of three states."],
+  panel: F([["base","","verified if it holds an active Partner Log entry: a formed entry with no later dissolved, confirmed in both bases' feeds, neither side retired"],
+    ["node","","verified if currently held in the Collection Log (added, no later removed) of a base that is itself currently verified"],
+    ["verified","","checked, and it holds"],
+    ["unverified","","checked, and it does not hold"],
+    ["unknown","","the client does not yet hold the feeds needed to check. Not a failure state; resolves as the missing feeds replicate"]]) },
+
+{ chapter: "Verification — at read time",
+  narration: ["Witness gating is enforced at read time: unverified or unknown authors are excluded from witness-gated views. Excluded signals are marked, not deleted.", "A witness's client announces, on the observed node's own Hyperswarm topic, that it holds witness signals for that node. A base already standing on that topic receives it. No separate notification feed.", "Verified status is never inherited. If a curating base's last partnership goes inactive, its nodes lose verified status immediately, regardless of any successor named later."],
+  panel: P(["Past witness signals remain permanently valid entries — only their current admissibility is re-evaluated.", "The same topic lets a steward's client see which other clients are currently connected to their node."]) },
+
+{ chapter: "Ordering",
+  narration: ["Timestamps are self-reported by the writing device's own clock. Not provably accurate. Display information only."],
+  panel: F([["within a feed","","proven by sequence position"],
+    ["across feeds","","proven by citation: a witness signal's Referenced Signal, or a Partner Log entry's Collection Log Entry ID, provably came after what it cites"],
+    ["timestamp","","display only"]]) },
+
+{ chapter: "Querying",
+  narration: ["Querying operates within a connected base or library. No global search.", "A cross-chain query enumerates: the querying base walks its own Partner Log to every base it connects to, directly or transitively, queries each one's published index and combines results locally — as one action."],
+  panel: SL("both logs are queryable by") + CH(["node type","location","signal type","timestamp","witness activity","referenced signal","built from","signal text"]) },
+
+{ chapter: "Integrity",
+  narration: ["No single mechanism carries the trust. Several constraints reinforce each other."],
+  panel: F([["120-character constraint","","forces factual, present-tense reporting"],
+    ["Signal type enum","","no category for opinion, suggestion, or commentary"],
+    ["Two independent streams","","steward and witness feeds are separate. Contradictions permanently visible"],
+    ["Append-only log","","nothing deleted or edited. All entries cryptographically signed"],
+    ["Witness verification","","operational: a verified operational node, competence-gated. Commons: any verified node, presence-gated. Base steward judgment at curation is the primary integrity gate"],
+    ["Visible silence","","empty nodes and witness-only nodes are visible anomalies"],
+    ["Referenced signals","","all witnesses to a specific claim queryable together"],
+    ["Resolved Via","","makes replication credit checkable"]]) },
+
+{ chapter: "Open Questions",
+  narration: ["Three the schema leaves open for stewards' side, to be resolved with developers against the running client."],
+  panel: F([["Library tab UX","","a separate tab, or inside Settings"],
+    ["Node/base summary view","","client-side tallies of signal counts, time span and logging gaps, flagging raw statistical irregularities for the reviewing steward. Counts and flags only: no inference, no score, nothing usable to rank nodes"],
+    ["Node ownership across a steward's nodes","","Node IDs cannot be publicly linked. Proposed: the library lists its own nodes and each node's first record names that library"]]) },
+
+{ chapter: "Base",
+  narration: ["A base is a persistent curated collection belonging to a physical space. Independent keypair. Stays when stewards rotate.", "Like any keypair, a base holds its own library: replicated candidate nodes it has not yet curated. That is its working set, where observation happens before any decision to add.", "Three components: identity, collection, partners."],
+  panel: BASE },
+
+{ chapter: "Base — Identity",
+  narration: ["Viewing the collection is open to anyone with the public key. Entry is curated."],
+  panel: F([["Base ID","Automatic","256-bit value derived from base keypair. 64-character hex string"],
+    ["Public Key","Automatic","discovery key. Shared to enable connection via Hyperswarm"],
+    ["Name","Optional","free text. Max 64 characters"],
+    ["Description","Optional","one sentence. Max 120 characters"],
+    ["Location","Mandatory","free text. Max 64 characters"],
+    ["Contact","Optional","free text. Max 64 characters"],
+    ["Initialised","Automatic","timestamp. Immutable"],
+    ["Status","Automatic","active / retired. Set once by the base keypair. Irreversible"]]) },
+
+{ chapter: "Base — Collection Log",
+  narration: ["Appended to the base feed. Signed by the base keypair. Permanent.", "Steward Sig is a second signature, from the node's own keypair, required only when the node is consent-required. The entry is invalid until both are present.", "Curation is node-level, and mutable at the node's own discretion. A change applies only going forward; an existing added entry stays valid."],
+  panel: F([["Entry ID","Automatic","unique identifier"],
+    ["Base ID","Automatic","the base recording the decision"],
+    ["Timestamp","Automatic","immutable"],
+    ["Node ID","Automatic","the node being added or removed"],
+    ["Action","Automatic","added / removed"],
+    ["Steward Sig","Conditional","required only if the node's Curation field is consent-required"],
+    ["Witness Signal ID","Mandatory","the witness signal attesting physical observation: the base steward's own, or one from another verified steward"]]) },
+
+{ chapter: "Base — Partner Log",
+  narration: ["Appended to the base feed. Signed by both base keypairs. Permanent.", "Formation requires both bases. Dissolution requires only one: forming a trust relationship needs mutual consent, leaving one does not.", "Reviewed Entries verifies a citation is real, not that it was examined carefully. A false citation is verifiably false and invalidates the handshake."],
+  panel: F([["Handshake ID","Automatic","unique identifier"],
+    ["Action","Automatic","formed / dissolved"],
+    ["Initiating Base ID","Automatic","the base that proposed the connection"],
+    ["Receiving Base ID","Automatic","the base that accepted"],
+    ["Timestamp","Automatic","timestamp of the action. Immutable"],
+    ["Partner Public Key","Automatic","public key of the partner base"],
+    ["Reviewed Entries","Mandatory","two or more Collection Log Entry IDs from the partner base's history, examined as the basis for this handshake"]]) },
+
+{ chapter: "Base — Actions",
+  narration: ["Three actions, in this order."],
+  panel: F([["Replicate","","the base keypair holds a copy of a feed in its own library. Not yet in the public Collection Log. Observation happens here"],
+    ["Add to base","","a node held in the library is promoted into the Collection Log. Logged, signed, permanent. The only path in, except the node whose curation triggered Initialize Base"],
+    ["Remove","","a node leaves the Collection Log only. Copies elsewhere persist, per Constraint 6"]]) },
+
+{ chapter: "Base — Retirement",
+  narration: ["Signed once by the base keypair. Irreversible. No further curation; all Partner Log entries are treated as inactive from that moment.", "Nothing is deleted. Successor Base ID is a pointer only: the successor inherits no collection, no partnerships and no verified status."],
+  panel: F([["Entry ID","Automatic","unique identifier"],
+    ["Base ID","Automatic","the base being retired"],
+    ["Timestamp","Automatic","immutable"],
+    ["Status","Automatic","set to retired. Irreversible"],
+    ["Successor Base ID","Optional","the base the retiring steward points to as continuing their role. Immutable once set"]]) },
+
+{ chapter: "Base — Client Type Declaration",
+  narration: ["On first run, before any nodes are created, the client asks one question.", "The answer is signed into the keypair's first record. It shapes one UI branch only. Space clients should run on a persistent device from first run: the keypair is permanent and belongs to the space."],
+  panel: `<div class="option-card selected"><div class="option-title">[ It stays in one place ]</div><div class="option-desc">A hostel, clinic, farm, lab, workshop, seedbank, household, or any other fixed location. Initialize Base may later activate if other bases independently choose to curate its nodes.</div></div>
+  <div class="option-card"><div class="option-title">[ It moves with me ]</div><div class="option-desc">A practice, research, or project that moves with the steward. Initialize Base can never activate for this keypair.</div></div>` },
+
+{ chapter: "Base — Initialization Threshold",
+  narration: ["A space client may initialize a base when two distinct verified bases have each added at least one node owned by this keypair. One base adding several nodes counts once.", "The client detects this by scanning Collection Logs from bases it has contact with. No message is sent. No approval is requested.", "The first base initializes without prior verified bases. The second requires the first. From the third onward, two confirmations."],
+  panel: P(["Linkage is by attestation, not derivation: Ed25519 has no verifiable child-key derivation without exposing private material. The space keypair signs a statement naming the base keypair it initialized.", "Any client holding the statement and the space's public key can verify the link independently."]) },
+
+{ chapter: "Base — Open Questions",
+  narration: ["Left open in the schema, to be resolved with developers or in a future pass."],
+  panel: CH(["multiple base stewards","custody log","partner-chain query depth and loops","partner replication strategy","initialize trigger sync across devices","reviewed entries minimum","first and second base bootstrap"]) },
+
+];
+
+/* ---------- render engine ---------- */
+let idx = 0;
+
+function render(){
+  const s = SLIDES[idx];
+  document.getElementById('chapter').textContent = s.chapter;
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + SLIDES.length;
+  document.getElementById('narration').innerHTML = s.narration.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('panelWrap').innerHTML = `<div class="panel">${s.panel}</div>`;
+
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  document.getElementById('nextBtn').textContent = (idx === SLIDES.length - 1) ? 'end' : 'next →';
+  document.getElementById('nextBtn').disabled = (idx === SLIDES.length - 1);
+
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = SLIDES.map((_, i) => `<div class="dot${i===idx?' active':''}"></div>`).join('');
+}
+
+function go(delta){
+  const next = idx + delta;
+  if (next < 0 || next >= SLIDES.length) return;
+  idx = next;
+  render();
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+render();
+</script>
+</body>
+</html>
